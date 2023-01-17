@@ -5,6 +5,7 @@ class AppColors {
   static const Color chatBgColor = Color.fromARGB(255, 227, 229, 219);
   static const Color chatBgScreenColor = Color(0xffF1F1F1);
   static const Color LightColor = Color(0xffCCFFFF);
-  static const Color ChatBorderColor=Color(0xff90D8FF);
-  static const Color chatDateTimeColor=Colors.black54;
+  static const Color ChatBorderColor = Color(0xff90D8FF);
+  static const Color chatDateTimeColor = Colors.black54;
+  static const Color greyColor = Colors.grey;
 }
