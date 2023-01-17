@@ -1,18 +1,32 @@
+// @dart=2.9
+import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
-
+import 'dart:io' as io;
+import 'package:alpha_app/bloc/ClaimDataBloc.dart';
 import 'package:alpha_app/helper/ImagePickerHelper.dart';
+import 'package:alpha_app/helper/LoaderWidget.dart';
+import 'package:alpha_app/helper/LocationTrackerHelper.dart';
+import 'package:alpha_app/helper/SuccessDialogHelper.dart';
+import 'package:alpha_app/helper/ToastHelper.dart';
+import 'package:alpha_app/networking/NetworkConstant.dart';
 import 'package:alpha_app/utils/AppColors.dart';
 import 'package:alpha_app/utils/Constants.dart';
 import 'package:alpha_app/utils/ImageUtils.dart';
 import 'package:alpha_app/widgets/BottonWidget.dart';
 import 'package:alpha_app/widgets/IconWithTitle.dart';
 import 'package:alpha_app/widgets/TextFIeldWidget.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get/route_manager.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_core/firebase_core.dart' as firebase_core;
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class AddClaimsPage extends StatefulWidget {
-  const AddClaimsPage({Key? key}) : super(key: key);
+  const AddClaimsPage({Key key}) : super(key: key);
 
   @override
   State<AddClaimsPage> createState() => _AddClaimsPageState();
@@ -22,14 +36,58 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
   TextEditingController titleController = TextEditingController();
   TextEditingController secondPartyLoanNumber = TextEditingController();
   TextEditingController phoneNo = TextEditingController();
+  TextEditingController secondPartyDriverNameController =
+      TextEditingController();
+  TextEditingController extraNotestController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
   List<File> secondPartyLicenceImage = [];
   List<File> secondPartyInsuranceImage = [];
+  List<File> policeReportImage = [];
+  List<File> sceneImages = [];
+  List<String> sceneImageUrl = [];
   List<File> otherImages = [];
-
+  List<dynamic> _uploadTasks = [];
   List<String> secondPartyInsuranceImageUrl = [];
   List<String> secondPartyLicenceImageUrl = [];
+  List<String> policeReportImageUrl = [];
   List<String> otherImagesUrl = [];
+  ClaimDataBloc claimDataBloc;
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+  @override
+  void initState() {
+    claimDataBloc = ClaimDataBloc();
+
+    _handleAddClaimsResponse();
+
+    // TODO: implement initState
+    super.initState();
+  }
+
+  void _handleAddClaimsResponse() {
+    claimDataBloc.addClaimDataStream.listen((event) {
+      Navigator.pop(context);
+      if (event != NetworkConstant.FAILURE) {
+        // ToastHelper().showToast(message: 'Claim Added Successfully Done');
+        SuccessDialogHelper.openDialog(
+            onDone: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
+            title: 'Claim Added',
+            description:
+                'Congratulations, Your Claim Added Successfully Done.\nWe will help you soon');
+      } else {
+        SuccessDialogHelper.openDialog(
+            onDone: () {
+              Navigator.pop(context);
+              // Navigator.pop(context);
+            },
+            title: 'Request Failed',
+            description:
+                'Request Faild Due to Server Error, Please Try Again!.');
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,29 +111,51 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
                 height: 20,
               ),
               textFieldWidget(
-                  title: 'Claim Title',
+                  title: 'Claim Title  (Optional)',
                   hintText: 'Enter here...',
                   controller: titleController),
               const SizedBox(
                 height: 20,
               ),
               textFieldWidget(
-                  title: '2nd Party Insurance No.',
+                  title: '2nd Party Driver Name  (Optional)',
+                  hintText: 'Enter here...',
+                  controller: secondPartyDriverNameController),
+              const SizedBox(
+                height: 20,
+              ),
+              textFieldWidget(
+                  title: '2nd Party Insurance No.  (Optional)',
                   hintText: 'Enter here...',
                   controller: secondPartyLoanNumber),
               const SizedBox(
                 height: 20,
               ),
               textFieldWidget(
-                  title: '2nd Party Phone No',
+                  title: '2nd Party Phone No.  (Optional)',
                   hintText: 'Enter here...',
                   controller: phoneNo),
               const SizedBox(
                 height: 20,
               ),
+              textFieldWidget(
+                  title: 'Messaage (Optional)',
+                  hintText: 'Enter here...',
+                  controller: extraNotestController),
+              const SizedBox(
+                height: 20,
+              ),
+              imageUploadWidget(
+                  hintText: 'Please Select Scene Photo...',
+                  title: 'Scene Photo  (Required)',
+                  key: Constant.SceneImage,
+                  imagesFiles: sceneImages),
+              const SizedBox(
+                height: 20,
+              ),
               imageUploadWidget(
                   hintText: 'Please Select 2nd Party Drivary Lincence Photo...',
-                  title: '2nd Party Drivery Licence Image',
+                  title: '2nd Party Drivery Licence Image  (Optional)',
                   key: Constant.LicenceImage,
                   imagesFiles: secondPartyLicenceImage),
               const SizedBox(
@@ -83,21 +163,33 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
               ),
               imageUploadWidget(
                   hintText: 'Please Select 2nd Party  Insurance photo...',
-                  title: '2nd Party Insurance Image',
+                  title: '2nd Party Insurance Image  (Optional)',
                   key: Constant.InsuranceImage,
                   imagesFiles: secondPartyInsuranceImage),
               const SizedBox(
                 height: 20,
               ),
               imageUploadWidget(
+                  hintText: 'Please Select Police Report Photo...',
+                  title: 'Police Report  (Optional)',
+                  key: Constant.PoliceImage,
+                  imagesFiles: policeReportImage),
+              const SizedBox(
+                height: 20,
+              ),
+              imageUploadWidget(
                   hintText: 'Please Select Others Image if require...',
-                  title: 'Others',
+                  title: 'Others  (Optional)',
                   key: Constant.OthersImage,
                   imagesFiles: otherImages),
               const SizedBox(
                 height: 20,
               ),
-              bottonWidget(title: 'Submit'),
+              InkWell(
+                  onTap: () {
+                    submitClaim();
+                  },
+                  child: bottonWidget(title: 'Submit')),
               const SizedBox(
                 height: 20,
               ),
@@ -109,18 +201,19 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
   }
 
   Widget imageUploadWidget(
-      {required String title,
-      required String hintText,
-      required String key,
-      required List<File> imagesFiles}) {
+      {String title, String hintText, String key, List<File> imagesFiles}) {
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              title,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            Container(
+              width: Get.width / 1.5,
+              child: Text(
+                title,
+                style:
+                    const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+              ),
             ),
             InkWell(
               onTap: () {
@@ -238,14 +331,40 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
       case Constant.OthersImage:
         otherImages.add(file);
         break;
+      case Constant.PoliceImage:
+        policeReportImage.add(file);
+        break;
+      case Constant.SceneImage:
+        sceneImages.add(file);
+        break;
     }
     setState(() {});
-    uploadImageToTheFirebase(file, key);
+    handleUploadTask(PickedFile(file.path), key);
   }
 
-  void uploadImageToTheFirebase(File file, String key) {}
+  void addUrl(String key, String url) {
+    switch (key) {
+      case Constant.LicenceImage:
+        secondPartyLicenceImageUrl.add(url);
+        break;
+      case Constant.InsuranceImage:
+        secondPartyInsuranceImageUrl.add(url);
+        break;
+      case Constant.OthersImage:
+        otherImagesUrl.add(url);
+        break;
+      case Constant.PoliceImage:
+        policeReportImageUrl.add(url);
+        break;
+      case Constant.SceneImage:
+        sceneImageUrl.add(url);
+        break;
+    }
+  }
 
-  Widget imageBox(String hintText, File? file) {
+  // void uploadImageToTheFirebase(File file, String key) {}
+
+  Widget imageBox(String hintText, File file) {
     return Container(
       height: 150,
       width: Get.width / 1,
@@ -273,5 +392,107 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
             )
           : Container(),
     );
+  }
+
+/**
+ * This Method is responsible for Upload files to the server.
+ * [file] required parameter is file which you want to upload.
+ *  */
+  Future<firebase_storage.UploadTask> uploadImageToTheFirebase(
+      PickedFile file, String key) async {
+    if (file == null) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('No file was selected'),
+      ));
+    }
+
+    firebase_storage.UploadTask uploadTask;
+    firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
+        .ref()
+        .child('claimsDoc')
+        .child('/' + file.path.split('/').last);
+
+    final metadata = firebase_storage.SettableMetadata(
+        contentType: 'image/jpeg',
+        customMetadata: {'picked-file-path': file.path});
+
+    if (kIsWeb) {
+      uploadTask = ref.putData(await file.readAsBytes(), metadata);
+    } else {
+      uploadTask = ref.putFile(io.File(file.path), metadata);
+
+      return Future.value(uploadTask);
+    }
+  }
+
+/**
+ * This Method is Resonsible for Handle Files or images uploading task.
+ * [file] Required parameter is file which you want to upload.
+ */
+  Future<dynamic> handleUploadTask(PickedFile file, String key) async {
+    try {
+      firebase_storage.UploadTask task =
+          await uploadImageToTheFirebase(file, key);
+      if (task != null) {
+        if (mounted) {
+          setState(() {
+            _uploadTasks = [..._uploadTasks, task];
+          });
+        }
+
+        uploadImageToTheFirebase(file, key);
+
+        task.whenComplete(() async {
+          String finalUrl = await getUrl(task.snapshot.ref);
+
+          addUrl(key, finalUrl);
+        });
+      }
+    } catch (e) {
+      debugger();
+    }
+  }
+
+/**
+ * This Method is Responsible for get File or Image Url.
+ * [ref] Refrence is a required parameter.
+ */
+  Future<String> getUrl(firebase_storage.Reference ref) async {
+    try {
+      final link = await ref.getDownloadURL();
+      return link;
+    } catch (e) {
+      getUrl(ref);
+    }
+  }
+
+  void submitClaim() {
+    if (sceneImageUrl.isEmpty) {
+      ToastHelper().showErrorToast(message: 'Please Add Scene Photo');
+    } else {
+      submitData();
+    }
+  }
+
+  void submitData() async {
+    NetworkDialog.showLoadingDialog(context, _keyLoader);
+    Position position = await LocationTrackerHelper().getUserCurrentLocation();
+    Map location = {
+      'latitude': position.latitude,
+      'lontitude': position.longitude
+    };
+    Map data = {
+      'driver_dl': secondPartyLicenceImageUrl.toString(),
+      'driver_insurance': secondPartyInsuranceImageUrl.toString(),
+      'other_doc': otherImagesUrl.toString(),
+      'police_report_doc': policeReportImageUrl.toString(),
+      'location': json.encode(location),
+      'notes_data': titleController.text,
+      'driver_ph_no': phoneNo.text,
+      'driver_name': secondPartyDriverNameController.text,
+      'extra_notes': extraNotestController.text,
+      'scene_image': sceneImageUrl.toString()
+    };
+    claimDataBloc.callAddClaims(data);
   }
 }

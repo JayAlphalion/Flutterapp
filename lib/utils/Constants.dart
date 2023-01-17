@@ -10,6 +10,8 @@ class Constant{
   static const String LicenceImage='licenceImage';
   static const String InsuranceImage='insuranceImage';
   static const String OthersImage='otherImage';
+  static const String PoliceImage='policeImage';
+  static const String SceneImage='sceneImage';
   
 
 

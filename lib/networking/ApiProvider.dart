@@ -96,7 +96,7 @@ class ApiProvider {
             'authorization': 'Bearer ' + token!,
           },
           body: json.encode(parameter));
-
+    
       if (response.statusCode == 200) {
         var res = json.decode(response.body);
 
@@ -105,6 +105,8 @@ class ApiProvider {
         NetworkConstant.FAILURE;
       }
     } catch (e) {
+      //debugger();
+      print(e);
       return NetworkConstant.FAILURE;
       throw FetchDataException('No Internet connection');
     }
@@ -141,11 +143,9 @@ class ApiProvider {
             'authorization': 'Bearer ' + token!,
           },
           body: parameter);
-      
+
       return json.decode(response.body);
     } catch (e) {
-      
-
       throw FetchDataException('No Internet connection');
     }
     return responseJson;

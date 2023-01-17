@@ -13,25 +13,15 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Views/login.dart';
 import 'package:firebase_core/firebase_core.dart';
+
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:firebase_core/firebase_core.dart';
+
 Future main() async {
 // await initLocator();
 
   WidgetsFlutterBinding.ensureInitialized();
-await Firebase.initializeApp(
-    // options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-//  IO.Socket socket = IO.io('https://alphachatdb.et.r.appspot.com/');
-//   socket.onConnect((_) {
-//     print('connected chandan');
-//     socket.emit('msg', 'test');
-//   });
-//   socket.on('event', (data) => print(data));
-//   socket.onDisconnect((_) => print('disconnect'));
-//   socket.on('fromServer', (_) => print(_));
-
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -44,11 +34,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: 
-      // TestPage()
-      SplashScreen(),
+      home:
+          // TestPage()
+          SplashScreen(),
     );
   }
 }
-
-

@@ -10,12 +10,13 @@ Widget textFieldWidget({
     children: [
       Text(
         title,
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
       ),
       SizedBox(
         height: 10,
       ),
       TextField(
+        controller: controller,
         keyboardType: TextInputType.multiline,
         minLines: 1,
         maxLines: 5,
