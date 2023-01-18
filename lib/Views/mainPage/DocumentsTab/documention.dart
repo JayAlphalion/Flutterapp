@@ -66,87 +66,148 @@ class _MyHomePageState extends State<MyHomePage> {
       decoration: BoxDecoration(border: Border.all(color: AppColors.greyColor)),
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.all(10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _buildDataColumn(
-              'Load No.:',
-              '123',
-              'https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80',
-              'BOl'),
-          _buildDataColumn(
-              'Delivery Date:',
-              '12/03/2021',
-              'https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80',
-              'EOD'),
-          _buildDataColumn(
-              'Pickup Date:',
-              '12/03/2021',
-              'https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80',
-              'LUMPER'),
-        ],
-      ),
+      child: _buildDataColumn({
+        'Load No.:  ': '123123',
+        'Delivery Date: ': '123123',
+        'Pickup Date: ': '123123',
+      }, {
+        'BOI':
+            'https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80',
+        'EOD':
+            'https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80',
+        'LUMPUR':
+            'https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80'
+      }),
     );
   }
 
   Widget _buildDataColumn(
-      String title, String value, String imgUrl, String subtitle) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          title,
-          style: const TextStyle(
-              color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),
-        ),
-        Flexible(
-          child: Container(
-            width: 100,
-            alignment: Alignment.center,
-            child: Text(
-              value,
+      Map<String, String> infoVals, Map<String, String> imageSubtitleMap) {
+    List<Widget> returnableItems = [];
+    infoVals.forEach(
+      (key, value) {
+        returnableItems.add(
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 2),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  key,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    color: Color(0xff1C5AA3), //font color
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    value,
+                    style: const TextStyle(
+                        fontSize: 18,
+                        color: Color(0xff1C5AA3),
+                        fontWeight: FontWeight.bold //font color
+                        ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+    List<Widget> rowItems = [];
+    imageSubtitleMap.forEach(
+      (key, value) {
+        rowItems.add(Column(
+          children: [
+            GestureDetector(
+              onTap: () {
+                Get.to(ImagePrivewScreen(url: value));
+              },
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 2),
+                height: 100,
+                width: 100,
+                child: CachedNetworkImage(
+                  imageUrl: value,
+                  fit: BoxFit.cover,
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      Container(
+                    height: 20,
+                    width: 20,
+                    alignment: Alignment.center,
+                    child: CircularProgressIndicator(
+                        value: downloadProgress.progress),
+                  ),
+                  errorWidget: (context, url, error) => Container(
+                      height: 20,
+                      width: 20,
+                      alignment: Alignment.center,
+                      child: Icon(Icons.error)),
+                ),
+              ),
+            ),
+            Text(
+              key,
               style: const TextStyle(
                   color: Colors.black,
                   fontSize: 16,
                   fontWeight: FontWeight.w500),
             ),
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.symmetric(vertical: 10),
-          child: GestureDetector(
-            onTap: () {
-              Get.to(ImagePrivewScreen(url: imgUrl));
-            },
-            child: Container(
-              height: 100,
-              width: 100,
-              child: CachedNetworkImage(
-                imageUrl: imgUrl,
-                fit: BoxFit.cover,
-                progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    Container(
-                  height: 20,
-                  width: 20,
-                  alignment: Alignment.center,
-                  child: CircularProgressIndicator(
-                      value: downloadProgress.progress),
-                ),
-                errorWidget: (context, url, error) => Container(
-                    height: 20,
-                    width: 20,
-                    alignment: Alignment.center,
-                    child: Icon(Icons.error)),
-              ),
-            ),
-          ),
-        ),
-        Text(
-          subtitle,
-          style: const TextStyle(
-              color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),
-        ),
-      ],
+          ],
+        ));
+      },
+    );
+
+    returnableItems.add(Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: rowItems,
+      ),
+    ));
+
+    // items.add(
+    //   Container(
+    //       margin: const EdgeInsets.symmetric(vertical: 10),
+    //       height: 100,
+    //       child: Row(
+    //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    //         children: imgItems.map((e) {
+    //           return GestureDetector(
+    //             onTap: () {
+    //               Get.to(ImagePrivewScreen(url: e));
+    //             },
+    //             child: Container(
+    //               margin: const EdgeInsets.symmetric(horizontal: 2),
+    //               height: 100,
+    //               width: 100,
+    //               child: CachedNetworkImage(
+    //                 imageUrl: e,
+    //                 fit: BoxFit.cover,
+    //                 progressIndicatorBuilder:
+    //                     (context, url, downloadProgress) => Container(
+    //                   height: 20,
+    //                   width: 20,
+    //                   alignment: Alignment.center,
+    //                   child: CircularProgressIndicator(
+    //                       value: downloadProgress.progress),
+    //                 ),
+    //                 errorWidget: (context, url, error) => Container(
+    //                     height: 20,
+    //                     width: 20,
+    //                     alignment: Alignment.center,
+    //                     child: Icon(Icons.error)),
+    //               ),
+    //             ),
+    //           );
+    //         }).toList(),
+    //       )),
+    // );
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: returnableItems,
     );
   }
 
