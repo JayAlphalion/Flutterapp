@@ -70,15 +70,18 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           _buildDataColumn(
-              'Load No.: 123',
+              'Load No.:',
+              '123',
               'https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80',
               'BOl'),
           _buildDataColumn(
-              'Delivery Date: 12/03/2021',
+              'Delivery Date:',
+              '12/03/2021',
               'https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80',
               'EOD'),
           _buildDataColumn(
-              'Pickup Date:  12/03/2021',
+              'Pickup Date:',
+              '12/03/2021',
               'https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80',
               'LUMPER'),
         ],
@@ -86,7 +89,8 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Column _buildDataColumn(String title, String imgUrl, String subtitle) {
+  Widget _buildDataColumn(
+      String title, String value, String imgUrl, String subtitle) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -95,34 +99,48 @@ class _MyHomePageState extends State<MyHomePage> {
           style: const TextStyle(
               color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),
         ),
-        const SizedBox(height: 10),
-        GestureDetector(
-          onTap: () {
-            Get.to(ImagePrivewScreen(url: imgUrl));
-          },
+        Flexible(
           child: Container(
-            height: 100,
             width: 100,
-            child: CachedNetworkImage(
-              imageUrl: imgUrl,
-              fit: BoxFit.cover,
-              progressIndicatorBuilder: (context, url, downloadProgress) =>
-                  Container(
-                height: 20,
-                width: 20,
-                alignment: Alignment.center,
-                child:
-                    CircularProgressIndicator(value: downloadProgress.progress),
-              ),
-              errorWidget: (context, url, error) => Container(
-                  height: 20,
-                  width: 20,
-                  alignment: Alignment.center,
-                  child: Icon(Icons.error)),
+            alignment: Alignment.center,
+            child: Text(
+              value,
+              style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500),
             ),
           ),
         ),
-        const SizedBox(height: 10),
+        Container(
+          margin: const EdgeInsets.symmetric(vertical: 10),
+          child: GestureDetector(
+            onTap: () {
+              Get.to(ImagePrivewScreen(url: imgUrl));
+            },
+            child: Container(
+              height: 100,
+              width: 100,
+              child: CachedNetworkImage(
+                imageUrl: imgUrl,
+                fit: BoxFit.cover,
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    Container(
+                  height: 20,
+                  width: 20,
+                  alignment: Alignment.center,
+                  child: CircularProgressIndicator(
+                      value: downloadProgress.progress),
+                ),
+                errorWidget: (context, url, error) => Container(
+                    height: 20,
+                    width: 20,
+                    alignment: Alignment.center,
+                    child: Icon(Icons.error)),
+              ),
+            ),
+          ),
+        ),
         Text(
           subtitle,
           style: const TextStyle(

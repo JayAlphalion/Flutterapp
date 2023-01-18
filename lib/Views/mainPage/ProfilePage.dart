@@ -91,7 +91,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(
                     height: 30,
                   ),
-                  listItemWidget(field: 'Name', value: driverProfileDataResponse!.driver.driverName),
+                  listItemWidget(
+                      field: 'Name',
+                      value: driverProfileDataResponse!.driver.driverName),
                   // SizedBox(
                   //   height: 10,
                   // ),
@@ -101,7 +103,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   listItemWidget(
                       field: 'Address',
-                      value:  driverProfileDataResponse!.driver.driverState),
+                      value: driverProfileDataResponse!.driver.driverState),
                   // SizedBox(
                   //   height: 10,
                   // ),
@@ -109,24 +111,34 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(
                     height: 10,
                   ),
-                  listItemWidget(field: 'Driver License No.', value: driverProfileDataResponse!.driver.driverLicenceno),
+                  listItemWidget(
+                      field: 'Driver License No.',
+                      value: driverProfileDataResponse!.driver.driverLicenceno),
                   SizedBox(
                     height: 10,
                   ),
                   listItemWidget(
-                      field: 'Driver License Expire Date', value: driverProfileDataResponse!.driver.driverLicenseEXP),
+                      field: 'Driver License Expire Date',
+                      value:
+                          driverProfileDataResponse!.driver.driverLicenseEXP),
                   SizedBox(
                     height: 10,
                   ),
                   listItemWidget(
-                      field: 'Company Name', value: driverProfileDataResponse!.truck.truckCompany),
+                      field: 'Company Name',
+                      value: driverProfileDataResponse!.truck.truckCompany),
                   SizedBox(
                     height: 10,
                   ),
-                  listItemWidget(field: 'Contact No.', value: driverProfileDataResponse!.truck.truckPhone),
+                  listItemWidget(
+                      field: 'Contact No.',
+                      value: driverProfileDataResponse!.truck.truckPhone),
                   SizedBox(
                     height: 10,
-                  )
+                  ),
+                  listItemWidget(
+                      field: 'Issue Date',
+                      value: driverProfileDataResponse!.driver.driverLicenceno),
                 ],
               ),
             ),

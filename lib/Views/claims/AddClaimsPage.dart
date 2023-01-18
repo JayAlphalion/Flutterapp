@@ -111,13 +111,6 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
                 height: 20,
               ),
               textFieldWidget(
-                  title: 'Claim Title  (Optional)',
-                  hintText: 'Enter here...',
-                  controller: titleController),
-              const SizedBox(
-                height: 20,
-              ),
-              textFieldWidget(
                   title: '2nd Party Driver Name  (Optional)',
                   hintText: 'Enter here...',
                   controller: secondPartyDriverNameController),
