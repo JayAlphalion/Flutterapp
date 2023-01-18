@@ -18,7 +18,7 @@ class _ClaimsHomePageState extends State<ClaimsHomePage> {
       appBar: AppBar(
         backgroundColor: AppColors.primaryColor,
         centerTitle: true,
-        title: Text(
+        title: const Text(
           "Claims",
           style: TextStyle(
               color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500),
@@ -27,26 +27,72 @@ class _ClaimsHomePageState extends State<ClaimsHomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 20),
               child: Container(
+                padding: const EdgeInsets.all(20),
                 height: 200,
                 width: Get.width / 1,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
+                  image: const DecorationImage(
+                      fit: BoxFit.cover,
+                      opacity: 0.5,
+                      image: NetworkImage(
+                          'https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80')),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.2),
                       spreadRadius: 1,
                       blurRadius: 2,
-                      offset: Offset(0, 3), // changes position of shadow
+                      offset: const Offset(0, 3), // changes position of shadow
                     ),
                   ],
                 ),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Claim Date : 11/02/2020',
+                            style: const TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            'Location : WB',
+                            style: const TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 16),
+                          Row(
+                            children: [
+                              Text(
+                                'Status:  ',
+                                style: const TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                'Pending',
+                                style: const TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Text(
+                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ]),
               ),
             )
           ],
@@ -54,9 +100,9 @@ class _ClaimsHomePageState extends State<ClaimsHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.to(AddClaimsPage());
+          Get.to(const AddClaimsPage());
         },
-        child: Icon(
+        child: const Icon(
           Icons.add,
           size: 35,
           color: Colors.white,
