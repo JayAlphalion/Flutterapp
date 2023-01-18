@@ -46,7 +46,7 @@
 		</data>
 		<key>Frameworks/App.framework/App</key>
 		<data>
-		u+meJK+nPbgDBM8NgCPiDeNzXxY=
+		WnBNkmwcIjauNNTZ5cS0yUyvkLM=
 		</data>
 		<key>Frameworks/App.framework/Info.plist</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Frameworks/App.framework/_CodeSignature/CodeResources</key>
 		<data>
-		+pKBb6agTCr/yD0QGe7FoabgZeQ=
+		LgP7KrFW4y3fHccaoPMw4JPG+tg=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.json</key>
 		<data>
@@ -122,7 +122,7 @@
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/kernel_blob.bin</key>
 		<data>
-		CR3Uu3DEHyk4ri5YZFKa+SMUPXQ=
+		GCeBhQo9w0CO2Vq7/bOEIIhR2CY=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
 		<data>
@@ -1311,7 +1311,7 @@
 		</data>
 		<key>Frameworks/edge_detection.framework/edge_detection</key>
 		<data>
-		GxSwAeyxGIRccCNySbt/rkZDvkY=
+		PZRNArssYQo8FjewJnY2/n0troE=
 		</data>
 		<key>Frameworks/edge_detection.framework/gallery.png</key>
 		<data>
@@ -2431,7 +2431,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Ef0vHFpyOKGh6C1az936A9UiRhNtlPwc9q6nr2tddbM=
+			QLno8B0TZLwNUjbeM3QJg/MeoXeHwf82C3KQT6QAy0g=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/Info.plist</key>
@@ -2445,7 +2445,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			eF3NYYkNF+ODsFxfSaOzCeMZg/jE6dTqbcfvW60vAPk=
+			IvjdicuKLUikk4cQLQqLzYDudJAGMwjWVGNcXcnsjn4=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.json</key>
@@ -2564,7 +2564,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			hDDjpsrpDDANGY5XPAuh1QcT2CgzZWkbmBdfnOMInYM=
+			9gXTPQJDr3t0XVP4UIGlvovVeSWcVH4MO7352wKrzT0=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
@@ -4395,7 +4395,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			j1mpWEDFjKbmDhls0fJxloIfzsED29kr7je4I4B7Gms=
+			iBCFqSvZXWsgVmuGZi6p0tpDQrKHpFsKyG8CcrdzBPU=
 			</data>
 		</dict>
 		<key>Frameworks/edge_detection.framework/gallery.png</key>
