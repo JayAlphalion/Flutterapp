@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class NetworkConstant {
   static const String BASE_URL =
       //  'http://34.122.178.89/';
-      'http://192.168.1.34:9900/';
+      'http://192.168.1.34/';
   static const String MIDDLE_URL = 'API/V2/';
 
   // api param...

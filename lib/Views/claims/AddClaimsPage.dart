@@ -24,6 +24,7 @@ import 'package:get/route_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:intl/intl.dart';
 
 class AddClaimsPage extends StatefulWidget {
   const AddClaimsPage({Key key}) : super(key: key);
@@ -489,9 +490,10 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
       'location': json.encode(location),
       'notes_data': titleController.text,
       'driver_ph_no': phoneNo.text,
-      'driver_name': secondPartyDriverNameController.text,
+      'driver_name': secondPartyDriverNameController.text, 
       'extra_notes': extraNotestController.text,
-      'scene_image': sceneImageUrl.toString()
+      'scene_image': sceneImageUrl.toString(),
+      'date':DateFormat('dd/MM/yyyy').format( DateTime.now())
     };
     claimDataBloc.callAddClaims(data);
   }
