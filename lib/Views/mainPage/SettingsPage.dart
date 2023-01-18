@@ -19,7 +19,7 @@ class _SettingsPageState extends State<SettingsPage> {
       appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new_sharp),
-            onPressed: () => Navigator.of(context).pop,
+            onPressed: () => Navigator.pop(context),
           ),
           title: const Text('Settings'),
           backgroundColor: AppColors.primaryColor),
