@@ -482,6 +482,24 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "flutter_sound",
+      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_sound-9.2.13",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_sound_platform_interface",
+      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_sound_platform_interface-9.2.13",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_sound_web",
+      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_sound_web-9.2.13",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_svg",
       "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_svg-1.1.6",
       "packageUri": "lib/",
@@ -684,6 +702,12 @@
       "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/lints-2.0.1",
       "packageUri": "lib/",
       "languageVersion": "2.17"
+    },
+    {
+      "name": "logger",
+      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/logger-1.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "logging",
@@ -922,6 +946,12 @@
     {
       "name": "rate_limiter",
       "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/rate_limiter-0.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "recase",
+      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/recase-4.1.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -1322,7 +1352,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2023-01-18T10:52:33.015853Z",
+  "generated": "2023-01-18T14:08:51.782299Z",
   "generator": "pub",
   "generatorVersion": "2.18.6"
 }
