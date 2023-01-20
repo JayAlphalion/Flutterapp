@@ -1,4 +1,4 @@
-// @dart=2.9
+//  @dart=2.9
 import 'dart:async';
 import 'package:alpha_app/Model/chat_model.dart';
 import 'package:alpha_app/Services/locator.dart';
@@ -8,7 +8,6 @@ import 'package:alpha_app/helper/Firebase_Options.dart';
 import 'package:alpha_app/test.dart';
 import 'package:alpha_app/widgets/bottomBar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Views/login.dart';
@@ -40,3 +39,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+

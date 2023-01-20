@@ -9,5 +9,5 @@ class EventBusManager{
   static final EventBus messageBox=EventBus();
   static final EventBus messageResponse=EventBus();
   static final EventBus audioRecorderEventBuss=EventBus();
-
+  static final EventBus videoRecorderEventBuss=EventBus();
 }
