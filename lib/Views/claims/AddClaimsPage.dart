@@ -60,7 +60,8 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   List<File> audioFilePathList = [];
   List<String>audioFileUrl=[];
-
+  List<File> videoFilePathList = [];
+  List<String>videoFileUrl=[];
   // bool isPlaying = false;
   @override
   void initState() {
@@ -72,6 +73,14 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
       if (mounted) {
         audioFilePathList.add(event);
         handleUploadTask(PickedFile(event.path), Constant.AudioFile);
+        setState(() {});
+      }
+    });
+
+     EventBusManager.videoRecorderEventBuss.on().listen((event) {
+      if (mounted) {
+        videoFilePathList.add(event);
+        handleUploadTask(PickedFile(event.path), Constant.VideoFile);
         setState(() {});
       }
     });
@@ -198,6 +207,21 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
               ),
               AddClaimPageWidgets().audioRecordedWidget(
                   title: 'Voice Note', audioFiles: audioFilePathList),
+                    const SizedBox(
+                height: 20,
+              ),
+              AddClaimPageWidgets().videoRecordedWidget(
+                  title: 'Video Note', videoFiles: audioFilePathList,
+                  context: context
+                  ),
+
+ for (int i = 0; i < videoFilePathList.length; i++)
+          Padding(
+            padding: EdgeInsets.only(top: 10),
+            child: AddClaimPageWidgets().videoPlayerWidget(audioFiles: videoFilePathList, index: i),
+          ),
+
+
               const SizedBox(
                 height: 20,
               ),
@@ -380,6 +404,9 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
       case Constant.AudioFile:
         audioFileUrl.add(url);
         break;
+      case Constant.VideoFile:
+        videoFileUrl.add(url);
+        break;
     }
   }
 
@@ -439,6 +466,7 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
       }
     } catch (e) {
       debugger();
+      print(e);
     }
   }
 

@@ -13,11 +13,17 @@ class Constant{
   static const String PoliceImage='policeImage';
   static const String SceneImage='sceneImage';
   static const String AudioFile='audioFile';
+  static const String VideoFile='videoFile';
   
 
 
   static const String Sender='senders';
   static const String Reciver='receiver';
 
+
+  static const String NonStart='nonStart';
+
+  static const String Recording='recording';
   
+  static const String Pause='pause';
 }
