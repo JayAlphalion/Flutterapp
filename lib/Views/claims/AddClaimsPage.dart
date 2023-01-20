@@ -510,7 +510,8 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
       'extra_notes': extraNotestController.text,
       'scene_image': sceneImageUrl.toString(),
       'date':DateFormat('dd/MM/yyyy').format( DateTime.now()),
-      'audio':audioFileUrl.toString()
+      'audio':audioFileUrl.toString(),
+      'video':videoFileUrl.toString()
     };
     // debugger();
     // print(data);
