@@ -8,5 +8,6 @@ class EventBusManager{
   static final EventBus userJoinedOnRoom=EventBus();
   static final EventBus messageBox=EventBus();
   static final EventBus messageResponse=EventBus();
+  static final EventBus audioRecorderEventBuss=EventBus();
 
 }
