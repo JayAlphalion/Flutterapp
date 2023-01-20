@@ -50,44 +50,50 @@
       "languageVersion": "2.14"
     },
     {
+      "name": "audio_session",
+      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/audio_session-0.1.13",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "audioplayers",
-      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers-1.1.1",
+      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers-2.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "audioplayers_android",
-      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_android-1.1.1",
+      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_android-1.1.4",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "audioplayers_darwin",
-      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_darwin-1.0.3",
+      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_darwin-2.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "audioplayers_linux",
-      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_linux-1.0.1",
+      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_linux-1.0.3",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "audioplayers_platform_interface",
-      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_platform_interface-2.0.0",
+      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_platform_interface-3.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "audioplayers_web",
-      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_web-2.0.1",
+      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_web-2.1.1",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "audioplayers_windows",
-      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_windows-1.1.0",
+      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_windows-1.1.2",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
@@ -482,24 +488,6 @@
       "languageVersion": "2.17"
     },
     {
-      "name": "flutter_sound",
-      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_sound-9.2.13",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "flutter_sound_platform_interface",
-      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_sound_platform_interface-9.2.13",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "flutter_sound_web",
-      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_sound_web-9.2.13",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "flutter_svg",
       "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_svg-1.1.6",
       "packageUri": "lib/",
@@ -698,16 +686,28 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "just_audio",
+      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/just_audio-0.9.31",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "just_audio_platform_interface",
+      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/just_audio_platform_interface-4.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "just_audio_web",
+      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/just_audio_web-0.4.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "lints",
       "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/lints-2.0.1",
       "packageUri": "lib/",
       "languageVersion": "2.17"
-    },
-    {
-      "name": "logger",
-      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/logger-1.1.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
     },
     {
       "name": "logging",
@@ -950,10 +950,40 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "recase",
-      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/recase-4.1.0",
+      "name": "record",
+      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/record-4.4.4",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "record_linux",
+      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/record_linux-0.4.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "record_macos",
+      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/record_macos-0.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "record_platform_interface",
+      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/record_platform_interface-0.5.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "record_web",
+      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/record_web-0.5.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "record_windows",
+      "rootUri": "file:///Users/divyanshbansal/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/record_windows-0.7.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
     },
     {
       "name": "rxdart",
@@ -1352,7 +1382,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2023-01-18T14:08:51.782299Z",
+  "generated": "2023-01-19T13:49:21.641511Z",
   "generator": "pub",
   "generatorVersion": "2.18.6"
 }

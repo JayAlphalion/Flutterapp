@@ -7,8 +7,9 @@
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
    <application
+        android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
         android:label="alpha_app"
         android:name="${applicationName}"

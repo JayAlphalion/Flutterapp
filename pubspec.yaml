@@ -67,10 +67,13 @@ dependencies:
   video_player:
   flick_video_player: ^0.5.0
   url_launcher:
-  audioplayers: 
+  audioplayers: ^2.0.0
   flutter_downloader: ^1.9.1
   downloads_path_provider_28: ^0.1.2
-  flutter_sound: ^9.2.13
+  # flutter_sound: ^9.1.0
+  # microphone: ^0.1.0
+  just_audio: ^0.9.31
+  record: ^4.4.4
 
 dev_dependencies:
   flutter_test:

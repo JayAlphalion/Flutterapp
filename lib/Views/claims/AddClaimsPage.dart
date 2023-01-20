@@ -25,6 +25,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
+import 'sound_recorder_widget.dart';
+
 class AddClaimsPage extends StatefulWidget {
   const AddClaimsPage({Key key}) : super(key: key);
 
@@ -107,16 +109,14 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
           padding: const EdgeInsets.only(left: 30, right: 30),
           child: Column(
             children: [
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
+              const SoundRecorderWidget(),
+              const SizedBox(height: 20),
               textFieldWidget(
                   title: '2nd Party Driver Name  (Optional)',
                   hintText: 'Enter here...',
                   controller: secondPartyDriverNameController),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               textFieldWidget(
                   title: '2nd Party Insurance No.  (Optional)',
                   hintText: 'Enter here...',
