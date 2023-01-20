@@ -3,12 +3,15 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:io' as io;
+import 'package:alpha_app/widgets/AddClaimPageWidget.dart';
+import 'package:alpha_app/widgets/AudioPlayerWidget.dart';
 import 'package:alpha_app/bloc/ClaimDataBloc.dart';
 import 'package:alpha_app/helper/ImagePickerHelper.dart';
 import 'package:alpha_app/helper/LoaderWidget.dart';
 import 'package:alpha_app/helper/LocationTrackerHelper.dart';
 import 'package:alpha_app/helper/SuccessDialogHelper.dart';
 import 'package:alpha_app/helper/ToastHelper.dart';
+import 'package:alpha_app/networking/EventBusManager.dart';
 import 'package:alpha_app/networking/NetworkConstant.dart';
 import 'package:alpha_app/utils/AppColors.dart';
 import 'package:alpha_app/utils/Constants.dart';
@@ -16,6 +19,7 @@ import 'package:alpha_app/utils/ImageUtils.dart';
 import 'package:alpha_app/widgets/BottonWidget.dart';
 import 'package:alpha_app/widgets/IconWithTitle.dart';
 import 'package:alpha_app/widgets/TextFIeldWidget.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -54,14 +58,31 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
   List<String> otherImagesUrl = [];
   ClaimDataBloc claimDataBloc;
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+  List<File> audioFilePathList = [];
+  List<String>audioFileUrl=[];
+
+  // bool isPlaying = false;
   @override
   void initState() {
     claimDataBloc = ClaimDataBloc();
 
     _handleAddClaimsResponse();
 
+    EventBusManager.audioRecorderEventBuss.on().listen((event) {
+      if (mounted) {
+        audioFilePathList.add(event);
+        handleUploadTask(PickedFile(event.path), Constant.AudioFile);
+        setState(() {});
+      }
+    });
+
     // TODO: implement initState
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   void _handleAddClaimsResponse() {
@@ -108,16 +129,12 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
           padding: const EdgeInsets.only(left: 30, right: 30),
           child: Column(
             children: [
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               textFieldWidget(
                   title: '2nd Party Driver Name  (Optional)',
                   hintText: 'Enter here...',
                   controller: secondPartyDriverNameController),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               textFieldWidget(
                   title: '2nd Party Insurance No.  (Optional)',
                   hintText: 'Enter here...',
@@ -179,6 +196,11 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
               const SizedBox(
                 height: 20,
               ),
+              AddClaimPageWidgets().audioRecordedWidget(
+                  title: 'Voice Note', audioFiles: audioFilePathList),
+              const SizedBox(
+                height: 20,
+              ),
               InkWell(
                   onTap: () {
                     submitClaim();
@@ -226,11 +248,13 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
         const SizedBox(
           height: 10,
         ),
-        imagesFiles.isEmpty ? imageBox(hintText, null) : Container(),
+        imagesFiles.isEmpty
+            ? AddClaimPageWidgets().imageBox(hintText, null)
+            : Container(),
         for (int i = 0; i < imagesFiles.length; i++)
           Padding(
             padding: EdgeInsets.only(top: i == 0 ? 0 : 10),
-            child: imageBox(hintText, imagesFiles[i]),
+            child: AddClaimPageWidgets().imageBox(hintText, imagesFiles[i]),
           )
       ],
     );
@@ -353,39 +377,10 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
       case Constant.SceneImage:
         sceneImageUrl.add(url);
         break;
+      case Constant.AudioFile:
+        audioFileUrl.add(url);
+        break;
     }
-  }
-
-  // void uploadImageToTheFirebase(File file, String key) {}
-
-  Widget imageBox(String hintText, File file) {
-    return Container(
-      height: 150,
-      width: Get.width / 1,
-      decoration: file == null
-          ? BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(width: 1, color: Colors.black26),
-            )
-          : BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(width: 1, color: Colors.black26),
-              image: DecorationImage(image: FileImage(file), fit: BoxFit.fill)),
-      alignment: Alignment.center,
-      child: file == null
-          ? Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                hintText,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w300,
-                    color: Colors.black54),
-              ),
-            )
-          : Container(),
-    );
   }
 
 /**
@@ -469,7 +464,7 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
   }
 
   void submitData() async {
-    NetworkDialog.showLoadingDialog(context, _keyLoader);
+     NetworkDialog.showLoadingDialog(context, _keyLoader);
     Position position = await LocationTrackerHelper().getUserCurrentLocation();
     Map location = {
       'latitude': position.latitude,
@@ -486,8 +481,11 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
       'driver_name': secondPartyDriverNameController.text, 
       'extra_notes': extraNotestController.text,
       'scene_image': sceneImageUrl.toString(),
-      'date':DateFormat('dd/MM/yyyy').format( DateTime.now())
+      'date':DateFormat('dd/MM/yyyy').format( DateTime.now()),
+      'audio':audioFileUrl.toString()
     };
+    // debugger();
+    // print(data);
     claimDataBloc.callAddClaims(data);
   }
 }

@@ -12,6 +12,7 @@ class Constant{
   static const String OthersImage='otherImage';
   static const String PoliceImage='policeImage';
   static const String SceneImage='sceneImage';
+  static const String AudioFile='audioFile';
   
 
 
