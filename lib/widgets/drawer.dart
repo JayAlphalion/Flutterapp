@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:alpha_app/Model/responses/DriverProfileDataResponse.dart';
 import 'package:alpha_app/Views/claims/ClaimsHomePage.dart';
 import 'package:alpha_app/Views/mainPage/ProfilePage.dart';
+import 'package:alpha_app/Views/mainPage/SettingsPage.dart';
 import 'package:alpha_app/helper/LocationTrackerHelper.dart';
 import 'package:alpha_app/networking/NetworkConstant.dart';
 import 'package:alpha_app/networking/SocketHelper.dart';
