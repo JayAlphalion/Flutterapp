@@ -62,7 +62,7 @@ class _VideoInChatWidgetForReceiverState
 
   getFileInfo() async {
     var dir = await DownloadsPathProvider.downloadsDirectory;
-    if (dir != null) {
+    if (dir != null) { 
       String savename = widget.chatMessage.fileName;
       String savePath = dir.path + "/$savename";
       bool isExists = await File(savePath).exists();

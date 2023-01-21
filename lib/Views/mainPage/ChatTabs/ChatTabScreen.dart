@@ -149,6 +149,8 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
     String myId = session.getString(SharedPrefConstant.DRIVERE_ID);
 
     chatDataBloc.getChatHistoryDataStream.listen((event) {
+      // debugger();
+      // print(event);
       try {
         ChatHistoryApiResponse v = ChatHistoryApiResponse.fromJson(event);
 

@@ -70,22 +70,22 @@ class Message {
   late final String isSeen;
 
   Message.fromJson(Map<String, dynamic> json) {
-    typeOfMsg = json['typeOfMsg'];
-    userToken = json['user_token'];
+    typeOfMsg = json['typeOfMsg'].toString();
+    userToken = json['user_token'].toString();
     text = json['text'].toString();
-    deletedForMe = json['deletedForMe'];
-    fileName = json['file_name'];
-    createdAt = json['created_at'];
-    url = json['url'];
-    groupId = json['group_id'];
-    to = json['to'];
-    userId = json['userId'];
-    user_id = json['user_id'];
-    messageId = json['message_id'];
+    deletedForMe = json['deletedForMe'].toString();
+    fileName = json['file_name'].toString();
+    createdAt = json['created_at'].toString();
+    url = json['url'].toString();
+    groupId = json['group_id'].toString();
+    to = json['to'].toString();
+    userId = json['userId'].toString();
+    user_id = json['user_id'].toString();
+    messageId = json['message_id'].toString();
     seenBy = json['seenBy'];
-    from = json['from'];
-    deletedForEveryone = json['deletedForEveryone'];
-    isSeen = json['isSeen'];
+    from = json['from'].toString();
+    deletedForEveryone = json['deletedForEveryone'].toString();
+    isSeen = json['isSeen'].toString();
   }
 
   Map<String, dynamic> toJson() {
