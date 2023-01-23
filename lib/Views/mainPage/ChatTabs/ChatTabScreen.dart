@@ -14,6 +14,7 @@ import 'package:alpha_app/Services/chat_service.dart';
 import 'package:alpha_app/Services/locator.dart';
 import 'package:alpha_app/Views/LocalImagePreviewScreen.dart';
 import 'package:alpha_app/bloc/ChatDataBloc.dart';
+import 'package:alpha_app/helper/BgDecorationHelper.dart';
 import 'package:alpha_app/helper/FileTypeHelper.dart';
 import 'package:alpha_app/helper/ScanController.dart';
 import 'package:alpha_app/networking/EventBusManager.dart';
@@ -25,6 +26,7 @@ import 'package:alpha_app/utils/ImageUtils.dart';
 import 'package:alpha_app/utils/SharedPrefConstant.dart';
 import 'package:alpha_app/widgets/AudioComponents/AudioFileForReceiver.dart';
 import 'package:alpha_app/widgets/AudioComponents/AudioFileForSender.dart';
+import 'package:alpha_app/widgets/AudioRecorderWidget.dart';
 import 'package:alpha_app/widgets/ImageOrDocComponents/ImageOrDocItemForReceiver.dart';
 import 'package:alpha_app/widgets/ImageOrDocComponents/ImageOrDocItemForSender.dart';
 // import 'package:alpha_app/widgets/ChatLoadingShimmer.dart';
@@ -32,6 +34,7 @@ import 'package:alpha_app/widgets/IconWithTitle.dart';
 import 'package:alpha_app/widgets/VideoComponents/VideoInChatWidgetForReceiver.dart';
 import 'package:alpha_app/widgets/VideoComponents/VideoInChatWidgetForSender.dart';
 import 'package:alpha_app/widgets/drawer.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:edge_detection/edge_detection.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -49,6 +52,7 @@ import 'package:firebase_core/firebase_core.dart' as firebase_core;
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:record/record.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -72,16 +76,82 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
   ChatDataBloc chatDataBloc;
   // ChatService chatService = locator<ChatService>();
   bool dataLoading = true;
-  File recordedFile;
+  String recordedAudioFile;
   File videoRecordedFile;
+  int _recordDuration = 0;
+  Timer _timer;
+  final _audioRecorder = Record();
+  StreamSubscription<RecordState> _recordSub;
+  RecordState _recordState = RecordState.stop;
   @override
   void initState() {
     chatDataBloc = ChatDataBloc();
+     _audioSetup();
     _callGetChatHistoryApi();
     _handleChatHistoryResponse();
     initChat();
-
+   
     super.initState();
+  }
+
+  _audioSetup() {
+    _recordSub = _audioRecorder.onStateChanged().listen((recordState) {
+      setState(() => _recordState = recordState);
+    });
+  }
+
+  Future<void> _start() async {
+    recordedAudioFile = null;
+    try {
+      if (await _audioRecorder.hasPermission()) {
+        await _audioRecorder.start();
+        _recordDuration = 0;
+
+        _startTimer();
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        debugger();
+        print(e);
+      }
+    }
+  }
+
+  Future<void> _stop() async {
+    _timer?.cancel();
+    _recordDuration = 0;
+
+   try{
+     final path = await _audioRecorder.stop();
+
+    if (path != null) {
+      // recordedAudioFile = path;
+      
+      sendRecordedAudio(File(path));
+    }
+   }catch(e){
+    debugger();
+    print(e);
+   }
+   
+  }
+
+  Future<void> _pause() async {
+    _timer?.cancel();
+    await _audioRecorder.pause();
+  }
+
+  Future<void> _resume() async {
+    _startTimer();
+    await _audioRecorder.resume();
+  }
+
+  void _startTimer() {
+    _timer?.cancel();
+
+    _timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
+      setState(() => _recordDuration++);
+    });
   }
 
   initChat() {
@@ -217,6 +287,7 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
       body: dataLoading == true
           ? Container(
               height: Get.height / 1,
+              decoration: BgDecorationHelper().chatBgDecoration(),
               child: ListView.builder(
                   itemCount: 20,
                   itemBuilder: ((context, index) {
@@ -238,69 +309,48 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
                               ))),
                     );
                   })))
-          : Stack(
-              children: <Widget>[
-                messages.length == 0
-                    ? ListView(
-                        controller: controller,
-                        children: [
-                          Container(
-                              height: Get.height / 1.4,
-                              child: Center(
-                                child: Lottie.asset(
-                                  ImageUtils.EMPTY_MESSAGE_GIT,
-                                ),
-                              ))
-                        ],
-                      )
-                    : Padding(
-                        padding: const EdgeInsets.only(bottom: 50),
-                        child: ListView.builder(
-                            controller: controller,
-                            itemCount: messages.length,
-                            reverse: false,
-                            shrinkWrap: true,
-                            padding: EdgeInsets.only(top: 10, bottom: 10),
-                            physics: BouncingScrollPhysics(),
-                            itemBuilder: (BuildContext context, index) {
-                              return messages[index].messageType ==
-                                      Constant.TextMessage
-                                  ? TextChatBox(
-                                      chatMessage: messages[index],
-                                    )
-                                  : messages[index].messageType ==
-                                          Constant.MusicFile
-                                      ? messages[index].messageOwner ==
-                                                  Constant.Sender &&
-                                              messages[index].isHistory == false
-                                          ? AudioFileForSender(
-                                              task: _uploadTasks[index],
-                                              onDismissed: () =>
-                                                  _removeTaskAtIndex(index),
-                                              onDownloadLink: () {
-                                                return getUrl(
-                                                    _uploadTasks[index]
-                                                        .snapshot
-                                                        .ref);
-                                              },
-                                              chatMessage: messages[index],
-                                              index: index)
-                                          : AudioFileForReceiver(
-                                              chatMessage: messages[index],
-                                            )
-                                      //for video type message
+          : Container(
+              height: Get.height / 1,
+              decoration: BgDecorationHelper().chatBgDecoration(),
+              child: Stack(
+                children: <Widget>[
+                  messages.length == 0
+                      ? ListView(
+                          controller: controller,
+                          children: [
+                            Container(
+                                height: Get.height / 1.4,
+                                child: Center(
+                                  child: Lottie.asset(
+                                    ImageUtils.EMPTY_MESSAGE_GIT,
+                                  ),
+                                ))
+                          ],
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.only(bottom: 50),
+                          child: Container(
+                            height: Get.height / 1,
+                            child: ListView.builder(
+                                controller: controller,
+                                itemCount: messages.length,
+                                reverse: false,
+                                shrinkWrap: true,
+                                padding: EdgeInsets.only(top: 10, bottom: 10),
+                                physics: BouncingScrollPhysics(),
+                                itemBuilder: (BuildContext context, index) {
+                                  return messages[index].messageType ==
+                                          Constant.TextMessage
+                                      ? TextChatBox(
+                                          chatMessage: messages[index],
+                                        )
                                       : messages[index].messageType ==
-                                              Constant.VideoMessage
-
-//for video messaging.
-
+                                              Constant.MusicFile
                                           ? messages[index].messageOwner ==
                                                       Constant.Sender &&
                                                   messages[index].isHistory ==
                                                       false
-                                              ?
-                                              //for sender
-                                              VideoInChatWidgetForSender(
+                                              ? AudioFileForSender(
                                                   task: _uploadTasks[index],
                                                   onDismissed: () =>
                                                       _removeTaskAtIndex(index),
@@ -312,78 +362,106 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
                                                   },
                                                   chatMessage: messages[index],
                                                   index: index)
+                                              : AudioFileForReceiver(
+                                                  chatMessage: messages[index],
+                                                )
+                                          //for video type message
+                                          : messages[index].messageType ==
+                                                  Constant.VideoMessage
+
+//for video messaging.
+
+                                              ? messages[index].messageOwner ==
+                                                          Constant.Sender &&
+                                                      messages[index].isHistory ==
+                                                          false
+                                                  ?
+                                                  //for sender
+                                                  VideoInChatWidgetForSender(
+                                                      task: _uploadTasks[index],
+                                                      onDismissed: () =>
+                                                          _removeTaskAtIndex(
+                                                              index),
+                                                      onDownloadLink: () {
+                                                        return getUrl(
+                                                            _uploadTasks[index]
+                                                                .snapshot
+                                                                .ref);
+                                                      },
+                                                      chatMessage:
+                                                          messages[index],
+                                                      index: index)
+                                                  :
+                                                  //for receiver
+                                                  VideoInChatWidgetForReceiver(
+                                                      chatMessage:
+                                                          messages[index],
+                                                      index: index)
                                               :
-                                              //for receiver
-                                              VideoInChatWidgetForReceiver(
-                                                  chatMessage: messages[index],
-                                                  index: index)
-                                          :
-                                          //for doc or images.
-                                          messages[index].messageOwner ==
-                                                      Constant.Sender &&
-                                                  messages[index].isHistory ==
-                                                      false
-                                              ?
-                                              //for sender
-                                              ImageOrDocItemForSender(
-                                                  task: _uploadTasks[index],
-                                                  onDismissed: () =>
-                                                      _removeTaskAtIndex(index),
-                                                  onDownloadLink: () {
-                                                    return getUrl(
-                                                        _uploadTasks[index]
-                                                            .snapshot
-                                                            .ref);
-                                                  },
-                                                  chatMessage: messages[index],
-                                                  index: index):
-                                              ImageOrDocItemForReceiver(
-                                                  chatMessage: messages[index],
-                                                  index: index);
-                                              
-                            }),
-                      ),
-                Align(
-                  alignment: Alignment.bottomLeft,
-                  child: GetBuilder<AttachmentController>(
-                      // specify type as Controller
-                      init:
-                          AttachmentController(), // intialize with the Controller
-                      builder: (attachmentController) {
-                        return Container(
-                          padding:
-                              EdgeInsets.only(left: 10, bottom: 10, top: 10),
-                          height: 60,
-                          width: double.infinity,
-                          color: Colors.white,
-                          child: Row(
-                            children: <Widget>[
-                              GestureDetector(
-                                onTap: () {
-                                  cameraClickHandler();
-                                },
-                                child: Container(
-                                  height: 30,
-                                  width: 30,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.primaryColor,
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  child: Icon(
-                                    Icons.camera_alt_outlined,
-                                    color: Colors.white,
-                                    size: 20,
-                                  ),
-                                ),
+                                              //for doc or images.
+                                              messages[index].messageOwner ==
+                                                          Constant.Sender &&
+                                                      messages[index].isHistory ==
+                                                          false
+                                                  ?
+                                                  //for sender
+                                                  ImageOrDocItemForSender(
+                                                      task: _uploadTasks[index],
+                                                      onDismissed: () =>
+                                                          _removeTaskAtIndex(index),
+                                                      onDownloadLink: () {
+                                                        return getUrl(
+                                                            _uploadTasks[index]
+                                                                .snapshot
+                                                                .ref);
+                                                      },
+                                                      chatMessage: messages[index],
+                                                      index: index)
+                                                  : ImageOrDocItemForReceiver(chatMessage: messages[index], index: index);
+                                }),
+                          ),
+                        ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: GetBuilder<AttachmentController>(
+                        // specify type as Controller
+                        init:
+                            AttachmentController(), // intialize with the Controller
+                        builder: (attachmentController) {
+                          return Container(
+                            margin: const EdgeInsets.all(8),
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(20),
                               ),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              Expanded(
-                                child: Container(
-                                  // height: 200,
-                                  child: TextField(
-                                    maxLines: 4,
+                            ),
+                            child: attachmentController.recordingStatus ==
+                                    Constant.Recording || attachmentController.recordingStatus==Constant.Pause
+                                ? AudioRecorderWidget(
+                                  recordingStatus: attachmentController.recordingStatus,
+                                  onCompletePressed: (){
+                                    attachmentController.changeRecordingStatus(Constant.RecordingDone);
+
+                                    _stop();
+                                  },
+                                  onPausePressed: (){
+                                    attachmentController.changeRecordingStatus(Constant.Pause);
+                                    _pause();
+                                  },
+                                  onResumed: (){
+                                    attachmentController.changeRecordingStatus(Constant.Recording);
+                                    _resume();
+                                  },
+                                )
+                                : TextField(
+                                    // focusNode: focusNode,
+                                    cursorColor: Colors.black,
+                                    controller: messageController,
+                                    minLines: 1,
+                                    maxLines: 5,
                                     onChanged: (val) {
                                       if (val.isEmpty) {
                                         attachmentController.changeState(true);
@@ -391,51 +469,175 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
                                         attachmentController.changeState(false);
                                       }
                                     },
-                                    controller: messageController,
                                     decoration: InputDecoration(
-                                        hintText: "Write message...",
-                                        hintStyle:
-                                            TextStyle(color: Colors.black54),
-                                        border: InputBorder.none),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              attachmentController.isAttachmentActive == true
-                                  ? FloatingActionButton(
-                                      onPressed: () {
-                                        sentAttachment();
-                                      },
-                                      child: Icon(
-                                        Icons.attachment_outlined,
-                                        color: Colors.white,
-                                        size: 25,
+                                      border: InputBorder.none,
+                                      hintText: "Type Here",
+                                      suffixIcon: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end, // added line
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          attachmentController
+                                                      .isAttachmentActive ==
+                                                  true
+                                              ? InkWell(
+                                                  onTap: () {
+                                                    sentAttachment();
+                                                  },
+                                                  child: Icon(
+                                                    Icons.attachment_outlined,
+                                                    color:
+                                                        AppColors.primaryColor,
+                                                    size: 30,
+                                                  ),
+                                                )
+                                              : InkWell(
+                                                  onTap: () async {
+                                                    await sendTextMessage(
+                                                        '', 'text', '');
+                                                    messageController.clear();
+                                                    attachmentController
+                                                        .changeState(true);
+                                                  },
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 10),
+                                                    child: const Icon(
+                                                      Icons.send,
+                                                      color: AppColors
+                                                          .primaryColor,
+                                                      size: 30,
+                                                    ),
+                                                  ),
+                                                ),
+                                          attachmentController
+                                                      .isAttachmentActive ==
+                                                  true
+                                              ? Padding(
+                                                  padding: EdgeInsets.only(
+                                                      right: 10, left: 10),
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      attachmentController
+                                                          .changeRecordingStatus(
+                                                              Constant
+                                                                  .Recording);
+                                                                  _start();
+                                                    },
+                                                    child: Icon(
+                                                      Icons.mic,
+                                                      size: 25,
+                                                      color: AppColors
+                                                          .primaryColor,
+                                                    ),
+                                                  ),
+                                                )
+                                              : Container()
+                                        ],
                                       ),
-                                      backgroundColor: AppColors.primaryColor,
-                                      elevation: 0,
-                                    )
-                                  : FloatingActionButton(
-                                      onPressed: () async {
-                                        await sendTextMessage('', 'text', '');
-                                        messageController.clear();
-                                        attachmentController.changeState(true);
-                                      },
-                                      child: Icon(
-                                        Icons.send,
-                                        color: Colors.white,
-                                        size: 18,
+                                      prefixIcon: InkWell(
+                                        onTap: () {
+                                          cameraClickHandler();
+                                        },
+                                        child: Icon(
+                                          Icons.add,
+                                          size: 25,
+                                          color: AppColors.primaryColor,
+                                        ),
                                       ),
-                                      backgroundColor: AppColors.primaryColor,
-                                      elevation: 0,
                                     ),
-                            ],
-                          ),
-                        );
-                      }),
-                ),
-              ],
+                                  ),
+                          );
+
+                          // Container(
+                          //   padding:
+                          //       EdgeInsets.only(left: 10, bottom: 10, top: 10),
+                          //   // height: 60,
+                          //   width: double.infinity,
+                          //   color: Colors.white,
+                          //   child: Row(
+                          //     children: <Widget>[
+                          //       GestureDetector(
+                          //         onTap: () {
+                          //           cameraClickHandler();
+                          //         },
+                          //         child: Container(
+                          //           height: 30,
+                          //           width: 30,
+                          //           decoration: BoxDecoration(
+                          //             color: AppColors.primaryColor,
+                          //             borderRadius: BorderRadius.circular(30),
+                          //           ),
+                          //           child: Icon(
+                          //             Icons.camera_alt_outlined,
+                          //             color: Colors.white,
+                          //             size: 20,
+                          //           ),
+                          //         ),
+                          //       ),
+                          //       SizedBox(
+                          //         width: 15,
+                          //       ),
+                          //       Expanded(
+                          //         child: Container(
+                          //           // height: 200,
+                          //           child: TextField(
+                          //             maxLines: 4,
+                          //             minLines: 1,
+                          // onChanged: (val) {
+                          //   if (val.isEmpty) {
+                          //     attachmentController.changeState(true);
+                          //   } else {
+                          //     attachmentController.changeState(false);
+                          //   }
+                          // },
+                          //             controller: messageController,
+                          //             decoration: InputDecoration(
+                          //                 hintText: "Write message...",
+                          //                 hintStyle:
+                          //                     TextStyle(color: Colors.black54),
+                          //                 border: InputBorder.none),
+                          //           ),
+                          //         ),
+                          //       ),
+                          //       SizedBox(
+                          //         width: 15,
+                          //       ),
+                          //       attachmentController.isAttachmentActive == true
+                          //           ? FloatingActionButton(
+                          //               onPressed: () {
+                          //                 sentAttachment();
+                          //               },
+                          //               child: Icon(
+                          //                 Icons.attachment_outlined,
+                          //                 color: Colors.white,
+                          //                 size: 25,
+                          //               ),
+                          //               backgroundColor: AppColors.primaryColor,
+                          //               elevation: 0,
+                          //             )
+                          //           : FloatingActionButton(
+                          //               onPressed: () async {
+                          //                 await sendTextMessage('', 'text', '');
+                          //                 messageController.clear();
+                          //                 attachmentController.changeState(true);
+                          //               },
+                          //               child: Icon(
+                          //                 Icons.send,
+                          //                 color: Colors.white,
+                          //                 size: 18,
+                          //               ),
+                          //               backgroundColor: AppColors.primaryColor,
+                          //               elevation: 0,
+                          //             ),
+                          //     ],
+                          //   ),
+                          // );
+                        }),
+                  ),
+                ],
+              ),
             ),
     );
   }
@@ -818,4 +1020,25 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
     }
     _scrollToBottom();
   }
+
+void sendRecordedAudio(File file){
+  messages.add(
+        ChatMessage(
+            fileType: file.path.split('.').last,
+            url: '',
+            isHistory: false,
+            messageId: '',
+            messageContent: '',
+            messageOwner: Constant.Sender,
+            messageType: GetFile.getMsgType(file.path),
+            fileName: file.path,
+            from: '',
+            dateTime: DateFormat('yyyy-MM-dd kk:mm a')
+                .format(DateTime.now())
+                .toString()),
+      );
+      sendAttachmentToTheServer(File(file.path));
+}
+
+
 }

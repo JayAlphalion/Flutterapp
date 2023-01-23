@@ -58,7 +58,7 @@ class GetFile {
     String type = getFileType(filePath);
     if (type == 'mp4' || type == 'MOV' || type == 'WMV' || type == 'AVI') {
       return Constant.VideoMessage;
-    } else if (type == 'mp3') {
+    } else if (type == 'mp3'|| type=='m4a' ) {
       return Constant.AudioMessage;
     } else if (type == 'jpg' || type == 'png') {
       return Constant.ImageMessage;
