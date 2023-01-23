@@ -72,7 +72,8 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
   ChatDataBloc chatDataBloc;
   // ChatService chatService = locator<ChatService>();
   bool dataLoading = true;
-
+  File recordedFile;
+  File videoRecordedFile;
   @override
   void initState() {
     chatDataBloc = ChatDataBloc();
