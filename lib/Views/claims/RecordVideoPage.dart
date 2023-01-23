@@ -69,9 +69,11 @@ class _RecordVideoPageState extends State<RecordVideoPage> {
         timer.cancel();
         completeRecording();
       } else {
-        setState(() {
+        if(mounted){
+          setState(() {
           percent++;
         });
+        }
       }
     });
   }
@@ -115,6 +117,19 @@ class _RecordVideoPageState extends State<RecordVideoPage> {
                   },
                   child: const Icon(
                     Icons.flip_camera_ios_rounded,
+                    size: 45,
+                    color: AppColors.primaryColor,
+                  )),
+            ),
+             Positioned(
+              bottom: 70,
+              right: 30,
+              child: InkWell(
+                  onTap: () {
+                    completeRecording();
+                  },
+                  child: const Icon(
+                    Icons.done,
                     size: 45,
                     color: AppColors.primaryColor,
                   )),
