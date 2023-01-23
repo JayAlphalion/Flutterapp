@@ -34,11 +34,7 @@ class AddClaimPageWidgets {
           height: 10,
         ),
         EmptyaudioBox(),
-        for (int i = 0; i < audioFiles.length; i++)
-          Padding(
-            padding: EdgeInsets.only(top: 10),
-            child: audioPlayerWidget(audioFiles: audioFiles, index: i),
-          )
+        
       ],
     );
   }
@@ -46,7 +42,9 @@ class AddClaimPageWidgets {
 //video widget.
 
   Widget videoRecordedWidget(
-      {required String title, required List<File> videoFiles, context}) {
+      {required String title, required List<File> videoFiles, context,
+     
+      }) {
     return Column(
       children: [
         Row(
@@ -74,32 +72,38 @@ class AddClaimPageWidgets {
   // void uploadImageToTheFirebase(File file, String key) {}
 
   Widget imageBox(String hintText, File file) {
-    return Container(
-      height: 150,
-      width: Get.width / 1,
-      decoration: file == null
-          ? BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(width: 1, color: Colors.black26),
-            )
-          : BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(width: 1, color: Colors.black26),
-              image: DecorationImage(image: FileImage(file), fit: BoxFit.fill)),
-      alignment: Alignment.center,
-      child: file == null
-          ? Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                hintText,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w300,
-                    color: Colors.black54),
-              ),
-            )
-          : Container(),
+    return 
+
+        Container(
+          height: 150,
+          width: Get.width / 1,
+          decoration: file == null
+              ? BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(width: 1, color: Colors.black26),
+                )
+              : BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(width: 1, color: Colors.black26),
+                  image: DecorationImage(image: FileImage(file), fit: BoxFit.fill)),
+          alignment: Alignment.center,
+          child: file == null
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    hintText,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w300,
+                        color: Colors.black54),
+                  ),
+                )
+              : Container(),
+        
+        
+
+      
     );
   }
 

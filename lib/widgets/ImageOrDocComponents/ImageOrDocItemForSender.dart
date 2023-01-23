@@ -349,7 +349,7 @@ class TextChatBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8, right: 8),
+      padding: const EdgeInsets.only(top: 10, bottom: 8, left: 8, right: 8),
       child: Flex(
         direction: Axis.horizontal,
         mainAxisAlignment: chatMessage.messageOwner == Constant.Reciver
@@ -362,7 +362,7 @@ class TextChatBox extends StatelessWidget {
                     children: [
                       Container(
                         padding: const EdgeInsets.only(
-                            left: 10, right: 10, bottom: 10, top: 5),
+                            left: 10, right: 10, bottom: 10, top: 10),
                         constraints: BoxConstraints(
                           maxWidth: MediaQuery.of(context).size.width * 0.7,
                         ),

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:io' as io;
+import 'package:alpha_app/helper/ScanController.dart';
 import 'package:alpha_app/widgets/AddClaimPageWidget.dart';
 import 'package:alpha_app/widgets/AudioPlayerWidget.dart';
 import 'package:alpha_app/bloc/ClaimDataBloc.dart';
@@ -59,9 +60,9 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
   ClaimDataBloc claimDataBloc;
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   List<File> audioFilePathList = [];
-  List<String>audioFileUrl=[];
+  List<String> audioFileUrl = [];
   List<File> videoFilePathList = [];
-  List<String>videoFileUrl=[];
+  List<String> videoFileUrl = [];
   // bool isPlaying = false;
   @override
   void initState() {
@@ -77,7 +78,7 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
       }
     });
 
-     EventBusManager.videoRecorderEventBuss.on().listen((event) {
+    EventBusManager.videoRecorderEventBuss.on().listen((event) {
       if (mounted) {
         videoFilePathList.add(event);
         handleUploadTask(PickedFile(event.path), Constant.VideoFile);
@@ -96,8 +97,9 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
 
   void _handleAddClaimsResponse() {
     claimDataBloc.addClaimDataStream.listen((event) {
+      print(event);
       Navigator.pop(context);
-      if (event != NetworkConstant.FAILURE) {
+      if (event != NetworkConstant.FAILURE || event['success']!='failed') {
         // ToastHelper().showToast(message: 'Claim Added Successfully Done');
         SuccessDialogHelper.openDialog(
             onDone: () {
@@ -207,21 +209,55 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
               ),
               AddClaimPageWidgets().audioRecordedWidget(
                   title: 'Voice Note', audioFiles: audioFilePathList),
-                    const SizedBox(
+              for (int i = 0; i < audioFilePathList.length; i++)
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Stack(
+                    children: [
+                      AddClaimPageWidgets().audioPlayerWidget(
+                          audioFiles: audioFilePathList, index: i),
+                   Positioned(
+                    top: -2,
+                    right: -2,
+                    child: InkWell(
+                        onTap: () {
+                          removeAudio(i);
+                        },
+                        child: const Icon(Icons.cancel_sharp,
+                            color: Colors.red, size: 30))),
+                   
+                    ],
+                  ),
+                ),
+              const SizedBox(
                 height: 20,
               ),
               AddClaimPageWidgets().videoRecordedWidget(
-                  title: 'Video Note', videoFiles: audioFilePathList,
-                  context: context
+                title: 'Video Note',
+                videoFiles: audioFilePathList,
+                context: context,
+              ),
+              for (int i = 0; i < videoFilePathList.length; i++)
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Stack(
+                    children: [
+                      AddClaimPageWidgets().videoPlayerWidget(
+                          audioFiles: videoFilePathList, index: i),
+                
+                 Positioned(
+                    top: -2,
+                    right: -2,
+                    child: InkWell(
+                        onTap: () {
+                          removeVideo(i);
+                        },
+                        child: const Icon(Icons.cancel_sharp,
+                            color: Colors.red, size: 30))),
+                   
+                    ],
                   ),
-
- for (int i = 0; i < videoFilePathList.length; i++)
-          Padding(
-            padding: EdgeInsets.only(top: 10),
-            child: AddClaimPageWidgets().videoPlayerWidget(audioFiles: videoFilePathList, index: i),
-          ),
-
-
+                ),
               const SizedBox(
                 height: 20,
               ),
@@ -278,7 +314,20 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
         for (int i = 0; i < imagesFiles.length; i++)
           Padding(
             padding: EdgeInsets.only(top: i == 0 ? 0 : 10),
-            child: AddClaimPageWidgets().imageBox(hintText, imagesFiles[i]),
+            child: Stack(
+              children: [
+                AddClaimPageWidgets().imageBox(hintText, imagesFiles[i]),
+                Positioned(
+                    top: -2,
+                    right: -2,
+                    child: InkWell(
+                        onTap: () {
+                          removeImage(key, i);
+                        },
+                        child: const Icon(Icons.cancel_sharp,
+                            color: Colors.red, size: 30))),
+              ],
+            ),
           )
       ],
     );
@@ -328,8 +377,7 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
               InkWell(
                 onTap: () async {
                   Navigator.pop(context);
-                  var file = await ImagePickerHelper().getImageFromCamera();
-                  addImage(key, file);
+                  scanImage(key);
                   // scanImageFromCamera();
                 },
                 child: Row(
@@ -460,7 +508,8 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
 
         task.whenComplete(() async {
           String finalUrl = await getUrl(task.snapshot.ref);
-
+// debugger();
+// print(finalUrl);
           addUrl(key, finalUrl);
         });
       }
@@ -492,29 +541,79 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
   }
 
   void submitData() async {
-     NetworkDialog.showLoadingDialog(context, _keyLoader);
+    NetworkDialog.showLoadingDialog(context, _keyLoader);
     Position position = await LocationTrackerHelper().getUserCurrentLocation();
     Map location = {
       'latitude': position.latitude,
       'lontitude': position.longitude
     };
     Map data = {
-      'driver_dl': secondPartyLicenceImageUrl.toString(),
-      'driver_insurance': secondPartyInsuranceImageUrl.toString(),
-      'other_doc': otherImagesUrl.toString(),
-      'police_report_doc': policeReportImageUrl.toString(),
+      'driver_dl': json.encode(secondPartyLicenceImageUrl),
+      'driver_insurance':json.encode(secondPartyInsuranceImageUrl),
+      'other_doc':json.encode(otherImagesUrl),
+      'police_report_doc': json.encode(policeReportImageUrl),
       'location': json.encode(location),
       'notes_data': titleController.text,
       'driver_ph_no': phoneNo.text,
-      'driver_name': secondPartyDriverNameController.text, 
+      'driver_name': secondPartyDriverNameController.text,
       'extra_notes': extraNotestController.text,
-      'scene_image': sceneImageUrl.toString(),
-      'date':DateFormat('dd/MM/yyyy').format( DateTime.now()),
-      'audio':audioFileUrl.toString(),
-      'video':videoFileUrl.toString()
+      'scene_image': json.encode(sceneImageUrl),
+      'date': DateFormat('dd/MM/yyyy').format(DateTime.now()),
+      'audio': json.encode(audioFileUrl),
+      'video': json.encode(videoFileUrl),
     };
     // debugger();
     // print(data);
     claimDataBloc.callAddClaims(data);
   }
+
+  void scanImage(String key) async {
+    String _imagePath = await ScanController().getImage();
+
+    addImage(key, File(_imagePath));
+  }
+
+  void removeImage(String key, int index) {
+    switch (key) {
+      case Constant.LicenceImage:
+        secondPartyLicenceImage.removeAt(index);
+        secondPartyLicenceImageUrl.removeAt(index);
+        break;
+      case Constant.InsuranceImage:
+        secondPartyInsuranceImage.removeAt(index);
+        secondPartyInsuranceImageUrl.removeAt(index);
+        break;
+      case Constant.OthersImage:
+        otherImages.removeAt(index);
+        otherImagesUrl.removeAt(index);
+        break;
+      case Constant.PoliceImage:
+        policeReportImage.removeAt(index);
+        policeReportImageUrl.removeAt(index);
+        break;
+      case Constant.SceneImage:
+        sceneImages.removeAt(index);
+        sceneImageUrl.removeAt(index);
+        break;
+    }
+    setState(() {});
+  }
+
+
+void removeAudio(index){
+  audioFilePathList.removeAt(index);
+  audioFileUrl.removeAt(index);
+  setState(() {
+    
+  });
+}
+
+
+void removeVideo(index){
+  videoFilePathList.removeAt(index);
+  videoFileUrl.removeAt(index);
+  setState(() {
+    
+  });
+}
 }

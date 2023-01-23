@@ -83,7 +83,7 @@ class _AudioFileForSenderState extends State<AudioFileForSender> {
 
           return Padding(
               padding:
-                  const EdgeInsets.only(top: 8, bottom: 30, left: 8, right: 8),
+                  const EdgeInsets.only(top: 8, bottom: 10, left: 8, right: 8),
               child: Flex(
                 direction: Axis.horizontal,
                 mainAxisAlignment:
@@ -123,24 +123,27 @@ class _AudioFileForSenderState extends State<AudioFileForSender> {
         // height: 80,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
-            border: Border.all(width: 4, color: AppColors.chatBgColor)),
+            border: Border.all(width: 4, color: AppColors.chatBgColor),
+            
+            color: Colors.white
+            ),
 
         child: Column(
           children: [
-            Container(
-              width: Get.width / 1,
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    top: 5, right: 10, left: 0, bottom: 5),
-                child: Text(
-                  widget.chatMessage.from,
-                  style: TextStyle(color: Colors.blue[200], fontSize: 14),
-                ),
-              ),
-            ),
+            // Container(
+            //   width: Get.width / 1,
+            //   // color: Colors.white,
+            //   child: Padding(
+            //     padding: const EdgeInsets.only(
+            //         top: 5, right: 10, left: 0, bottom: 5),
+            //     child: Text(
+            //       widget.chatMessage.from,
+            //       style: TextStyle(color: Colors.blue[200], fontSize: 14),
+            //     ),
+            //   ),
+            // ),
             SizedBox(
-              height: 5,
+              height: 10,
             ),
             Padding(
               padding: const EdgeInsets.only(right: 8),

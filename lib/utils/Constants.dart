@@ -26,4 +26,6 @@ class Constant{
   static const String Recording='recording';
   
   static const String Pause='pause';
+
+  static const String RecordingDone='done';
 }

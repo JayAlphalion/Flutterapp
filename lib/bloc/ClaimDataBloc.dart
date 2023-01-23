@@ -9,7 +9,7 @@ import '../networking/Response.dart';
 class ClaimDataBloc {
   late ClaimsRepository claimsRepository;
   late StreamController<dynamic> streamController;
-
+  late StreamController<dynamic> previousClaimStreamController;
   
   StreamSink<dynamic> get addClaimDataSink =>
       streamController.sink;
@@ -17,9 +17,14 @@ class ClaimDataBloc {
   Stream<dynamic> get addClaimDataStream =>
       streamController.stream;
 
- 
+   StreamSink<dynamic> get previousClaimDataSink =>
+      previousClaimStreamController.sink;
+
+  Stream<dynamic> get previousClaimDataStream =>
+      previousClaimStreamController.stream;
   ClaimDataBloc() {
     streamController = StreamController<dynamic>();
+    previousClaimStreamController=StreamController<dynamic>();
      claimsRepository = ClaimsRepository();
   }
 
@@ -33,6 +38,16 @@ class ClaimDataBloc {
     }
   }
 
+
+ callGetPreviousClaim(Map parameter) async {
+    try {
+      dynamic chuckCats = await claimsRepository.getPreviousClaimData(parameter);
+      previousClaimDataSink.add(chuckCats);
+    } catch (e) {
+      previousClaimDataSink.add(e.toString());
+      print(e);
+    }
+  }
   
   dispose() {
     streamController.close();

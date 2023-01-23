@@ -54,15 +54,22 @@ class _VideoInChatWidgetForReceiverState
     _controller = VideoPlayerController.network(widget.chatMessage.url)
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        setState(() {});
+      if(mounted){
+          setState(() {});
+      }
       });
     getFileInfo();
     // _controller.play();
   }
 
+@override
+void dispose() {
+super.dispose();
+_controller.dispose();
+}
   getFileInfo() async {
     var dir = await DownloadsPathProvider.downloadsDirectory;
-    if (dir != null) {
+    if (dir != null) { 
       String savename = widget.chatMessage.fileName;
       String savePath = dir.path + "/$savename";
       bool isExists = await File(savePath).exists();

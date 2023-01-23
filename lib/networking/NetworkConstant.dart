@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class NetworkConstant {
   static const String BASE_URL =
        'http://34.122.178.89/';
-      // 'http://192.168.1.34/';
+        // 'http://192.168.1.34/';
   static const String MIDDLE_URL = 'API/V2/';
 
   // api param...
@@ -22,6 +22,7 @@ class NetworkConstant {
   static const String GET_UPCOMMING_LOAD_REQUEST = 'upcomingDispatch';
   static const String GET_CHAT_HISTORY_API = 'getchathistory';
   static const String ADD_CLAIM = 'opsdata';
+  static const String GET_PREVIOUS_CLAIM='getopsdata';
 // Constant.
 
   static const String SUCCESS = 'success';

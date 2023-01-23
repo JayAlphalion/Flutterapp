@@ -12,4 +12,6 @@ class ImageUtils {
   static const String EXCEL_ICON = 'assets/excelIcon.png';
   static const String PDF_ICON = 'assets/pdfIcon.jpg';
   static const String DUMMY_LICENCE='assets/dummy_licence.jpeg';
+  static const String CHAT_BG='assets/chat_bg.jpg';
+  static const String RECORDER_GIF='assets/recorder_gif.json';
 }

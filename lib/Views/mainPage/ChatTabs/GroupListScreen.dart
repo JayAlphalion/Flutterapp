@@ -16,24 +16,20 @@ class GroupListScreen extends StatefulWidget {
 }
 
 class _GroupListScreenState extends State<GroupListScreen> {
-  String groupId='';
+  String groupId = '';
 
-@override
+  @override
   void initState() {
     getGroupId();
     // TODO: implement initState
     super.initState();
   }
 
-void getGroupId()async{
-  SharedPreferences prefs=await SharedPreferences.getInstance();
-  groupId=prefs.getString(SharedPrefConstant.GROUP_ID)!;
-  setState(() {
-    
-  });
-
-
-}
+  void getGroupId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    groupId = prefs.getString(SharedPrefConstant.GROUP_ID)!;
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,8 +61,9 @@ void getGroupId()async{
       padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 5),
       child: Bounce(
         onPressed: () {
-          Get.to(ChatTabScreen(groupId: groupId,
-          groupName: groupName,
+          Get.to(ChatTabScreen(
+            groupId: groupId,
+            groupName: groupName,
           ));
         },
         duration: Duration(milliseconds: 110),
@@ -93,11 +90,10 @@ void getGroupId()async{
                 decoration: BoxDecoration(
                     //  color: AppColors.primaryColor,
                     borderRadius: BorderRadius.circular(10),
-                    image: DecorationImage(
-                        image: AssetImage(ImageUtils.Logo), fit: BoxFit.contain)),
+                    image: const DecorationImage(
+                        image: AssetImage(ImageUtils.Logo),
+                        fit: BoxFit.contain)),
               ),
-
-
               Expanded(
                   child: Padding(
                 padding: const EdgeInsets.all(8),
@@ -107,38 +103,31 @@ void getGroupId()async{
                   children: [
                     Text(
                       groupName,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.black,
                           fontSize: 16,
                           fontWeight: FontWeight.w500),
                     ),
-                    SizedBox(height: 5,),
-Container(
-  height: 50,
-width: Get.width/1,
-  child: Text(
-    'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words',
-    style: TextStyle(
-                          color: Colors.black45,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500),
-overflow: TextOverflow.ellipsis,
-maxLines: 3,
-
-
-
-    
-    
-    
-    
-    ),
-),
-
-
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Container(
+                      height: 50,
+                      width: Get.width / 1,
+                      child: const Text(
+                        'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words',
+                        style: TextStyle(
+                            color: Colors.black45,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
+                      ),
+                    ),
                     Expanded(
                         child: Container(
                       alignment: Alignment.bottomRight,
-                      child: Text(
+                      child: const Text(
                         '08:10 pm',
                         style: TextStyle(
                             color: AppColors.chatDateTimeColor, fontSize: 8),
