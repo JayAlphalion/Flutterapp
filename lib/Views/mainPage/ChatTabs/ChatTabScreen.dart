@@ -233,7 +233,7 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
             messageId: v.messages[i].data.messageId.toString(),
             messageContent: v.messages[i].data.text,
             messageOwner: sendBy,
-            messageType: v.messages[i].data.typeOfMsg,
+            messageType: v.messages[i].data.typeOfMsg=='m4a'?Constant.MusicFile:v.messages[i].data.typeOfMsg,
             fileName: v.messages[i].data.fileName,
             fileType: v.messages[i].data.typeOfMsg,
             url: v.messages[i].data.url,
@@ -344,7 +344,9 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
                                       ? TextChatBox(
                                           chatMessage: messages[index],
                                         )
-                                      : messages[index].messageType ==
+                                      :
+                                      
+                                       messages[index].messageType ==
                                               Constant.MusicFile
                                           ? messages[index].messageOwner ==
                                                       Constant.Sender &&
@@ -1030,7 +1032,7 @@ void sendRecordedAudio(File file){
             messageId: '',
             messageContent: '',
             messageOwner: Constant.Sender,
-            messageType: GetFile.getMsgType(file.path),
+            messageType: Constant.MusicFile,
             fileName: file.path,
             from: '',
             dateTime: DateFormat('yyyy-MM-dd kk:mm a')

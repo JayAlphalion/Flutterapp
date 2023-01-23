@@ -97,8 +97,9 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
 
   void _handleAddClaimsResponse() {
     claimDataBloc.addClaimDataStream.listen((event) {
+      print(event);
       Navigator.pop(context);
-      if (event != NetworkConstant.FAILURE) {
+      if (event != NetworkConstant.FAILURE || event['success']!='failed') {
         // ToastHelper().showToast(message: 'Claim Added Successfully Done');
         SuccessDialogHelper.openDialog(
             onDone: () {
@@ -507,7 +508,8 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
 
         task.whenComplete(() async {
           String finalUrl = await getUrl(task.snapshot.ref);
-
+// debugger();
+// print(finalUrl);
           addUrl(key, finalUrl);
         });
       }
@@ -546,19 +548,19 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
       'lontitude': position.longitude
     };
     Map data = {
-      'driver_dl': secondPartyLicenceImageUrl.toString(),
-      'driver_insurance': secondPartyInsuranceImageUrl.toString(),
-      'other_doc': otherImagesUrl.toString(),
-      'police_report_doc': policeReportImageUrl.toString(),
+      'driver_dl': json.encode(secondPartyLicenceImageUrl),
+      'driver_insurance':json.encode(secondPartyInsuranceImageUrl),
+      'other_doc':json.encode(otherImagesUrl),
+      'police_report_doc': json.encode(policeReportImageUrl),
       'location': json.encode(location),
       'notes_data': titleController.text,
       'driver_ph_no': phoneNo.text,
       'driver_name': secondPartyDriverNameController.text,
       'extra_notes': extraNotestController.text,
-      'scene_image': sceneImageUrl.toString(),
+      'scene_image': json.encode(sceneImageUrl),
       'date': DateFormat('dd/MM/yyyy').format(DateTime.now()),
-      'audio': audioFileUrl.toString(),
-      'video': videoFileUrl.toString()
+      'audio': json.encode(audioFileUrl),
+      'video': json.encode(videoFileUrl),
     };
     // debugger();
     // print(data);

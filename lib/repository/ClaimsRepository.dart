@@ -10,4 +10,12 @@ class ClaimsRepository{
   return response;
   }
 
+
+
+  Future<dynamic> getPreviousClaimData(Map parameter) async {
+    var response =await
+        apiProvider.postAfterAuthWithAuthToken(parameter, NetworkConstant.GET_PREVIOUS_CLAIM);
+  return response;
+  }
+
 }

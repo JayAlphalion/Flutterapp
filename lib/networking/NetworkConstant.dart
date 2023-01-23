@@ -22,6 +22,7 @@ class NetworkConstant {
   static const String GET_UPCOMMING_LOAD_REQUEST = 'upcomingDispatch';
   static const String GET_CHAT_HISTORY_API = 'getchathistory';
   static const String ADD_CLAIM = 'opsdata';
+  static const String GET_PREVIOUS_CLAIM='getopsdata';
 // Constant.
 
   static const String SUCCESS = 'success';

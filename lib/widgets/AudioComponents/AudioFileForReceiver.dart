@@ -46,10 +46,18 @@ class _AudioFileForReceiverState extends State<AudioFileForReceiver> {
   Widget build(BuildContext context) {
     return Flex(
       direction: Axis.horizontal,
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: widget.chatMessage.isHistory == true &&
+              widget.chatMessage.messageOwner == Constant.Sender
+          ? MainAxisAlignment.end
+          : MainAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 5),
+          padding: EdgeInsets.only(
+              top: 8,
+              right: widget.chatMessage.isHistory == true &&
+                      widget.chatMessage.messageOwner == Constant.Sender
+                  ? 8
+                  : 0),
           child: Container(
             constraints: BoxConstraints(
               maxWidth: MediaQuery.of(context).size.width * 0.7,
@@ -93,13 +101,14 @@ class _AudioFileForReceiverState extends State<AudioFileForReceiver> {
                 ),
                 // height: 80,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(
-                        width: 4,
-                        color:
-                            widget.chatMessage.messageOwner == Constant.Sender
-                                ? AppColors.chatBgColor
-                                : Colors.white)),
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.white,
+                  border: Border.all(
+                      width: 4,
+                      color: widget.chatMessage.messageOwner == Constant.Sender
+                          ? AppColors.chatBgColor
+                          : Colors.white),
+                ),
 
                 child: Column(
                   children: [
