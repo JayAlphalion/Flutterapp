@@ -170,6 +170,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "carousel_slider",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/carousel_slider-4.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "characters",
       "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/characters-1.2.1",
       "packageUri": "lib/",
@@ -1388,7 +1394,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2023-01-23T08:54:24.760746Z",
+  "generated": "2023-01-24T17:54:32.619740Z",
   "generator": "pub",
   "generatorVersion": "2.18.2"
 }

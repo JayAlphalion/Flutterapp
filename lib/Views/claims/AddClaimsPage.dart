@@ -548,19 +548,19 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
       'lontitude': position.longitude
     };
     Map data = {
-      'driver_dl': json.encode(secondPartyLicenceImageUrl),
-      'driver_insurance':json.encode(secondPartyInsuranceImageUrl),
-      'other_doc':json.encode(otherImagesUrl),
-      'police_report_doc': json.encode(policeReportImageUrl),
+      'driver_dl': secondPartyLicenceImageUrl,
+      'driver_insurance':secondPartyInsuranceImageUrl,
+      'other_doc':otherImagesUrl,
+      'police_report_doc': policeReportImageUrl,
       'location': json.encode(location),
       'notes_data': titleController.text,
       'driver_ph_no': phoneNo.text,
       'driver_name': secondPartyDriverNameController.text,
       'extra_notes': extraNotestController.text,
-      'scene_image': json.encode(sceneImageUrl),
+      'scene_image': sceneImageUrl,
       'date': DateFormat('dd/MM/yyyy').format(DateTime.now()),
-      'audio': json.encode(audioFileUrl),
-      'video': json.encode(videoFileUrl),
+      'audio': audioFileUrl,
+      'video': videoFileUrl,
     };
     // debugger();
     // print(data);
