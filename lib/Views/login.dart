@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:alpha_app/Model/responses/LoginApiResponse.dart';
+import 'package:alpha_app/Views/OTPLogin.dart';
 import 'package:alpha_app/bloc/AuthDataBloc.dart';
 import 'package:alpha_app/helper/LoaderWidget.dart';
 import 'package:alpha_app/helper/ToastHelper.dart';
@@ -167,6 +168,13 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return const OTPLogin();
+          }));
+        },
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
