@@ -126,8 +126,8 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 2),
-                height: 100,
-                width: 100,
+                height: Get.height * 0.12,
+                width: Get.height * 0.1,
                 child: CachedNetworkImage(
                   imageUrl: value,
                   fit: BoxFit.cover,
