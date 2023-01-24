@@ -70,9 +70,6 @@ dependencies:
   audioplayers: ^2.0.0
   flutter_downloader: ^1.9.1
   downloads_path_provider_28: ^0.1.2
-  # flutter_sound: ^9.1.0
-  # microphone: ^0.1.0
-  just_audio: ^0.9.31
   record: ^4.4.4
   percent_indicator: ^4.2.2
 
