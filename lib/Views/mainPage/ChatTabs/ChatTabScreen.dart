@@ -86,11 +86,11 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
   @override
   void initState() {
     chatDataBloc = ChatDataBloc();
-     _audioSetup();
+    _audioSetup();
     _callGetChatHistoryApi();
     _handleChatHistoryResponse();
     initChat();
-   
+
     super.initState();
   }
 
@@ -121,19 +121,18 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
     _timer?.cancel();
     _recordDuration = 0;
 
-   try{
-     final path = await _audioRecorder.stop();
+    try {
+      final path = await _audioRecorder.stop();
 
-    if (path != null) {
-      // recordedAudioFile = path;
-      
-      sendRecordedAudio(File(path));
+      if (path != null) {
+        // recordedAudioFile = path;
+
+        sendRecordedAudio(File(path));
+      }
+    } catch (e) {
+      debugger();
+      print(e);
     }
-   }catch(e){
-    debugger();
-    print(e);
-   }
-   
   }
 
   Future<void> _pause() async {
@@ -233,7 +232,9 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
             messageId: v.messages[i].data.messageId.toString(),
             messageContent: v.messages[i].data.text,
             messageOwner: sendBy,
-            messageType: v.messages[i].data.typeOfMsg=='m4a'?Constant.MusicFile:v.messages[i].data.typeOfMsg,
+            messageType: v.messages[i].data.typeOfMsg == 'm4a'
+                ? Constant.MusicFile
+                : v.messages[i].data.typeOfMsg,
             fileName: v.messages[i].data.fileName,
             fileType: v.messages[i].data.typeOfMsg,
             url: v.messages[i].data.url,
@@ -344,9 +345,7 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
                                       ? TextChatBox(
                                           chatMessage: messages[index],
                                         )
-                                      :
-                                      
-                                       messages[index].messageType ==
+                                      : messages[index].messageType ==
                                               Constant.MusicFile
                                           ? messages[index].messageOwner ==
                                                       Constant.Sender &&
@@ -441,23 +440,32 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
                               ),
                             ),
                             child: attachmentController.recordingStatus ==
-                                    Constant.Recording || attachmentController.recordingStatus==Constant.Pause
+                                        Constant.Recording ||
+                                    attachmentController.recordingStatus ==
+                                        Constant.Pause
                                 ? AudioRecorderWidget(
-                                  recordingStatus: attachmentController.recordingStatus,
-                                  onCompletePressed: (){
-                                    attachmentController.changeRecordingStatus(Constant.RecordingDone);
+                                    recordingStatus:
+                                        attachmentController.recordingStatus,
+                                    onCompletePressed: () {
+                                      attachmentController
+                                          .changeRecordingStatus(
+                                              Constant.RecordingDone);
 
-                                    _stop();
-                                  },
-                                  onPausePressed: (){
-                                    attachmentController.changeRecordingStatus(Constant.Pause);
-                                    _pause();
-                                  },
-                                  onResumed: (){
-                                    attachmentController.changeRecordingStatus(Constant.Recording);
-                                    _resume();
-                                  },
-                                )
+                                      _stop();
+                                    },
+                                    onPausePressed: () {
+                                      attachmentController
+                                          .changeRecordingStatus(
+                                              Constant.Pause);
+                                      _pause();
+                                    },
+                                    onResumed: () {
+                                      attachmentController
+                                          .changeRecordingStatus(
+                                              Constant.Recording);
+                                      _resume();
+                                    },
+                                  )
                                 : TextField(
                                     // focusNode: focusNode,
                                     cursorColor: Colors.black,
@@ -525,7 +533,7 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
                                                           .changeRecordingStatus(
                                                               Constant
                                                                   .Recording);
-                                                                  _start();
+                                                      _start();
                                                     },
                                                     child: Icon(
                                                       Icons.mic,
@@ -1023,24 +1031,22 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
     _scrollToBottom();
   }
 
-void sendRecordedAudio(File file){
-  messages.add(
-        ChatMessage(
-            fileType: file.path.split('.').last,
-            url: '',
-            isHistory: false,
-            messageId: '',
-            messageContent: '',
-            messageOwner: Constant.Sender,
-            messageType: Constant.MusicFile,
-            fileName: file.path,
-            from: '',
-            dateTime: DateFormat('yyyy-MM-dd kk:mm a')
-                .format(DateTime.now())
-                .toString()),
-      );
-      sendAttachmentToTheServer(File(file.path));
-}
-
-
+  void sendRecordedAudio(File file) {
+    messages.add(
+      ChatMessage(
+          fileType: file.path.split('.').last,
+          url: '',
+          isHistory: false,
+          messageId: '',
+          messageContent: '',
+          messageOwner: Constant.Sender,
+          messageType: Constant.MusicFile,
+          fileName: file.path,
+          from: '',
+          dateTime: DateFormat('yyyy-MM-dd kk:mm a')
+              .format(DateTime.now())
+              .toString()),
+    );
+    sendAttachmentToTheServer(File(file.path));
+  }
 }

@@ -1,5 +1,4 @@
 # This is a generated file; do not edit or check into version control.
-audio_session=/Users/divyanshbansal/development/flutter/.pub-cache/hosted/pub.dartlang.org/audio_session-0.1.13/
 audioplayers=/Users/divyanshbansal/development/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers-2.0.0/
 audioplayers_android=/Users/divyanshbansal/development/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_android-1.1.4/
 audioplayers_darwin=/Users/divyanshbansal/development/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_darwin-2.0.0/
@@ -40,8 +39,6 @@ image_picker=/Users/divyanshbansal/development/flutter/.pub-cache/hosted/pub.dar
 image_picker_android=/Users/divyanshbansal/development/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker_android-0.8.5+3/
 image_picker_for_web=/Users/divyanshbansal/development/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker_for_web-2.1.10/
 image_picker_ios=/Users/divyanshbansal/development/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker_ios-0.8.6+1/
-just_audio=/Users/divyanshbansal/development/flutter/.pub-cache/hosted/pub.dartlang.org/just_audio-0.9.31/
-just_audio_web=/Users/divyanshbansal/development/flutter/.pub-cache/hosted/pub.dartlang.org/just_audio_web-0.4.7/
 open_filex=/Users/divyanshbansal/development/flutter/.pub-cache/hosted/pub.dartlang.org/open_filex-4.3.1/
 path_provider=/Users/divyanshbansal/development/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-2.0.11/
 path_provider_android=/Users/divyanshbansal/development/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_android-2.0.22/
