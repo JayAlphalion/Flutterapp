@@ -1,7 +1,12 @@
+import 'dart:developer';
+
 import 'package:alpha_app/bloc/LoginDataBloc.dart';
 import 'package:alpha_app/helper/LoaderWidget.dart';
+import 'package:alpha_app/helper/ResponseHelper.dart';
 import 'package:alpha_app/helper/ToastHelper.dart';
 import 'package:alpha_app/networking/NetworkConstant.dart';
+import 'package:alpha_app/networking/Response.dart';
+import 'package:alpha_app/networking/StatusCodeConstant.dart';
 import 'package:alpha_app/utils/AppColors.dart';
 import 'package:alpha_app/utils/ImageUtils.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +80,14 @@ class _OTPLoginState extends State<OTPLogin> {
   _handleGetOtpResponse() {
     loginDataBloc.loginDataStream.listen((event) {
       Navigator.pop(context);
-      print(event.data);
+     if(event.status==Status.COMPLETED){
+      bool flag=ResonseHelper.checkApiResponse(event.data);
+      if(flag==true){
+        ToastHelper().showToast(message: 'OTP sent on your number');
+      }
+     }else{
+     
+     }
     });
   }
 

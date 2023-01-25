@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:alpha_app/Model/responses/BaseResponse.dart';
 import 'package:alpha_app/Model/responses/DriverProfileDataResponse.dart';
 import 'package:alpha_app/utils/SharedPrefs.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get_connect/http/src/multipart/multipart_file.dart';
 import 'package:http/http.dart' as http;
 // import 'package:http/http.dart';
@@ -12,6 +13,7 @@ import 'package:path/path.dart';
 
 import 'CustomException.dart';
 import 'NetworkConstant.dart';
+import 'Response.dart';
 
 class RealApiProvider {
   final String baseUrl = NetworkConstant.BASE_URL;
@@ -31,11 +33,10 @@ class RealApiProvider {
     }
   }
 
-  Future<BaseResponse> getAfterAuth({required String url}) async {
+  Future<Response<BaseResponse>> getAfterAuth({required String url}) async {
     SharedPref box = new SharedPref();
     String? token = await box.getToken();
 
-    var responseJson;
     try {
       final response = await http.get(
         Uri.parse(baseUrl + afterAuth + url),
@@ -44,35 +45,27 @@ class RealApiProvider {
           "Accept": "application/json"
         },
       );
-      responseJson = _response(response);
-      return BaseResponse.fromJson(responseJson);
+      return _response(response);
     } catch (e) {
-      debugger();
-      print(e);
-      throw FetchDataException('No Internet connection');
+      return Response.error('Server Error, Please Try Again Letter');
     }
-    return responseJson;
   }
 
-  Future<BaseResponse> postBeforeAuth(
+  Future<Response<BaseResponse>> postBeforeAuth(
       {required Map parameter, required String url}) async {
-    // debugger();
-    var responseJson;
     try {
       final response = await http.post(Uri.parse(baseUrl + beforeAuth + url),
           body: parameter);
-      responseJson = _response(response);
-      return BaseResponse.fromJson(responseJson);
+
+      return _response(response);
     } catch (e) {
-      print(e);
-      throw FetchDataException('No Internet connection');
+      return Response.error('Server Error, Please Try Again Letter');
     }
-    return responseJson;
   }
 
-  Future<BaseResponse> postAfterAuth(
+  Future<Response<BaseResponse>> postAfterAuth(
       {required Map parameter, required String url}) async {
-    var responseJson;
+    
     String? token = await SharedPref().getUserToken();
     try {
       final response = await http.post(Uri.parse(baseUrl + afterAuth + url),
@@ -82,18 +75,13 @@ class RealApiProvider {
           },
           body: json.encode(parameter));
 
-      responseJson = _response(response);
-      return BaseResponse.fromJson(responseJson);
+      return _response(response);
     } catch (e) {
-      //debugger();
-      print(e);
-      // return NetworkConstant.FAILURE;
-      throw FetchDataException('No Internet connection');
+      return Response.error('Server Error, Please Try Again Letter');
     }
-    return responseJson;
   }
 
-  Future<BaseResponse> postAfterAuthWithListMultipart(
+  Future<Response<BaseResponse>> postAfterAuthWithListMultipart(
       {required Map parameter,
       required String url,
       required List<File> files}) async {
@@ -131,19 +119,17 @@ class RealApiProvider {
 
       await response.send().then((value) async {
         await http.Response.fromStream(value).then((response) {
-          responseJson = _response(response);
-          return BaseResponse.fromJson(responseJson);
+          return _response(response);
+          
         });
       });
     } catch (e) {
-      debugger();
-      print(e);
-      throw FetchDataException('No Internet connection');
+      return Response.error('Server Error, Please Try Again Letter');
     }
     return responseJson;
   }
 
-  Future<BaseResponse> postAfterAuthMultipart(
+  Future<Response<BaseResponse>> postAfterAuthMultipart(
       {required Map parameter,
       required String url,
       required File files}) async {
@@ -177,14 +163,12 @@ class RealApiProvider {
 
       await response.send().then((value) async {
         await http.Response.fromStream(value).then((response) {
-          responseJson = _response(response);
-          return BaseResponse.fromJson(responseJson);
+           return _response(response);
+          
         });
       });
-    } catch (e) {
-      debugger();
-      print(e);
-      throw FetchDataException('No Internet connection');
+    }  catch (e) {
+      return Response.error('Server Error, Please Try Again Letter');
     }
     return responseJson;
   }
@@ -192,20 +176,27 @@ class RealApiProvider {
   dynamic _response(http.Response response) {
     switch (response.statusCode) {
       case 200:
-        var responseJson = json.decode(response.body.toString());
-        print(responseJson);
-        return responseJson;
-      case 400:
-        throw BadRequestException(response.body.toString());
-      case 401:
+        var responseJson = json.decode(response.body);
+        // debugger();
+        // print(responseJson);
+        BaseResponse v = BaseResponse.fromJson(responseJson);
+        return Response.completed(v, '');
 
+      case 400:
+        return Response.error('Server Error');
+      // throw BadRequestException(response.body.toString());
+      case 401:
+        return Response.error('Server Error');
       case 403:
-        throw UnauthorisedException(response.body.toString());
+        return Response.error('Server Error');
+      // throw UnauthorisedException(response.body.toString());
       case 500:
 
       default:
-        throw FetchDataException(
-            'Error occured while Communication with Server with StatusCode : ${response.statusCode}');
+        return Response.error('Server Error');
+      // throw FetchDataException(
+      //     'Error occured while Communication with Server with StatusCode : ${response.statusCode}');
+
     }
   }
 

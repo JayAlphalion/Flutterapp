@@ -4,6 +4,8 @@ import 'package:alpha_app/networking/NetworkConstant.dart';
 import 'package:alpha_app/networking/RealApiProvider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../networking/Response.dart';
+
 class AuthRepository {
   ApiProvider apiProvider = new ApiProvider();
   RealApiProvider realApiProvider = new RealApiProvider();
@@ -14,7 +16,7 @@ class AuthRepository {
     return response;
   }
 
-  Future<BaseResponse> callGetOtpApi(Map paramter) async {
+  Future<Response<BaseResponse>> callGetOtpApi(Map paramter) async {
     var response = await realApiProvider.postBeforeAuth(
         parameter: paramter, url: NetworkConstant.END_POINT_GET_OTP);
     return response;

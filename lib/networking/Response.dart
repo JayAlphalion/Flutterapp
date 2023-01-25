@@ -1,16 +1,18 @@
-// class Response<T> {
-//   late Status status;
-//   late T data;
-//   late String message;
+import 'package:alpha_app/Model/responses/BaseResponse.dart';
 
-//   Response.loading(this.message) : status = Status.LOADING;
-//   Response.completed(this.data) : status = Status.COMPLETED;
-//   Response.error(this.message) : status = Status.ERROR;
+class Response<T> {
+  late Status status;
+  late T data;
+  late String message;
 
-//   @override
-//   String toString() {
-//     return "Status : $status \n Message : $message \n Data : $data";
-//   }
-// }
+  Response.loading(this.message) : status = Status.LOADING;
+  Response.completed(this.data,this.message) : status = Status.COMPLETED;
+  Response.error(this.message) : status = Status.ERROR;
 
-// enum Status { LOADING, COMPLETED, ERROR }
+  @override
+  String toString() {
+    return "Status : $status \n Message : $message \n Data : $data";
+  }
+}
+
+enum Status { LOADING, COMPLETED, ERROR }
