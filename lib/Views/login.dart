@@ -100,6 +100,7 @@ class _LoginState extends State<Login> {
 
     authDataBloc.loginDataStream.listen((event) {
       // debugger();
+      // print(event);
       Navigator.pop(context);
       // debugger();
       // print(event);
@@ -122,6 +123,7 @@ class _LoginState extends State<Login> {
   }
 
   void saveAndNavigate(LoginApiResponse loginApiResponse) async {
+    print(loginApiResponse);
     SharedPreferences session = await SharedPreferences.getInstance();
     driver_id = loginApiResponse.userId;
 
