@@ -1,3 +1,7 @@
+import 'package:alpha_app/bloc/LoginDataBloc.dart';
+import 'package:alpha_app/helper/LoaderWidget.dart';
+import 'package:alpha_app/helper/ToastHelper.dart';
+import 'package:alpha_app/networking/NetworkConstant.dart';
 import 'package:alpha_app/utils/AppColors.dart';
 import 'package:alpha_app/utils/ImageUtils.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +21,8 @@ class _OTPLoginState extends State<OTPLogin> {
   final pinController = TextEditingController();
   final numController = TextEditingController();
   final focusNode = FocusNode();
-
+  late LoginDataBloc loginDataBloc;
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   @override
   void dispose() {
     numController.dispose();
@@ -45,6 +50,34 @@ class _OTPLoginState extends State<OTPLogin> {
   );
 
   LoginState pageState = LoginState.ENTER_NUMBER;
+
+  @override
+  void initState() {
+    loginDataBloc = LoginDataBloc();
+    _handleGetOtpResponse();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  _callGetOtp() {
+    if (numController.text.isEmpty) {
+      ToastHelper().showErrorToast(message: 'Please Enter Mobile Number First');
+    } else if (numController.text.length != 10) {
+      ToastHelper().showErrorToast(message: 'Invalid Mobile Number');
+    } else {
+      NetworkDialog.showLoadingDialog(context, _keyLoader);
+      Map data = {NetworkConstant.API_PARAM_PHONE_NUMBER: numController.text};
+
+      loginDataBloc.callGetOtpResponse(data);
+    }
+  }
+
+  _handleGetOtpResponse() {
+    loginDataBloc.loginDataStream.listen((event) {
+      Navigator.pop(context);
+      print(event.data);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,13 +119,9 @@ class _OTPLoginState extends State<OTPLogin> {
       width: double.infinity,
       child: MaterialButton(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        onPressed: pageState == LoginState.ENTER_NUMBER
-            ? () {
-                //VALIDATORS
-                pageState = LoginState.ENTER_OTP;
-                setState(() {});
-              }
-            : () {},
+        onPressed: (){
+          _callGetOtp();
+        },
         color: AppColors.primaryColor,
         child: Padding(
           padding: EdgeInsets.all(14.0),
@@ -148,28 +177,28 @@ class _OTPLoginState extends State<OTPLogin> {
         disabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: AppColors.primaryColor),
             borderRadius: BorderRadius.circular(20)),
-        prefix: const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8),
-          child: Text(
-            '(+1)',
-            style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: AppColors.primaryColor),
-          ),
-        ),
-        suffixIcon: pageState == LoginState.ENTER_NUMBER
-            ? Container()
-            : IconButton(
-                onPressed: () {
-                  pageState = LoginState.ENTER_NUMBER;
-                  setState(() {});
-                },
-                icon: const Icon(
-                  Icons.edit,
-                  size: 32,
-                ),
-              ),
+        // prefix: const Padding(
+        //   padding: EdgeInsets.symmetric(horizontal: 8),
+        //   child: Text(
+        //     '(+1)',
+        //     style: TextStyle(
+        //         fontSize: 18,
+        //         fontWeight: FontWeight.bold,
+        //         color: AppColors.primaryColor),
+        //   ),
+        // ),
+        // suffixIcon: pageState == LoginState.ENTER_NUMBER
+        //     ? Container()
+        //     : IconButton(
+        //         onPressed: () {
+        //           pageState = LoginState.ENTER_NUMBER;
+        //           setState(() {});
+        //         },
+        //         icon: const Icon(
+        //           Icons.edit,
+        //           size: 32,
+        //         ),
+        //       ),
       ),
     );
   }

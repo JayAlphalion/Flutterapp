@@ -12,6 +12,8 @@ class NetworkConstant {
   static const String API_PARAM_ACCEPT = 'accept';
   static const String API_PARAM_USER_TOKEN = 'user_token';
   static const String API_PARAM_GROUP_ID = 'group_id';
+  static const String API_PARAM_PHONE_NUMBER='phone_number';
+
 
 // Route URL...
   static const String DriverLog = 'driverLog';
@@ -23,6 +25,7 @@ class NetworkConstant {
   static const String GET_CHAT_HISTORY_API = 'getchathistory';
   static const String ADD_CLAIM = 'opsdata';
   static const String GET_PREVIOUS_CLAIM='getopsdata';
+  static const String END_POINT_GET_OTP='optvalidation';
 // Constant.
 
   static const String SUCCESS = 'success';
