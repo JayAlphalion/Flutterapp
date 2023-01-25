@@ -21,6 +21,7 @@ import 'package:alpha_app/utils/SharedPrefConstant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Views/mainPage/dispatch.dart';
@@ -55,6 +56,7 @@ class _BottomBarState extends State<BottomBar> {
 
   void initState() {
     super.initState();
+    _checkPermissions();
     profileDataBloc = ProfileDataBloc();
 
     _handleDriverInformationResponse();
@@ -68,14 +70,22 @@ class _BottomBarState extends State<BottomBar> {
 
     _selectedIndex = widget.index;
     pages = [
-      GroupListScreen(
-        
-      ),
+      GroupListScreen(),
       DispatchHomePage(),
       MyHomePage(),
       PayrollPage(),
       HomePage()
     ];
+  }
+
+  _checkPermissions() async{
+    await Permission.camera.request();
+    await Permission.microphone.request();
+    await Permission.mediaLibrary.request();
+    await Permission.photos.request();
+    await Permission.photosAddOnly.request();
+    await Permission.storage.request();
+    await Permission.videos.request();
   }
 
   _callGetDriverProfileData() {
@@ -86,7 +96,7 @@ class _BottomBarState extends State<BottomBar> {
     profileDataBloc.getProfileDataStream.listen((event) {
       // debugger();
       // print(event);
-      if (event != NetworkConstant.FAILURE || event!=null) {
+      if (event != NetworkConstant.FAILURE || event != null) {
         DriverProfileDataResponse driverProfileDataResponse =
             DriverProfileDataResponse.fromJson(event);
         driverInfo = driverProfileDataResponse;

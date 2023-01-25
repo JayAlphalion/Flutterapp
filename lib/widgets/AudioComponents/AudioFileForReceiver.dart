@@ -35,6 +35,7 @@ class _AudioFileForReceiverState extends State<AudioFileForReceiver> {
       String savePath = dir.path + "/$savename";
       bool isExists = await File(savePath).exists();
       if (isExists == true) {
+        if (!mounted) return;
         setState(() {
           isDownloaded = true;
         });
