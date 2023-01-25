@@ -8,18 +8,18 @@ import '../networking/Response.dart';
 
 class LoginDataBloc {
   late AuthRepository authRepository;
-  late StreamController<BaseResponse> streamController;
+  late StreamController<Response<BaseResponse>> streamController;
 
   
-  StreamSink<BaseResponse> get loginDataSink =>
+  StreamSink<Response<BaseResponse>>  get loginDataSink =>
       streamController.sink;
 
-  Stream<BaseResponse> get loginDataStream =>
+  Stream<Response<BaseResponse>>  get loginDataStream =>
       streamController.stream;
 
  
   LoginDataBloc() {
-    streamController = StreamController<BaseResponse>();
+    streamController = StreamController<Response<BaseResponse>> ();
      authRepository = AuthRepository();
   }
 
