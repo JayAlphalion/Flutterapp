@@ -56,275 +56,323 @@ class _MyDrawerState extends State<MyDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-       width: MediaQuery.of(context).size.width/1,//20.0, 
-      child: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            Container(
-              // height: 120,
-              color: Color(0xff1C5AA3),
-              width: Get.width / 1,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 10, top: 30),
-                child: Column(
-                  
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 30,),
-                    Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white,
+    return Scaffold(
+      floatingActionButton: Container(
+        margin: const EdgeInsets.only(bottom: 64),
+        child: FloatingActionButton(
+          backgroundColor: const Color(0xff1C5AA3),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const Icon(Icons.arrow_back),
+        ),
+      ),
+      body: SizedBox(
+        width: Get.width,
+        child: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              Container(
+                height: 180,
+                color: const Color(0xff1C5AA3),
+                width: Get.width / 1,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 30, top: 30),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 80,
+                        width: 80,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                        ),
+                        child: driverProfileDataResponse == null
+                            ? Container()
+                            : CachedNetworkImage(
+                                imageUrl: driverProfileDataResponse!
+                                    .driver.driverLicence[0],
+                                placeholder: (context, url) =>
+                                    const Icon(Icons.image),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                                imageBuilder: (context, imageProvider) {
+                                  return Container(
+                                    height: 80,
+                                    width: 80,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.white,
+                                      image: DecorationImage(
+                                          image: imageProvider,
+                                          fit: BoxFit.fill),
+                                    ),
+                                  );
+                                },
+                              ),
                       ),
-                      child: driverProfileDataResponse == null
-                          ? Container()
-                          : CachedNetworkImage(
-                              imageUrl: driverProfileDataResponse!
-                                  .driver.driverLicence[0],
-                              placeholder: (context, url) => Icon(Icons.image),
-                              errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
-                              imageBuilder: (context, imageProvider) {
-                                return Container(
-                                  height: 50,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.white,
-                                    image: DecorationImage(
-                                        image: imageProvider, fit: BoxFit.fill),
-                                  ),
-                                );
-                              },
-                            ),
+                      const SizedBox(width: 30),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            driverProfileDataResponse == null
+                                ? ''
+                                : driverProfileDataResponse!.driver.driverName,
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 26,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          const SizedBox(height: 5),
+                          Text(
+                            driverProfileDataResponse == null
+                                ? ''
+                                : driverProfileDataResponse!
+                                    .driver.driverLicenceno,
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+
+              // Container(
+              //   height: 40,
+              //   child: InkWell(
+              //     onTap: () {
+              //       // Navigator.push(
+              //       //     context,
+              //       //     MaterialPageRoute(builder: (context) => AddAmount()));
+              //     },
+              //     child: ListTile(
+              //       leading: const Text(" ",
+              //           style: TextStyle(fontSize: 16, color: Colors.black)),
+              //       title: Row(
+              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //         children: [
+              //           const Text("Withdraw Money",
+              //               style: TextStyle(fontSize: 16, color: Colors.black)),
+              //           // ElevatedButton(
+              //           //   shape: RoundedRectangleBorder(
+              //           //       borderRadius: BorderRadius.circular(5)),
+              //           //   textColor: Colors.white,
+              //           //   color: const Color(0xff3E66FB),
+              //           //   child: Text(
+              //           //     // ignore: unrelated_type_equality_checks
+              //           //     '+Buy',
+              //           //
+              //           //   ),
+              //           //   onPressed: () {
+              //           //     Navigator.push(
+              //           //         context,
+              //           //         MaterialPageRoute(
+              //           //             builder: (context) => AddAmount()));
+              //           //   },
+              //           // )
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
+
+              // Container(
+              //   height: 40,
+              //   child: InkWell(
+              //     // onTap: () {
+              //     //   Navigator.push(
+              //     //       context,
+              //     //       MaterialPageRoute(builder: (context) => ChoosePlan()));
+              //     // },
+              //     child: ListTile(
+              //       leading: const Icon(
+              //         Icons.analytics_outlined,
+              //         color: Colors.black,
+              //         size: 20,
+              //       ),
+              //       title: Text(
+              //         "Choose Plan",
+              //         style: k16F87Black600HT,
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              // Container(
+              //   height: 40,
+              //   child: InkWell(
+              //     onTap: () {
+              //       Navigator.push(
+              //           context,
+              //           MaterialPageRoute(builder: (context) => SettingPage()));
+              //     },
+              //     child: ListTile(
+              //       leading: const Icon(
+              //         Icons.settings,
+              //         size: 20,
+              //         color: Colors.black,
+              //       ),
+              //       title: Text(
+              //         "Setting",
+              //         style: k16F87Black600HT,
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              // Container(
+              //   height: 40,
+              //   child: InkWell(
+              //     onTap: () {
+              //       // Navigator.push(
+              //       //     context, MaterialPageRoute(builder: (context) => SettingPage()));
+              //     },
+              //     child: ListTile(
+              //       leading: const Icon(
+              //         Icons.info_outline,
+              //         size: 20,
+              //         color: Colors.black,
+              //       ),
+              //       title: Text(
+              //         "About",
+              //         style: k16F87Black600HT,
+              //       ),
+              //     ),
+              //   ),
+              // ),
+
+              Container(
+                height: 40,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ProfilePage()));
+                  },
+                  child: const ListTile(
+                    leading: Icon(
+                      Icons.person_outline,
+                      size: 20,
+                      color: Colors.black,
                     ),
-                    SizedBox(
-                      height
-                    : 10,
+                    title: Text(
+                      "Profile",
+                      style: TextStyle(fontSize: 16, color: Colors.black),
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          driverProfileDataResponse == null
-                              ? ''
-                              : driverProfileDataResponse!.driver.driverName,
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500),
-                        ),
-                       const SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          driverProfileDataResponse == null
-                              ? ''
-                              : driverProfileDataResponse!.driver.driverLicenceno,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400),
-                        ),
-                         SizedBox(height: 20,),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
-    
-            // Container(
-            //   height: 40,
-            //   child: InkWell(
-            //     onTap: () {
-            //       // Navigator.push(
-            //       //     context,
-            //       //     MaterialPageRoute(builder: (context) => AddAmount()));
-            //     },
-            //     child: ListTile(
-            //       leading: const Text(" ",
-            //           style: TextStyle(fontSize: 16, color: Colors.black)),
-            //       title: Row(
-            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //         children: [
-            //           const Text("Withdraw Money",
-            //               style: TextStyle(fontSize: 16, color: Colors.black)),
-            //           // ElevatedButton(
-            //           //   shape: RoundedRectangleBorder(
-            //           //       borderRadius: BorderRadius.circular(5)),
-            //           //   textColor: Colors.white,
-            //           //   color: const Color(0xff3E66FB),
-            //           //   child: Text(
-            //           //     // ignore: unrelated_type_equality_checks
-            //           //     '+Buy',
-            //           //
-            //           //   ),
-            //           //   onPressed: () {
-            //           //     Navigator.push(
-            //           //         context,
-            //           //         MaterialPageRoute(
-            //           //             builder: (context) => AddAmount()));
-            //           //   },
-            //           // )
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // ),
-    
-            // Container(
-            //   height: 40,
-            //   child: InkWell(
-            //     // onTap: () {
-            //     //   Navigator.push(
-            //     //       context,
-            //     //       MaterialPageRoute(builder: (context) => ChoosePlan()));
-            //     // },
-            //     child: ListTile(
-            //       leading: const Icon(
-            //         Icons.analytics_outlined,
-            //         color: Colors.black,
-            //         size: 20,
-            //       ),
-            //       title: Text(
-            //         "Choose Plan",
-            //         style: k16F87Black600HT,
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // Container(
-            //   height: 40,
-            //   child: InkWell(
-            //     onTap: () {
-            //       Navigator.push(
-            //           context,
-            //           MaterialPageRoute(builder: (context) => SettingPage()));
-            //     },
-            //     child: ListTile(
-            //       leading: const Icon(
-            //         Icons.settings,
-            //         size: 20,
-            //         color: Colors.black,
-            //       ),
-            //       title: Text(
-            //         "Setting",
-            //         style: k16F87Black600HT,
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // Container(
-            //   height: 40,
-            //   child: InkWell(
-            //     onTap: () {
-            //       // Navigator.push(
-            //       //     context, MaterialPageRoute(builder: (context) => SettingPage()));
-            //     },
-            //     child: ListTile(
-            //       leading: const Icon(
-            //         Icons.info_outline,
-            //         size: 20,
-            //         color: Colors.black,
-            //       ),
-            //       title: Text(
-            //         "About",
-            //         style: k16F87Black600HT,
-            //       ),
-            //     ),
-            //   ),
-            // ),
-    
-            Container(
-              height: 40,
-              child: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ProfilePage()));
-                },
-                child: const ListTile(
-                  leading:  Icon(
-                    Icons.person_outline,
-                    size: 20,
-                    color: Colors.black,
-                  ),
-                  title: Text(
-                    "Profile",
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    trailing: Icon(
+                      Icons.arrow_forward_ios_sharp,
+                      size: 20,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
               ),
-            ),
-            Container(
-              height: 40,
-              child: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ClaimsHomePage()));
-                },
-                child: const ListTile(
-                  leading:  Icon(
-                    Icons.add_home_outlined,
-                    size: 20,
-                    color: Colors.black,
-                  ),
-                  title: Text(
-                    "Claims",
-                    style: TextStyle(fontSize: 16, color: Colors.black),
-                  ),
-                ),
-              ),
-            ),
-    
-            Container(
-              height: 40,
-              child: InkWell(
-                onTap: () {
-                  // Navigator.push(
-                  //     ccontext, MaterialPageRoute(builder: (context) => GetInTouch()));
-                },
-                child: ListTile(
-                  leading: const Icon(
-                    Icons.phone,
-                    size: 20,
-                    color: Colors.black,
-                  ),
-                  title: Text(
-                    "Contact Us",
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+              Container(
+                height: 40,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ClaimsHomePage()));
+                  },
+                  child: const ListTile(
+                    leading: Icon(
+                      Icons.add_home_outlined,
+                      size: 20,
+                      color: Colors.black,
+                    ),
+                    title: Text(
+                      "Claims",
+                      style: TextStyle(fontSize: 16, color: Colors.black),
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_forward_ios_sharp,
+                      size: 20,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
               ),
-            ),
-    
-            Container(
-              height: 40,
-              child: InkWell(
-                onTap: () => logOut(context),
-                // DocumentInformationPage
-                child: const ListTile(
-                  leading: Icon(
-                    Icons.logout,
-                    size: 20,
-                    color: Colors.red,
-                  ),
-                  title: Text(
-                    "LogOut",
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+              Container(
+                height: 40,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SettingsPage()));
+                  },
+                  child: const ListTile(
+                    leading: Icon(
+                      Icons.settings,
+                      size: 20,
+                      color: Colors.black,
+                    ),
+                    title: Text(
+                      "Settings",
+                      style: TextStyle(fontSize: 16, color: Colors.black),
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_forward_ios_sharp,
+                      size: 20,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+              // Container(
+              //   height: 40,
+              //   child: InkWell(
+              //     onTap: () {
+              //       // Navigator.push(
+              //       //     ccontext, MaterialPageRoute(builder: (context) => GetInTouch()));
+              //     },
+              //     child: ListTile(
+              //       leading: const Icon(
+              //         Icons.phone,
+              //         size: 20,
+              //         color: Colors.black,
+              //       ),
+              //       title: Text(
+              //         "Contact Us",
+              //         style: TextStyle(fontSize: 16, color: Colors.black),
+              //       ),
+              //     ),
+              //   ),
+              // ),
+
+              Container(
+                height: 40,
+                child: InkWell(
+                  onTap: () => logOut(context),
+                  // DocumentInformationPage
+                  child: const ListTile(
+                    leading: Icon(
+                      Icons.logout,
+                      size: 20,
+                      color: Colors.red,
+                    ),
+                    title: Text(
+                      "LogOut",
+                      style: TextStyle(fontSize: 16, color: Colors.black),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
