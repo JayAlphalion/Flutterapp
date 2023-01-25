@@ -8,4 +8,8 @@ class AppColors {
   static const Color ChatBorderColor = Color(0xff90D8FF);
   static const Color chatDateTimeColor = Colors.black54;
   static const Color greyColor = Colors.grey;
+  static const Color greenColor = Colors.green;
+  static const Color redColor = Colors.red;
+  static const Color whiteColor = Colors.white;
+  static const Color blackColor = Colors.black;
 }
