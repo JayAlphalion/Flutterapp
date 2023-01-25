@@ -17,6 +17,7 @@ import 'package:alpha_app/bloc/ChatDataBloc.dart';
 import 'package:alpha_app/helper/BgDecorationHelper.dart';
 import 'package:alpha_app/helper/FileTypeHelper.dart';
 import 'package:alpha_app/helper/ScanController.dart';
+import 'package:alpha_app/helper/ToastHelper.dart';
 import 'package:alpha_app/networking/EventBusManager.dart';
 import 'package:alpha_app/networking/NetworkConstant.dart';
 import 'package:alpha_app/networking/SocketHelper.dart';
@@ -220,6 +221,7 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
     String myId = session.getString(SharedPrefConstant.DRIVERE_ID);
 
     chatDataBloc.getChatHistoryDataStream.listen((event) {
+    
       // debugger();
       // print(event);
       try {

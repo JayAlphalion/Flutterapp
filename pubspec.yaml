@@ -73,6 +73,7 @@ dependencies:
   record: ^4.4.4
   percent_indicator: ^4.2.2
   pinput: ^2.2.21
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:
