@@ -10,7 +10,7 @@ import 'package:alpha_app/Views/mainPage/ChatTabs/ChatTabScreen.dart';
 import 'package:alpha_app/Views/mainPage/ChatTabs/GroupListScreen.dart';
 import 'package:alpha_app/Views/mainPage/DispatchScreens/DispatchHomeScreen.dart';
 import 'package:alpha_app/Views/mainPage/chating_screen.dart';
-import 'package:alpha_app/Views/mainPage/payrollWidget/payrollWidget.dart';
+import 'package:alpha_app/Views/mainPage/payrollWidget/PayrollPage.dart.dart';
 import 'package:alpha_app/bloc/ProfileDataBloc.dart';
 import 'package:alpha_app/helper/LocationTrackerHelper.dart';
 import 'package:alpha_app/helper/ServerErrorHelper.dart';
@@ -74,7 +74,7 @@ class _BottomBarState extends State<BottomBar> {
       GroupListScreen(),
       DispatchHomePage(),
       MyHomePage(),
-      LandingPage(),//PayrollPage(),
+      PayrollPage(),//PayrollPage(),
       HomePage()
     ];
   }
