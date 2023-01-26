@@ -620,6 +620,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "image",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/image-3.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
       "name": "image_gallery_saver",
       "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/image_gallery_saver-1.7.1",
       "packageUri": "lib/",
@@ -1172,10 +1178,52 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "syncfusion_flutter_core",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/syncfusion_flutter_core-20.4.44",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "syncfusion_flutter_datagrid",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/syncfusion_flutter_datagrid-20.4.44",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "syncfusion_flutter_datagrid_export",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/syncfusion_flutter_datagrid_export-20.4.44-beta",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "syncfusion_flutter_pdf",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/syncfusion_flutter_pdf-20.4.44",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "syncfusion_flutter_xlsio",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/syncfusion_flutter_xlsio-20.4.44-beta",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "syncfusion_officecore",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/syncfusion_officecore-20.4.44-beta",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "synchronized",
       "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/synchronized-3.0.0+3",
       "packageUri": "lib/",
       "languageVersion": "2.14"
+    },
+    {
+      "name": "table_sticky_headers",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/table_sticky_headers-2.0.5",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "term_glyph",
@@ -1382,7 +1430,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2023-01-26T20:20:49.604700Z",
+  "generated": "2023-01-26T20:23:29.791674Z",
   "generator": "pub",
   "generatorVersion": "2.18.2"
 }
