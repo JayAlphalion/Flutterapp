@@ -74,6 +74,7 @@ dependencies:
   percent_indicator: ^4.2.2
   pinput: ^2.2.21
   carousel_slider: ^4.2.1
+  table_sticky_headers: ^2.0.5
 
 dev_dependencies:
   flutter_test:

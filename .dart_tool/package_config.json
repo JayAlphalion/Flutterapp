@@ -1178,6 +1178,12 @@
       "languageVersion": "2.14"
     },
     {
+      "name": "table_sticky_headers",
+      "rootUri": "file:///Users/divyanshbansal/development/flutter/.pub-cache/hosted/pub.dartlang.org/table_sticky_headers-2.0.5",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "term_glyph",
       "rootUri": "file:///Users/divyanshbansal/development/flutter/.pub-cache/hosted/pub.dartlang.org/term_glyph-1.2.1",
       "packageUri": "lib/",
@@ -1382,7 +1388,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2023-01-25T22:24:35.144003Z",
+  "generated": "2023-01-25T22:29:00.454035Z",
   "generator": "pub",
   "generatorVersion": "2.18.6"
 }
