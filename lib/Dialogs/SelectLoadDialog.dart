@@ -41,7 +41,7 @@ class _SelectLoadDialogState extends State<SelectLoadDialog> {
         shippersAddress: 'California,lockmark,\nStreet 50',
         reciverAddress: 'California,lockmark,\nStreet 50'),
     LoadModel( 
-        deliveryDate: '21/11/2022, 01:00 PM',
+        deliveryDate: '21/11/2022, 01:00 PM', 
         pickUpDate: '19/11/2022, 02:00AM',
         loadNumber: '34445334533',
         shippersAddress: 'California,lockmark,\nStreet 50',
