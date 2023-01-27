@@ -1,5 +1,10 @@
 import 'package:alpha_app/Model/PayrollModel.dart';
+import 'package:alpha_app/Views/Previews/ImagePreviewScreen.dart';
+import 'package:alpha_app/helper/DownloadPayrollFileHelper.dart';
+import 'package:alpha_app/utils/AppColors.dart';
+import 'package:alpha_app/widgets/drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column, Row;
 // External package imports
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -29,16 +34,32 @@ class _PayrollPageState extends State<PayrollPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.chatBgScreenColor,
+      drawer: MyDrawer(),
       appBar: AppBar(
-        title: const Text(
-          'Payroll',
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
+          leading: Builder(
+            builder: (context) => IconButton(
+              icon: new Icon(Icons.menu),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            ),
+          ),
+          title: Text('Payroll'),
+          actions: [
+            IconButton(
+              onPressed: () {
+                _exportDataGridToPdf();
+              },
+              icon: const Icon(
+                Icons.download,
+                size: 30,
+              ),
+            ),
+          ],
+          backgroundColor: AppColors.primaryColor),
       body: SfDataGrid(
         gridLinesVisibility: GridLinesVisibility.both,
         headerGridLinesVisibility: GridLinesVisibility.both,
-        isScrollbarAlwaysShown: true,
+        // isScrollbarAlwaysShown: true,
         key: _key,
         source: _employeeDataSource,
         columns: <GridColumn>[
@@ -56,7 +77,6 @@ class _PayrollPageState extends State<PayrollPage> {
                         fontWeight: FontWeight.w500),
                   ))),
           GridColumn(
-            
               columnName: 'SSL',
               minimumWidth: 120,
               label: Container(
@@ -230,6 +250,48 @@ class _PayrollPageState extends State<PayrollPage> {
                   ))),
         ],
       ),
+      bottomNavigationBar: BottomAppBar(
+        child: Container(
+          height: 50,
+          color: Colors.white,
+          width: Get.width / 1,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(Icons.navigate_before,
+                          size: 25, color: Colors.black45),
+                      Text(
+                        "Previous",
+                        style: TextStyle(
+                          color: Colors.black45,
+                          fontSize: 14,
+                        ),
+                      )
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Next",
+                        style: TextStyle(
+                          color: Colors.black45,
+                          fontSize: 14,
+                        ),
+                      ),
+                      Icon(Icons.navigate_next_outlined,
+                          size: 25, color: Colors.black45),
+                    ],
+                  ),
+                ]),
+          ),
+        ),
+      ),
     );
   }
 
@@ -238,7 +300,7 @@ class _PayrollPageState extends State<PayrollPage> {
         _key.currentState!.exportToPdfDocument(fitAllColumnsInOnePage: true);
 
     final List<int> bytes = document.saveSync();
-    // await helper.saveAndLaunchFile(bytes, 'DataGrid.pdf');
+    await saveAndLaunchFile(bytes, 'payroll_file_'+DateTime.now().toString()+'.pdf');
     document.dispose();
   }
 
@@ -252,15 +314,15 @@ class _PayrollPageState extends State<PayrollPage> {
           status: 'Delivered',
           email: 'Irrivender@gmail.com',
           payrollImgUrl: [
-            'https://techmonitor.ai/wp-content/uploads/sites/4/2016/06/what-is-URL.jpg'
-           ],
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1tHmCioYM9n1squ9Tw6_v3QbEDSc3WKtbEg&usqp=CAU'
+          ],
           grossAmount: '\$24000.00',
           w2hAmount: '\$24.00',
           w2GrossAmount: '\$9900.00',
           netAmount: '\$9500.00',
           driversRimubersment: '\$56',
           receiptImgUrl: [
-            'https://techmonitor.ai/wp-content/uploads/sites/4/2016/06/what-is-URL.jpg'
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1tHmCioYM9n1squ9Tw6_v3QbEDSc3WKtbEg&usqp=CAU'
           ],
           driverNotes: 'Reimburse for Truck Wash',
           advanceAmount: '\$45'));
@@ -314,14 +376,26 @@ class EmployeeDataSource extends DataGridSource {
         cells: row.getCells().map<Widget>((DataGridCell cell) {
       return Container(
         alignment: Alignment.center,
-        padding:  EdgeInsets.all(8.0),
-        child: 
-        
-        cell.value is List ?Image.network(cell.value[0]):
-        
-        Text(cell.value.toString(),
-          style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.w500),
-        ),
+        padding: EdgeInsets.all(8.0),
+        child: cell.value is List
+            ? InkWell(
+
+onTap: (){
+  Get.to(ImagePrivewScreen(url:cell.value[0] ,));
+},
+
+              child: Image.network(cell.value[0],
+              fit: BoxFit.fill,
+              width: 200,
+              ),
+            )
+            : Text(
+                cell.value.toString(),
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500),
+              ),
       );
     }).toList());
   }

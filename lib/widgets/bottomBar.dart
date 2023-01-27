@@ -28,8 +28,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../Views/mainPage/dispatch.dart';
 import '../Views/mainPage/DocumentsTab/documention.dart';
 import '../Views/mainPage/location.dart';
-import '../Views/mainPage/payRollPage.dart';
-
 class BottomBar extends StatefulWidget {
   final index;
   // final ChatModel? chat;
