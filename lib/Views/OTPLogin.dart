@@ -1,17 +1,24 @@
+import 'dart:convert';
 import 'dart:developer';
 
+import 'package:alpha_app/Model/chat_model.dart';
+import 'package:alpha_app/Model/responses/LoginApiResponse.dart';
 import 'package:alpha_app/bloc/LoginDataBloc.dart';
 import 'package:alpha_app/helper/LoaderWidget.dart';
 import 'package:alpha_app/helper/ResponseHelper.dart';
 import 'package:alpha_app/helper/ToastHelper.dart';
 import 'package:alpha_app/networking/NetworkConstant.dart';
 import 'package:alpha_app/networking/Response.dart';
+import 'package:alpha_app/networking/SocketHelper.dart';
 import 'package:alpha_app/networking/StatusCodeConstant.dart';
 import 'package:alpha_app/utils/AppColors.dart';
 import 'package:alpha_app/utils/ImageUtils.dart';
+import 'package:alpha_app/utils/SharedPrefConstant.dart';
+import 'package:alpha_app/widgets/bottomBar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 enum LoginState { ENTER_NUMBER, ENTER_OTP }
 
@@ -27,7 +34,13 @@ class _OTPLoginState extends State<OTPLogin> {
   final numController = TextEditingController();
   final focusNode = FocusNode();
   late LoginDataBloc loginDataBloc;
-  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
+
+  String? message;
+  String? driver_id;
+  String? name;
+  String? driver_token;
+
   @override
   void dispose() {
     numController.dispose();
@@ -60,8 +73,20 @@ class _OTPLoginState extends State<OTPLogin> {
   void initState() {
     loginDataBloc = LoginDataBloc();
     _handleGetOtpResponse();
-    // TODO: implement initState
+    _handleVerifyOtpResponse();
     super.initState();
+  }
+
+  __callVerifyOtp() {
+    if (pinController.text.isEmpty) {
+      ToastHelper().showErrorToast(message: 'Please Enter OTP');
+    } else if (pinController.text.length != 4) {
+      ToastHelper().showErrorToast(message: 'Invalid OTP');
+    } else {
+      NetworkDialog.showLoadingDialog(context, _keyLoader);
+      Map data = {NetworkConstant.API_PARAM_ENTERED_OTP: pinController.text};
+      loginDataBloc.callVerifyOtpVerification(data);
+    }
   }
 
   _callGetOtp() {
@@ -80,15 +105,65 @@ class _OTPLoginState extends State<OTPLogin> {
   _handleGetOtpResponse() {
     loginDataBloc.loginDataStream.listen((event) {
       Navigator.pop(context);
-     if(event.status==Status.COMPLETED){
-      bool flag=ResonseHelper.checkApiResponse(event.data);
-      if(flag==true){
-        ToastHelper().showToast(message: 'OTP sent on your number');
-      }
-     }else{
-     
-     }
+      if (event.status == Status.COMPLETED) {
+        loginDataBloc.token = event.data.data.body['request_token'];
+        bool flag = ResonseHelper.checkApiResponse(event.data);
+        if (flag == true) {
+          ToastHelper().showToast(message: 'OTP sent on your number');
+          setState(() {
+            pageState = LoginState.ENTER_OTP;
+          });
+        }
+      } else {}
     });
+  }
+
+  _handleVerifyOtpResponse() {
+    loginDataBloc.otpVerifyDataStream.listen((event) {
+      if (event.status == Status.COMPLETED) {
+        if (event.data.status == StatusCodeConstant.sucessCode) {
+          LoginApiResponse v = LoginApiResponse.fromJson(event.data.data.body);
+          saveAndNavigate(v);
+        } else if (event.data.status ==
+            StatusCodeConstant.wrongCredentailCode) {
+          ToastHelper().showToast(message: 'Incorrect OTP. Try Again');
+        } else if (event.data.status == StatusCodeConstant.tokenExpiredCode) {
+          ToastHelper().showToast(message: 'Token Expired. Try Again');
+          pageState = LoginState.ENTER_NUMBER;
+          setState(() {});
+        }
+      } else if (event.status == Status.ERROR) {}
+    });
+  }
+
+  void saveAndNavigate(LoginApiResponse loginApiResponse) async {
+    print(loginApiResponse);
+    SharedPreferences session = await SharedPreferences.getInstance();
+    driver_id = loginApiResponse.userId;
+
+    // debugger();
+    // print(loginApiResponse);
+    session.setString(SharedPrefConstant.DRIVERE_ID, driver_id!);
+
+    driver_token = loginApiResponse.userToken;
+    session.setString(SharedPrefConstant.DRIVER_TOKEN, driver_token!);
+    session.setString(SharedPrefConstant.GROUP_ID, loginApiResponse.groupId);
+    SocketService().connectSocket();
+    // SocketService(). connectSocketNow();
+
+    final chat = ChatModel(
+        channelId: loginApiResponse.channelId,
+        channelName: loginApiResponse.channelId,
+        token: loginApiResponse.userToken,
+        userId: loginApiResponse.userId);
+    session.setString('ChatObject', chat.toJson());
+    ToastHelper().showToast(message: 'login successfully done.');
+    Get.offAll(
+      BottomBar(
+        index: 0,
+        // chat: chat,
+      ),
+    );
   }
 
   @override
@@ -131,9 +206,13 @@ class _OTPLoginState extends State<OTPLogin> {
       width: double.infinity,
       child: MaterialButton(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        onPressed: (){
-          _callGetOtp();
-        },
+        onPressed: pageState == LoginState.ENTER_NUMBER
+            ? () {
+                _callGetOtp();
+              }
+            : () {
+                __callVerifyOtp();
+              },
         color: AppColors.primaryColor,
         child: Padding(
           padding: EdgeInsets.all(14.0),

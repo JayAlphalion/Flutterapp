@@ -24,9 +24,10 @@ class BaseResponse {
 }
 
 class Data {
-  Data();
+  Data({required this.body});
+  late final Map<String, dynamic> body;
 
-  Data.fromJson(Map json);
+  factory Data.fromJson(Map<String, dynamic> json) => Data(body: json);
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};

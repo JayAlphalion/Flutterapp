@@ -10,17 +10,23 @@ class LoginDataBloc {
   late AuthRepository authRepository;
   late StreamController<Response<BaseResponse>> streamController;
 
-  
-  StreamSink<Response<BaseResponse>>  get loginDataSink =>
-      streamController.sink;
+  StreamSink<Response<BaseResponse>> get loginDataSink => streamController.sink;
 
-  Stream<Response<BaseResponse>>  get loginDataStream =>
-      streamController.stream;
+  Stream<Response<BaseResponse>> get loginDataStream => streamController.stream;
 
- 
+//OTP Verify Streams
+  late StreamController<Response<BaseResponse>> otpVerifyStreamController;
+
+  StreamSink<Response<BaseResponse>> get otpVerifyDataSink =>
+      otpVerifyStreamController.sink;
+
+  Stream<Response<BaseResponse>> get otpVerifyDataStream =>
+      otpVerifyStreamController.stream;
+
   LoginDataBloc() {
-    streamController = StreamController<Response<BaseResponse>> ();
-     authRepository = AuthRepository();
+    streamController = StreamController<Response<BaseResponse>>();
+    otpVerifyStreamController = StreamController<Response<BaseResponse>>();
+    authRepository = AuthRepository();
   }
 
   callGetOtpResponse(Map parameter) async {
@@ -33,8 +39,20 @@ class LoginDataBloc {
     }
   }
 
-  
+  String token = '';
+  callVerifyOtpVerification(Map parameter) async {
+    try {
+      dynamic chuckCats =
+          await authRepository.callVerifyOtpApi(parameter, token);
+      otpVerifyDataSink.add(chuckCats);
+    } catch (e) {
+      // otpVerifyDataSink.add(e.toString());
+      print(e);
+    }
+  }
+
   dispose() {
     streamController.close();
+    otpVerifyDataSink.close();
   }
 }

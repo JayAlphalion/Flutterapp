@@ -21,4 +21,13 @@ class AuthRepository {
         parameter: paramter, url: NetworkConstant.END_POINT_GET_OTP);
     return response;
   }
+
+  Future<Response<BaseResponse>> callVerifyOtpApi(
+      Map paramter, String token) async {
+    var response = await realApiProvider.postBeforeAuthWithBearerToken(
+        parameter: paramter,
+        url: NetworkConstant.END_POINT_VERIFY_OTP,
+        token: token);
+    return response;
+  }
 }
