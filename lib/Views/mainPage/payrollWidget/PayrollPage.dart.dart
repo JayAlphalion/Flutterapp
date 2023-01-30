@@ -300,7 +300,8 @@ class _PayrollPageState extends State<PayrollPage> {
         _key.currentState!.exportToPdfDocument(fitAllColumnsInOnePage: true);
 
     final List<int> bytes = document.saveSync();
-    await saveAndLaunchFile(bytes, 'payroll_file_'+DateTime.now().toString()+'.pdf');
+    await saveAndLaunchFile(
+        bytes, 'payroll_file_' + DateTime.now().toString() + '.pdf');
     document.dispose();
   }
 
@@ -379,16 +380,17 @@ class EmployeeDataSource extends DataGridSource {
         padding: EdgeInsets.all(8.0),
         child: cell.value is List
             ? InkWell(
-
-onTap: (){
-  Get.to(ImagePrivewScreen(url:cell.value[0] ,));
-},
-
-              child: Image.network(cell.value[0],
-              fit: BoxFit.fill,
-              width: 200,
-              ),
-            )
+                onTap: () {
+                  Get.to(ImagePrivewScreen(
+                    url: cell.value[0],
+                  ));
+                },
+                child: Image.network(
+                  cell.value[0],
+                  fit: BoxFit.fill,
+                  width: 200,
+                ),
+              )
             : Text(
                 cell.value.toString(),
                 style: TextStyle(
