@@ -51,43 +51,43 @@
     },
     {
       "name": "audioplayers",
-      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers-1.1.1",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers-2.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "audioplayers_android",
-      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_android-1.1.1",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_android-1.1.4",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "audioplayers_darwin",
-      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_darwin-1.0.3",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_darwin-2.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "audioplayers_linux",
-      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_linux-1.0.1",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_linux-1.0.3",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "audioplayers_platform_interface",
-      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_platform_interface-2.0.0",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_platform_interface-3.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "audioplayers_web",
-      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_web-2.0.1",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_web-2.1.1",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "audioplayers_windows",
-      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_windows-1.1.0",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers_windows-1.1.2",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
@@ -160,6 +160,12 @@
     {
       "name": "camera_web",
       "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/camera_web-0.3.0+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "carousel_slider",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/carousel_slider-4.2.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -614,6 +620,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "image",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/image-3.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
       "name": "image_gallery_saver",
       "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/image_gallery_saver-1.7.1",
       "packageUri": "lib/",
@@ -830,6 +842,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "percent_indicator",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/percent_indicator-4.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "permission_handler",
       "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/permission_handler-10.2.0",
       "packageUri": "lib/",
@@ -874,6 +892,12 @@
     {
       "name": "photo_view",
       "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/photo_view-0.14.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "pinput",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/pinput-2.2.21",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -924,6 +948,42 @@
       "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/rate_limiter-0.1.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "record",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/record-4.4.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "record_linux",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/record_linux-0.4.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "record_macos",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/record_macos-0.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "record_platform_interface",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/record_platform_interface-0.5.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "record_web",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/record_web-0.5.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "record_windows",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/record_windows-0.7.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
     },
     {
       "name": "rxdart",
@@ -1028,6 +1088,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "smart_auth",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/smart_auth-1.0.8",
+      "packageUri": "lib/",
+      "languageVersion": "2.16"
+    },
+    {
       "name": "socket_io_client",
       "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/socket_io_client-2.0.0",
       "packageUri": "lib/",
@@ -1112,10 +1178,52 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "syncfusion_flutter_core",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/syncfusion_flutter_core-20.4.44",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "syncfusion_flutter_datagrid",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/syncfusion_flutter_datagrid-20.4.44",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "syncfusion_flutter_datagrid_export",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/syncfusion_flutter_datagrid_export-20.4.44-beta",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "syncfusion_flutter_pdf",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/syncfusion_flutter_pdf-20.4.44",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "syncfusion_flutter_xlsio",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/syncfusion_flutter_xlsio-20.4.44-beta",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "syncfusion_officecore",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/syncfusion_officecore-20.4.44-beta",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "synchronized",
       "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/synchronized-3.0.0+3",
       "packageUri": "lib/",
       "languageVersion": "2.14"
+    },
+    {
+      "name": "table_sticky_headers",
+      "rootUri": "file:///Users/alphaliontrucking/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/table_sticky_headers-2.0.5",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "term_glyph",
@@ -1322,7 +1430,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2023-01-30T19:45:14.734154Z",
+  "generated": "2023-01-30T19:46:13.778809Z",
   "generator": "pub",
   "generatorVersion": "2.18.2"
 }

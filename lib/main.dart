@@ -1,17 +1,12 @@
-// @dart=2.9
+//  @dart=2.9
 import 'dart:async';
-import 'package:alpha_app/Model/chat_model.dart';
-import 'package:alpha_app/Services/locator.dart';
-import 'package:alpha_app/Views/SplashPage.dart';
-import 'package:alpha_app/Views/TestPage.dart';
-import 'package:alpha_app/helper/Firebase_Options.dart';
-import 'package:alpha_app/test.dart';
-import 'package:alpha_app/widgets/bottomBar.dart';
+import 'package:alpha_app/DriverModules/Model/chat_model.dart';
+import 'package:alpha_app/DriverModules/Views/SplashPage.dart';
+import 'package:alpha_app/Universals/helper/Firebase_Options.dart';
+import 'package:alpha_app/DriverModules/Views/mainPage/DashBoard.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'Views/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as IO;
