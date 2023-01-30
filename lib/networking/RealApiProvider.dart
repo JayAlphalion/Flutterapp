@@ -51,24 +51,7 @@ class RealApiProvider {
     }
   }
 
-  Future<dynamic> postBeforeAuthWithBearerToken(
-      {required Map parameter,
-      required String url,
-      required String token}) async {
-    // debugger();
-    var responseJson;
-    try {
-      final response = await http.post(Uri.parse(baseUrl + beforeAuth + url),
-          headers: {
-            "authorization": "Bearer " + token,
-            "Accept": "application/json"
-          },
-          body: parameter);
-      return _response(response);
-    } catch (e) {
-      return Response.error('Server Error, Please Try Again Letter');
-    }
-  }
+ 
 
   Future<Response<BaseResponse>> postBeforeAuth(
       {required Map parameter, required String url}) async {
@@ -83,7 +66,8 @@ class RealApiProvider {
   }
 
   Future<Response<BaseResponse>> postAfterAuth(
-      {required Map parameter, required String url}) async {
+      {
+        required Map parameter, required String url}) async {
     String? token = await SharedPref().getUserToken();
     try {
       final response = await http.post(Uri.parse(baseUrl + afterAuth + url),

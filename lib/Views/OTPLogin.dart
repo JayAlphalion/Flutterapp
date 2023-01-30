@@ -106,7 +106,7 @@ class _OTPLoginState extends State<OTPLogin> {
     loginDataBloc.loginDataStream.listen((event) {
       Navigator.pop(context);
       if (event.status == Status.COMPLETED) {
-        loginDataBloc.token = event.data.data.body['request_token'];
+        // loginDataBloc.token = event.data.data.body['request_token'];
         bool flag = ResonseHelper.checkApiResponse(event.data);
         if (flag == true) {
           ToastHelper().showToast(message: 'OTP sent on your number');

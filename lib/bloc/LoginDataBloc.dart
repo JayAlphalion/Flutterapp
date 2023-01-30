@@ -39,11 +39,10 @@ class LoginDataBloc {
     }
   }
 
-  String token = '';
   callVerifyOtpVerification(Map parameter) async {
     try {
       dynamic chuckCats =
-          await authRepository.callVerifyOtpApi(parameter, token);
+          await authRepository.callVerifyOtpApi(parameter);
       otpVerifyDataSink.add(chuckCats);
     } catch (e) {
       // otpVerifyDataSink.add(e.toString());
