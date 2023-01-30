@@ -51,6 +51,7 @@ import 'package:firebase_core/firebase_core.dart' as firebase_core;
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
@@ -218,7 +219,6 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
     String myId = session.getString(SharedPrefConstant.DRIVERE_ID);
 
     chatDataBloc.getChatHistoryDataStream.listen((event) {
-    
       // debugger();
       // print(event);
       try {
@@ -952,16 +952,7 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
  * This Method is responsible for Get Image from gallery.
  */
   Future<String> getImage() async {
-    String imagePath;
-
-    try {
-      imagePath = await EdgeDetection.detectEdge;
-      print("$imagePath");
-    } on PlatformException catch (e) {
-      imagePath = e.toString();
-    }
-
-    if (!mounted) return '';
+    String imagePath=await ScanController().getImage();
 
     return imagePath;
   }
