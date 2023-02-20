@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:alpha_app/DriverModules/Model/ChatModel.dart';
+import 'package:alpha_app/UserModules/DriverModules/Model/ChatModel.dart';
 import 'package:alpha_app/Universals/utils/Constants.dart';
 import 'package:alpha_app/Universals/utils/ImageUtils.dart';
 import 'package:flutter/material.dart';

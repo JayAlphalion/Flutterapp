@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:alpha_app/DriverModules/Model/chat_model.dart';
+import 'package:alpha_app/UserModules/DriverModules/Model/chat_model.dart';
 import 'package:alpha_app/AuthModules/LoginApiResponse.dart';
 import 'package:alpha_app/AuthModules/AuthDataBloc.dart';
 import 'package:alpha_app/Universals/helper/LoaderWidget.dart';
@@ -14,7 +14,7 @@ import 'package:alpha_app/Universals/networking/StatusCodeConstant.dart';
 import 'package:alpha_app/Universals/utils/AppColors.dart';
 import 'package:alpha_app/Universals/utils/ImageUtils.dart';
 import 'package:alpha_app/Universals/utils/SharedPrefConstant.dart';
-import 'package:alpha_app/DriverModules/Views/mainPage/DashBoard.dart';
+import 'package:alpha_app/UserModules/DriverModules/Views/mainPage/DashBoard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';

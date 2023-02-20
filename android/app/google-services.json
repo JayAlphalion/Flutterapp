@@ -30,6 +30,13 @@
             {
               "client_id": "1019230094129-oftued5fgrniu5jakls9pv0binmaq4dv.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1019230094129-dlt3g81ppbj3biqg0psnec9ue691pj80.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.testing.alphaApp"
+              }
             }
           ]
         }
