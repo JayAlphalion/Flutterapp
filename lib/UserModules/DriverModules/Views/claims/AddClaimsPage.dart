@@ -63,6 +63,7 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
   List<String> audioFileUrl = [];
   List<File> videoFilePathList = [];
   List<String> videoFileUrl = [];
+  int currentVideoUplaodingIndex=-1;
   // bool isPlaying = false;
   @override
   void initState() {
@@ -80,6 +81,9 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
 
     EventBusManager.videoRecorderEventBuss.on().listen((event) {
       if (mounted) {
+        setState(() {
+          currentVideoUplaodingIndex=currentVideoUplaodingIndex+1;
+        });
         videoFilePathList.add(event);
         handleUploadTask(PickedFile(event.path), Constant.VideoFile);
         setState(() {});
@@ -243,7 +247,7 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
                   child: Stack(
                     children: [
                       AddClaimPageWidgets().videoPlayerWidget(
-                          audioFiles: videoFilePathList, index: i),
+                          audioFiles: videoFilePathList, index: i,isUploaded: true),
                 
                  Positioned(
                     top: -2,

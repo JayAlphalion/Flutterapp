@@ -8,7 +8,7 @@ import 'package:alpha_app/UserModules/DriverModules/widgets/FileComponents/FileW
 import 'package:intl/intl.dart';
 import 'package:alpha_app/UserModules/DriverModules/Model/ChatModel.dart';
 import 'package:alpha_app/UserModules/DriverModules/Model/chat_model.dart';
-import 'package:alpha_app/Universals/widgets/ImagePreviewScreen.dart';
+import 'package:alpha_app/Universals/HelperViews/ImagePreviewScreen.dart';
 import 'package:alpha_app/Universals/helper/FileTypeHelper.dart';
 import 'package:alpha_app/Universals/utils/AppColors.dart';
 import 'package:alpha_app/Universals/utils/Constants.dart';

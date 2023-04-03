@@ -3,10 +3,11 @@
 import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
+import 'package:alpha_app/Universals/Widgets/HelperWidget.dart';
 import 'package:intl/intl.dart';
 import 'package:alpha_app/UserModules/DriverModules/Model/ChatModel.dart';
 import 'package:alpha_app/UserModules/DriverModules/Model/chat_model.dart';
-import 'package:alpha_app/Universals/widgets/ImagePreviewScreen.dart';
+import 'package:alpha_app/Universals/HelperViews/ImagePreviewScreen.dart';
 import 'package:alpha_app/Universals/helper/FileTypeHelper.dart';
 import 'package:alpha_app/Universals/utils/AppColors.dart';
 import 'package:alpha_app/Universals/utils/Constants.dart';
@@ -158,13 +159,8 @@ class _VideoInChatWidgetForSenderState
                                   alignment: Alignment.center,
                                   child: VideoPlayer(_controller)),
                               state == firebase_storage.TaskState.running
-                                  ? Container(
-                                      height: 30,
-                                      width: 30,
-                                      child:
-                                          Lottie.asset(ImageUtils.UPLOAD_GIF),
-                                    )
-                                  : Icon(
+                                  ? HelperWidget.UploadLoaderWidget()
+                                  : const Icon(
                                       Icons.play_arrow,
                                       size: 30,
                                       color: AppColors.chatBgColor,

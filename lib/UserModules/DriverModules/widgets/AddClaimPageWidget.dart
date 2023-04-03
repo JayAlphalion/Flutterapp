@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:alpha_app/Universals/Widgets/HelperWidget.dart';
 import 'package:alpha_app/UserModules/DriverModules/Views/claims/RecordVideoPage.dart';
 import 'package:alpha_app/Universals/helper/ImagePickerHelper.dart';
 import 'package:alpha_app/Universals/networking/EventBusManager.dart';
@@ -171,7 +172,7 @@ class AddClaimPageWidgets {
   }
 
 Widget videoPlayerWidget(
-      {required List<File> audioFiles, required int index}) {
+      {required List<File> audioFiles, required int index,required bool isUploaded}){
     return Container(
       width: Get.width / 1,
       decoration: BoxDecoration(
@@ -196,7 +197,9 @@ Widget videoPlayerWidget(
                     print(e);
                   }
                 },
-                child: const Icon(
+                child: isUploaded==true
+                                  ? HelperWidget.UploadLoaderWidget()
+                                  : Icon(
                 Icons.play_arrow,
                   size: 35,
                   color: AppColors.primaryColor,

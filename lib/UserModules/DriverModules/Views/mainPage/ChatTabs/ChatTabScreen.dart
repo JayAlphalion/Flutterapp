@@ -10,7 +10,7 @@ import 'package:alpha_app/UserModules/DriverModules/Model/SocketChatModel.dart';
 import 'package:alpha_app/UserModules/DriverModules/Model/chat_model.dart';
 import 'package:alpha_app/UserModules/DriverModules/Model/responses/ChatHistoryApiResponse.dart';
 import 'package:alpha_app/UserModules/DriverModules/Model/responses/DriverProfileDataResponse.dart';
-import 'package:alpha_app/Universals/widgets/LocalImagePreviewScreen.dart';
+import 'package:alpha_app/Universals/HelperViews/LocalImagePreviewScreen.dart';
 import 'package:alpha_app/UserModules/DriverModules/bloc/ChatDataBloc.dart';
 import 'package:alpha_app/Universals/helper/BgDecorationHelper.dart';
 import 'package:alpha_app/Universals/helper/FileTypeHelper.dart';

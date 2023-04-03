@@ -1,5 +1,5 @@
 import 'package:alpha_app/UserModules/DriverModules/Model/PayrollModel.dart';
-import 'package:alpha_app/Universals/widgets/ImagePreviewScreen.dart';
+import 'package:alpha_app/Universals/HelperViews/ImagePreviewScreen.dart';
 import 'package:alpha_app/Universals/helper/DownloadPayrollFileHelper.dart';
 import 'package:alpha_app/Universals/utils/AppColors.dart';
 import 'package:alpha_app/UserModules/DriverModules/Views/DrawersPage/drawer.dart';

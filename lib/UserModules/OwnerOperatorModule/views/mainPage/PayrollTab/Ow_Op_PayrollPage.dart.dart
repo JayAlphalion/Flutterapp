@@ -1,6 +1,6 @@
 import 'package:alpha_app/UserModules/OwnerOperatorModule/models/OwOp_payroll_model.dart';
 import 'package:alpha_app/UserModules/OwnerOperatorModule/views/DrawersPage/Ow_Op_drawer.dart';
-import 'package:alpha_app/Universals/widgets/ImagePreviewScreen.dart';
+import 'package:alpha_app/Universals/HelperViews/ImagePreviewScreen.dart';
 import 'package:alpha_app/Universals/helper/DownloadPayrollFileHelper.dart';
 import 'package:alpha_app/Universals/utils/AppColors.dart';
 import 'package:flutter/material.dart';

@@ -1,5 +1,6 @@
+import 'package:alpha_app/Universals/HelperViews/VideoPlayerPage.dart';
 import 'package:alpha_app/Universals/utils/AppColors.dart';
-import 'package:alpha_app/Universals/widgets/ImagePreviewScreen.dart';
+import 'package:alpha_app/Universals/HelperViews/ImagePreviewScreen.dart';
 import 'package:alpha_app/UserModules/DriverModules/widgets/CaursalSliderWidget.dart';
 import 'package:alpha_app/UserModules/DriverModules/widgets/VideoCard.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -316,7 +317,9 @@ class _ClaimsDetailsPageState extends State<ClaimsDetailsPage> {
               Padding(
                 padding: const EdgeInsets.all(2.0),
                 child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Get.to(VideoPlayerPage(url: videoUrl[i],));
+                    },
                     child: VideoCard(
                       url: videoUrl[i],
                     )),

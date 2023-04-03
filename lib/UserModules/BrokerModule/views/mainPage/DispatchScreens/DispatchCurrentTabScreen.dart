@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:alpha_app/UserModules/BrokerModule/Model/responses/GetCurrentLoadDispatchResponse%202.dart';
 import 'package:alpha_app/Universals/utils/AppColors.dart';
 import 'package:alpha_app/Universals/utils/ImageUtils.dart';
-import 'package:alpha_app/Universals/widgets/LocalImagePreviewScreen.dart';
+import 'package:alpha_app/Universals/HelperViews/LocalImagePreviewScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';

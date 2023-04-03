@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:alpha_app/UserModules/DriverModules/Dialogs/AlertDialogBox.dart';
 import 'package:alpha_app/UserModules/DriverModules/Model/responses/GetCurrentLoadDispatchResponse.dart';
-import 'package:alpha_app/Universals/widgets/LocalImagePreviewScreen.dart';
+import 'package:alpha_app/Universals/HelperViews/LocalImagePreviewScreen.dart';
 import 'package:alpha_app/Universals/utils/AppColors.dart';
 import 'package:alpha_app/Universals/utils/ImageUtils.dart';
 import 'package:flutter/material.dart';

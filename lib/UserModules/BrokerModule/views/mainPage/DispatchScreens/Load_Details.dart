@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:alpha_app/Universals/widgets/ImagePreviewScreen.dart';
+import 'package:alpha_app/Universals/HelperViews/ImagePreviewScreen.dart';
 import 'package:alpha_app/Universals/utils/AppColors.dart';
 import 'package:alpha_app/UserModules/DriverModules/Views/DrawersPage/drawer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
