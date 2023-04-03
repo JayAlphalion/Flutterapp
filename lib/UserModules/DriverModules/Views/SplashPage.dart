@@ -39,9 +39,9 @@ class _DriverSplashScreenState extends State<DriverSplashScreen> {
     super.initState();
     EventBusManager.userJoinedOnRoom.on().listen((event) {
       if (event['message'] != 'success') {
-        ServerErrorHelper.openDialog(onRetry: () {
-          SocketService().joinRoom();
-        });
+        // ServerErrorHelper.openDialog(onRetry: () {
+        //   SocketService().joinRoom();
+        // });
       }
       if (event['message'] == 'success') {
         navigagte();

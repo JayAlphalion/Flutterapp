@@ -110,6 +110,7 @@ class _OTPLoginState extends State<OTPLogin> {
         bool flag = ResonseHelper.checkApiResponse(event.data);
         if (flag == true) {
           ToastHelper().showToast(message: 'OTP sent on your number');
+          pinController.text=event.data.data.body['otp'];
           setState(() {
             pageState = LoginState.ENTER_OTP;
           });

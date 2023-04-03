@@ -96,7 +96,8 @@ class ApiProvider {
             'authorization': 'Bearer ' + token!,
           },
           body: json.encode(parameter));
-    
+//     debugger();
+// print(response);
       if (response.statusCode == 200) {
         var res = json.decode(response.body);
 

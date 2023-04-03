@@ -55,36 +55,36 @@ class ClaimData {
     required this.sceneImage,
   });
   late final String notesData;
-  late final List<dynamic> otherDoc;
+  late final List<String> otherDoc;
   late final String driverPhNo;
   late final List<String> driverInsurance;
   late final int id;
   late final String extraNotes;
   late final String location;
   late final String date;
-  late final List<dynamic> video;
+  late final List<String> video;
   late final String driverName;
   late final List<String> driverDl;
   late final String status;
-  late final List<dynamic> audio;
-  late final List<dynamic> policeReportDoc;
+  late final List<String> audio;
+  late final List<String> policeReportDoc;
   late final List<String> sceneImage;
   
   ClaimData.fromJson(Map<String, dynamic> json){
     notesData = json['notes_data'];
-    otherDoc = List.castFrom<dynamic, dynamic>(json['other_doc']);
+    otherDoc =List.castFrom<dynamic, String>(json['other_doc']);
     driverPhNo = json['driver_ph_no'];
     driverInsurance = List.castFrom<dynamic, String>(json['driver_insurance']);
     id = json['id'];
     extraNotes = json['extra_notes'];
     location = json['location'];
     date = json['date'];
-    video = List.castFrom<dynamic, dynamic>(json['video']);
+    video = List.castFrom<dynamic, String>(json['video']);
     driverName = json['driver_name'];
     driverDl = List.castFrom<dynamic, String>(json['driver_dl']);
     status = json['status'];
-    audio = List.castFrom<dynamic, dynamic>(json['audio']);
-    policeReportDoc = List.castFrom<dynamic, dynamic>(json['police_report_doc']);
+    audio = List.castFrom<dynamic, String>(json['audio']);
+    policeReportDoc = List.castFrom<dynamic, String>(json['police_report_doc']);
     sceneImage = List.castFrom<dynamic, String>(json['scene_image']);
   }
 

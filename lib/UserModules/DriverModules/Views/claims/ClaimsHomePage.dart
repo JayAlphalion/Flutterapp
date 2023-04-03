@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:alpha_app/UserModules/DriverModules/Model/responses/GetPreviousClaim.dart';
 import 'package:alpha_app/UserModules/DriverModules/Views/claims/AddClaimsPage.dart';
+import 'package:alpha_app/UserModules/DriverModules/Views/claims/ClaimsDetialsPage.dart';
 import 'package:alpha_app/UserModules/DriverModules/bloc/ClaimDataBloc.dart';
 import 'package:alpha_app/Universals/networking/NetworkConstant.dart';
 import 'package:alpha_app/Universals/utils/AppColors.dart';
@@ -73,14 +74,10 @@ class _ClaimsHomePageState extends State<ClaimsHomePage> {
                   padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
                   child: InkWell(
                       onTap: () {
-//   var jsonList = getPreviousClaimData!.data[index].claimData.sceneImage.split('[')[1].split(']')[0];
-// print("jsonList: ${jsonList}");
+                        Get.to(ClaimsDetailsPage(
+                          claim: getPreviousClaimData!.claims[index].data,
+                        ));
                       },
-                      // child: Container(
-                      //   height: 130,
-                      //   child:,
-                      // )
-
                       child: Container(
                           padding: const EdgeInsets.all(0),
                           height: 200,
@@ -106,12 +103,15 @@ class _ClaimsHomePageState extends State<ClaimsHomePage> {
                           child: Stack(
                             children: [
                               CaursalSliderWidget(
-                                  imageUrl: getPreviousClaimData!
-                                      .claims[index].data.sceneImage),
+                                imageUrl: getPreviousClaimData!
+                                    .claims[index].data.sceneImage,
+                                isInBackground: true,
+                              ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
@@ -120,14 +120,19 @@ class _ClaimsHomePageState extends State<ClaimsHomePage> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            'Claim Number : '+getPreviousClaimData!.claims[index].data.id.toString(),
+                                            'Claim Number : ' +
+                                                getPreviousClaimData!
+                                                    .claims[index].data.id
+                                                    .toString(),
                                             style: const TextStyle(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.bold),
                                           ),
                                           const SizedBox(height: 16),
                                           Text(
-                                            'Claim Date : '+getPreviousClaimData!.claims[index].data.date,
+                                            'Claim Date : ' +
+                                                getPreviousClaimData!
+                                                    .claims[index].data.date,
                                             style: const TextStyle(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.bold),
@@ -143,7 +148,8 @@ class _ClaimsHomePageState extends State<ClaimsHomePage> {
                                                 fontWeight: FontWeight.bold),
                                           ),
                                           Text(
-                                            getPreviousClaimData!.claims[index].data.status,
+                                            getPreviousClaimData!
+                                                .claims[index].data.status,
                                             style: const TextStyle(
                                                 color: Colors.red,
                                                 fontSize: 20,
@@ -163,7 +169,12 @@ class _ClaimsHomePageState extends State<ClaimsHomePage> {
               }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.to(const AddClaimsPage());
+          Get.to(const AddClaimsPage())!.then((value) {
+            setState(() {
+              isloading = true;
+            });
+            getAllPreviousClaim();
+          });
         },
         child: const Icon(
           Icons.add,

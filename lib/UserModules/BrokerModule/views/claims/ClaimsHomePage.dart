@@ -107,7 +107,9 @@ class _ClaimsHomePageState extends State<ClaimsHomePage> {
                             children: [
                               CaursalSliderWidget(
                                   imageUrl: getPreviousClaimData!
-                                      .claims[index].data.sceneImage),
+                                      .claims[index].data.sceneImage,
+                                      isInBackground: true,
+                                      ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(
