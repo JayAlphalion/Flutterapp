@@ -142,44 +142,43 @@ class _AudioFileForSenderState extends State<AudioFileForSender> {
             //     ),
             //   ),
             // ),
-            SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: Row(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      // audio.play(
-                    },
-                    child: Icon(
-                      Icons.play_arrow,
-                      size: 45,
-                      color: AppColors.primaryColor,
-                    ),
-                  ),
-                  Expanded(
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Text(
-                          widget.chatMessage.fileName.split('/').last,
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 214, 169, 169),
-                              fontSize: 14),
-                        ),
-                        state == firebase_storage.TaskState.running
-                            ? Container(
-                                height: 30,
-                                width: 30,
-                                child: Lottie.asset(ImageUtils.UPLOAD_GIF),
-                              )
-                            : Container()
-                      ],
-                    ),
-                  )
-                ],
+            // SizedBox(
+            //   height: 10,
+            // ),
+            Container(
+              color: AppColors.chatBgColor,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 8,top:8),
+                child: Row(
+                  children: [
+                   Icon(
+                        Icons.play_arrow,
+                        size: 45,
+                        color: AppColors.primaryColor,
+                      ),
+                    
+                    Expanded(
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Text(
+                            widget.chatMessage.fileName.split('/').last,
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 214, 169, 169),
+                                fontSize: 14),
+                          ),
+                          state == firebase_storage.TaskState.running
+                              ? Container(
+                                  height: 30,
+                                  width: 30,
+                                  child: Lottie.asset(ImageUtils.UPLOAD_GIF),
+                                )
+                              : Container()
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
             Container(

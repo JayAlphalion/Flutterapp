@@ -155,6 +155,7 @@ class _ImageOrDocItemForSenderState extends State<ImageOrDocItemForSender> {
                         child: Column(
                           children: [
                             Container(
+                              color: AppColors.chatBgColor,
                                 height: Get.height / 5,
                                 alignment: Alignment.center,
                                 child: Stack(
@@ -233,11 +234,7 @@ class _ImageOrDocItemForSenderState extends State<ImageOrDocItemForSender> {
                         children: [
                           FileWidgetForSender(chatMessage: widget.chatMessage),
                           state == firebase_storage.TaskState.running
-                              ? Container(
-                                  height: 30,
-                                  width: 30,
-                                  child: Lottie.asset(ImageUtils.UPLOAD_GIF),
-                                )
+                              ?  HelperWidget.UploadLoaderWidget()
                               : Container()
                         ],
                       ),
@@ -256,6 +253,8 @@ class _ImageOrDocItemForSenderState extends State<ImageOrDocItemForSender> {
                             child: Column(
                               children: [
                                 Container(
+
+                              
                                     height: Get.height / 3.5,
                                     alignment: Alignment.center,
                                     child: Stack(

@@ -69,6 +69,7 @@ class _ClaimsHomePageState extends State<ClaimsHomePage> {
             )
           : ListView.builder(
               itemCount: getPreviousClaimData!.claims.length,
+              padding: EdgeInsets.only(bottom: 20),
               itemBuilder: (BuildContext context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(left: 20, right: 20, top: 20),

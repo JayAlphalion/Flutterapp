@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:alpha_app/Universals/helper/ToastHelper.dart';
 import 'package:alpha_app/UserModules/DriverModules/Model/ChatModel.dart';
 import 'package:alpha_app/Universals/helper/DownloadHelper.dart';
 import 'package:alpha_app/Universals/utils/AppColors.dart';
 import 'package:alpha_app/Universals/utils/Constants.dart';
+import 'package:alpha_app/UserModules/DriverModules/widgets/DownloadIconWidget.dart';
 import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,7 +22,7 @@ class AudioFileForReceiver extends StatefulWidget {
 class _AudioFileForReceiverState extends State<AudioFileForReceiver> {
   bool isDownloaded = false;
   String downloadedPercentage = '-1';
-
+  bool isDownloading = false;
   @override
   void initState() {
     getFileInfo();
@@ -43,6 +45,42 @@ class _AudioFileForReceiverState extends State<AudioFileForReceiver> {
     }
   }
 
+  void openLocally() async {
+    var dir = await DownloadsPathProvider.downloadsDirectory;
+    if (dir != null) {
+      String savename = widget.chatMessage.fileName;
+      String savePath = dir.path + "/$savename";
+      print(savePath);
+      try {
+        var res = await OpenFilex.open(savePath);
+        ToastHelper().showToast(message: res.message);
+      } catch (e) {
+        print(e);
+      }
+    }
+  }
+
+  void downloadThisFile() async {
+    setState(() {
+      isDownloading = true;
+    });
+    await DownloadHelper().downloadThisItem(
+        url: widget.chatMessage.url,
+        nameWithType: widget.chatMessage.fileName,
+        onCallBack: (e) {
+          print(e);
+          setState(() {
+            downloadedPercentage = e;
+          });
+          if (e == '100%') {
+            setState(() {
+              isDownloaded = true;
+            });
+          }
+          // print(e);
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Flex(
@@ -55,6 +93,10 @@ class _AudioFileForReceiverState extends State<AudioFileForReceiver> {
         Padding(
           padding: EdgeInsets.only(
               top: 8,
+              left: widget.chatMessage.isHistory == true &&
+                      widget.chatMessage.messageOwner == Constant.Sender
+                  ? 0
+                  : 10,
               right: widget.chatMessage.isHistory == true &&
                       widget.chatMessage.messageOwner == Constant.Sender
                   ? 8
@@ -66,35 +108,43 @@ class _AudioFileForReceiverState extends State<AudioFileForReceiver> {
             child: InkWell(
               onTap: () async {
                 if (isDownloaded == true) {
-                  // debugger();
-                  var dir = await DownloadsPathProvider.downloadsDirectory;
-                  if (dir != null) {
-                    String savename = widget.chatMessage.fileName;
-                    String savePath = dir.path + "/$savename";
-                    print(savePath);
-                    try {
-                      await OpenFilex.open(savePath);
-                    } catch (e) {
-                      print(e);
-                    }
-                  }
+                  openLocally();
+                } else if (isDownloading == true) {
+                  ToastHelper()
+                      .showErrorToast(message: 'Stop feature is pending');
                 } else {
-                  await DownloadHelper().downloadThisItem(
-                      url: widget.chatMessage.url,
-                      nameWithType: widget.chatMessage.fileName,
-                      onCallBack: (e) {
-                        print(e);
-                        setState(() {
-                          downloadedPercentage = e;
-                        });
-                        if (e == '100%') {
-                          setState(() {
-                            isDownloaded = true;
-                          });
-                        }
-                        // print(e);
-                      });
+                  downloadThisFile();
                 }
+                // if (isDownloaded == true) {
+                //   // debugger();
+                //   var dir = await DownloadsPathProvider.downloadsDirectory;
+                //   if (dir != null) {
+                //     String savename = widget.chatMessage.fileName;
+                //     String savePath = dir.path + "/$savename";
+                //     print(savePath);
+                //     try {
+                //       await OpenFilex.open(savePath);
+                //     } catch (e) {
+                //       print(e);
+                //     }
+                //   }
+                // } else {
+                //   await DownloadHelper().downloadThisItem(
+                //       url: widget.chatMessage.url,
+                //       nameWithType: widget.chatMessage.fileName,
+                //       onCallBack: (e) {
+                //         print(e);
+                //         setState(() {
+                //           downloadedPercentage = e;
+                //         });
+                //         if (e == '100%') {
+                //           setState(() {
+                //             isDownloaded = true;
+                //           });
+                //         }
+                //         // print(e);
+                //       });
+                // }
               },
               child: Container(
                 constraints: BoxConstraints(
@@ -103,7 +153,7 @@ class _AudioFileForReceiverState extends State<AudioFileForReceiver> {
                 // height: 80,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: Colors.white,
+                  color: widget.chatMessage.messageOwner == Constant.Reciver?Colors.white:AppColors.chatBgColor,
                   border: Border.all(
                       width: 4,
                       color: widget.chatMessage.messageOwner == Constant.Sender
@@ -147,21 +197,17 @@ class _AudioFileForReceiverState extends State<AudioFileForReceiver> {
                                     color: AppColors.primaryColor,
                                   ),
                                 )
-                              : downloadedPercentage == '-1'
-                                  ? Padding(
-                                      padding: const EdgeInsets.only(right: 8),
-                                      child: Icon(Icons.download,
-                                          size: 50, color: Colors.blue),
-                                    )
-                                  : Padding(
-                                      padding: const EdgeInsets.only(right: 8),
-                                      child: Text(
-                                        downloadedPercentage,
-                                        style: TextStyle(
-                                            color: AppColors.primaryColor,
-                                            fontSize: 15),
-                                      ),
-                                    ),
+                              : Padding(
+                                  padding: const EdgeInsets.only(
+                                      bottom: 1.0, right: 5),
+                                  child: DownloadIconWidget(
+                                    downloadedPercentage: downloadedPercentage,
+                                    isDownloaded: isDownloaded,
+                                    isDownloading: isDownloading,
+                                    radius: 20,
+                                    iconSize: 20,
+                                  ),
+                                ),
                           Expanded(
                             child: Text(
                               widget.chatMessage.fileName,

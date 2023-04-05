@@ -145,10 +145,9 @@ bool isDownloading=false;
                                     ),
                                   ),
                                 ),
-                          SizedBox(
-                            height: 5,
-                          ),
+                         
                           Container(
+                              color:widget.chatMessage.messageOwner == Constant.Sender?AppColors.chatBgColor: Colors.white,
                               height: Get.height / 5,
                               alignment: Alignment.center,
                               child:

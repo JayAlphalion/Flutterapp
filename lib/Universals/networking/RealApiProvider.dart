@@ -54,13 +54,16 @@ class RealApiProvider {
  
 
   Future<Response<BaseResponse>> postBeforeAuth(
+
       {required Map parameter, required String url}) async {
     try {
       final response = await http.post(Uri.parse(baseUrl + beforeAuth + url),
           body: parameter);
-print(response.body);
+
       return _response(response);
     } catch (e) {
+      debugger();
+      print(e);
       return Response.error('Server Error, Please Try Again Letter');
     }
   }

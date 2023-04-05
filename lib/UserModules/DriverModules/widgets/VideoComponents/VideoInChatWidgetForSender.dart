@@ -54,16 +54,16 @@ class _VideoInChatWidgetForSenderState
     return '${snapshot.bytesTransferred}/${snapshot.totalBytes}';
   }
 
-  VideoPlayerController _controller;
+  // VideoPlayerController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.asset(widget.chatMessage.fileName)
-      ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        setState(() {});
-      });
+    // _controller = VideoPlayerController.asset(widget.chatMessage.fileName)
+    //   ..initialize().then((_) {
+    //     // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+    //     setState(() {});
+    //   });
     // _controller.play();
   }
 
@@ -149,22 +149,19 @@ class _VideoInChatWidgetForSenderState
                   child: Column(
                     children: [
                       Container(
-                          height: Get.height / 3.5,
+                          height: Get.height / 4,
                           alignment: Alignment.center,
                           child: Stack(
                             alignment: Alignment.center,
                             children: [
                               Container(
-                                  height: Get.height / 3.5,
+                                  height: Get.height / 4,
+                                  color: AppColors.chatBgColor,
                                   alignment: Alignment.center,
-                                  child: VideoPlayer(_controller)),
+                                  child: Image.asset(ImageUtils.VIDEO_ICON,height: 100,width: 100,)),
                               state == firebase_storage.TaskState.running
                                   ? HelperWidget.UploadLoaderWidget()
-                                  : const Icon(
-                                      Icons.play_arrow,
-                                      size: 30,
-                                      color: AppColors.chatBgColor,
-                                    )
+                                  : Container()
                             ],
                           )),
                       Container(

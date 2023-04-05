@@ -7,10 +7,15 @@ class DownloadIconWidget extends StatefulWidget {
   final String downloadedPercentage;
   final bool isDownloaded;
   final bool isDownloading;
+  final double? radius;
+  final double? iconSize;
   DownloadIconWidget(
       {required this.downloadedPercentage,
       required this.isDownloaded,
-      required this.isDownloading});
+      required this.isDownloading,
+       this.radius,
+       this.iconSize
+      });
 
   @override
   State<DownloadIconWidget> createState() => _DownloadIconWidgetState();
@@ -23,7 +28,8 @@ class _DownloadIconWidgetState extends State<DownloadIconWidget> {
         ? Container()
         : Container(
             child:  CircularPercentIndicator(
-                  radius: 30.0,
+            
+                  radius: widget.radius?? 30.0,
                   lineWidth: 4.0,
                   percent: widget.downloadedPercentage == '-1'
                       ? 0
@@ -32,9 +38,9 @@ class _DownloadIconWidgetState extends State<DownloadIconWidget> {
                                       .first) /
                                   100)
                               .toString()),
-                  center: const Icon(
+                  center:  Icon(
                     Icons.download,
-                    size: 25,
+                    size: widget.iconSize??25,
                     color: Colors.blue,
                   ),
                   progressColor: Colors.green,

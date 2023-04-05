@@ -1,3 +1,4 @@
+import 'package:alpha_app/Universals/utils/ImageUtils.dart';
 import 'package:alpha_app/UserModules/DriverModules/Model/ChatModel.dart';
 import 'package:alpha_app/Universals/utils/AppColors.dart';
 import 'package:flutter/material.dart';
@@ -25,39 +26,30 @@ class _FileWidgetForSenderState extends State<FileWidgetForSender> {
 
       child: Column(
         children: [
+         
+         
           Container(
-            width: Get.width / 1,
-            color: AppColors.chatBgColor,
+             color: AppColors.chatBgColor,
             child: Padding(
-              padding:
-                  const EdgeInsets.only(top: 5, right: 10, left: 0, bottom: 5),
-              child: Text(
-                widget.chatMessage.from,
-                style: TextStyle(color: Colors.blue[200], fontSize: 14),
+              padding: const EdgeInsets.fromLTRB(8,10,8,0),
+              child: Row(
+                children: [
+                 Padding(
+                            padding: const EdgeInsets.only(right: 8),
+                            child: Image.asset(ImageUtils.OTHER_FILE_ICON,
+                            height: 35,width: 35,
+                            )
+                          ),
+                  Expanded(
+                    child: Text(
+                      widget.chatMessage.fileName.split('/').last,
+                      style: TextStyle(
+                          color: Color.fromARGB(255, 214, 169, 169),
+                          fontSize: 14),
+                    ),
+                  )
+                ],
               ),
-            ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.file_copy_rounded,
-                  size: 50,
-                  color: Colors.blue,
-                ),
-                Expanded(
-                  child: Text(
-                    widget.chatMessage.fileName.split('/').last,
-                    style: TextStyle(
-                        color: Color.fromARGB(255, 214, 169, 169),
-                        fontSize: 14),
-                  ),
-                )
-              ],
             ),
           ),
           Container(

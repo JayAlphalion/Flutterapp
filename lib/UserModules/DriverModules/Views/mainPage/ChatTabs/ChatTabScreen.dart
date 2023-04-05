@@ -55,6 +55,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:stream_chat_flutter/scrollable_positioned_list/scrollable_positioned_list.dart';
 
 // import 'save_as/save_as.dart';
 
@@ -83,6 +84,9 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
   final _audioRecorder = Record();
   StreamSubscription<RecordState> _recordSub;
   RecordState _recordState = RecordState.stop;
+  final ItemScrollController itemScrollController = ItemScrollController();
+  final ItemPositionsListener itemPositionsListener =
+      ItemPositionsListener.create();
   @override
   void initState() {
     chatDataBloc = ChatDataBloc();
@@ -288,9 +292,10 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
       body: dataLoading == true
           ? Container(
               height: Get.height / 1,
-              decoration: BgDecorationHelper().chatBgDecoration(),
+              decoration: BoxDecoration(color: Colors.blue[100]),
               child: ListView.builder(
-                  itemCount: 20,
+                  controller: controller,
+                  itemCount: 10,
                   itemBuilder: ((context, index) {
                     return Padding(
                       padding: const EdgeInsets.only(
@@ -312,7 +317,8 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
                   })))
           : Container(
               height: Get.height / 1,
-              decoration: BgDecorationHelper().chatBgDecoration(),
+              // decoration: BgDecorationHelper().chatBgDecoration(),
+              decoration: BoxDecoration(color: Colors.blue[100]),
               child: Stack(
                 children: <Widget>[
                   messages.length == 0
@@ -332,13 +338,15 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
                           padding: const EdgeInsets.only(bottom: 50),
                           child: Container(
                             height: Get.height / 1,
-                            child: ListView.builder(
-                                controller: controller,
+                            child: ScrollablePositionedList.builder(
+                                itemScrollController: itemScrollController,
+                                itemPositionsListener: itemPositionsListener,
+                                // controller: controller,
                                 itemCount: messages.length,
-                                reverse: false,
-                                shrinkWrap: true,
-                                padding: EdgeInsets.only(top: 10, bottom: 10),
-                                physics: BouncingScrollPhysics(),
+                                // reverse: false,
+                                // shrinkWrap: true,
+                                padding:
+                                    const EdgeInsets.only(top: 10, bottom: 10),
                                 itemBuilder: (BuildContext context, index) {
                                   return messages[index].messageType ==
                                           Constant.TextMessage
@@ -427,9 +435,7 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
                     left: 0,
                     right: 0,
                     child: GetBuilder<AttachmentController>(
-                        // specify type as Controller
-                        init:
-                            AttachmentController(), // intialize with the Controller
+                        init: AttachmentController(),
                         builder: (attachmentController) {
                           return Container(
                             margin: const EdgeInsets.all(8),
@@ -494,7 +500,7 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
                                                   onTap: () {
                                                     sentAttachment();
                                                   },
-                                                  child: Icon(
+                                                  child: const Icon(
                                                     Icons.attachment_outlined,
                                                     color:
                                                         AppColors.primaryColor,
@@ -509,11 +515,10 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
                                                     attachmentController
                                                         .changeState(true);
                                                   },
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            right: 10),
-                                                    child: const Icon(
+                                                  child: const Padding(
+                                                    padding: EdgeInsets.only(
+                                                        right: 10),
+                                                    child: Icon(
                                                       Icons.send,
                                                       color: AppColors
                                                           .primaryColor,
@@ -559,91 +564,6 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
                                     ),
                                   ),
                           );
-
-                          // Container(
-                          //   padding:
-                          //       EdgeInsets.only(left: 10, bottom: 10, top: 10),
-                          //   // height: 60,
-                          //   width: double.infinity,
-                          //   color: Colors.white,
-                          //   child: Row(
-                          //     children: <Widget>[
-                          //       GestureDetector(
-                          //         onTap: () {
-                          //           cameraClickHandler();
-                          //         },
-                          //         child: Container(
-                          //           height: 30,
-                          //           width: 30,
-                          //           decoration: BoxDecoration(
-                          //             color: AppColors.primaryColor,
-                          //             borderRadius: BorderRadius.circular(30),
-                          //           ),
-                          //           child: Icon(
-                          //             Icons.camera_alt_outlined,
-                          //             color: Colors.white,
-                          //             size: 20,
-                          //           ),
-                          //         ),
-                          //       ),
-                          //       SizedBox(
-                          //         width: 15,
-                          //       ),
-                          //       Expanded(
-                          //         child: Container(
-                          //           // height: 200,
-                          //           child: TextField(
-                          //             maxLines: 4,
-                          //             minLines: 1,
-                          // onChanged: (val) {
-                          //   if (val.isEmpty) {
-                          //     attachmentController.changeState(true);
-                          //   } else {
-                          //     attachmentController.changeState(false);
-                          //   }
-                          // },
-                          //             controller: messageController,
-                          //             decoration: InputDecoration(
-                          //                 hintText: "Write message...",
-                          //                 hintStyle:
-                          //                     TextStyle(color: Colors.black54),
-                          //                 border: InputBorder.none),
-                          //           ),
-                          //         ),
-                          //       ),
-                          //       SizedBox(
-                          //         width: 15,
-                          //       ),
-                          //       attachmentController.isAttachmentActive == true
-                          //           ? FloatingActionButton(
-                          //               onPressed: () {
-                          //                 sentAttachment();
-                          //               },
-                          //               child: Icon(
-                          //                 Icons.attachment_outlined,
-                          //                 color: Colors.white,
-                          //                 size: 25,
-                          //               ),
-                          //               backgroundColor: AppColors.primaryColor,
-                          //               elevation: 0,
-                          //             )
-                          //           : FloatingActionButton(
-                          //               onPressed: () async {
-                          //                 await sendTextMessage('', 'text', '');
-                          //                 messageController.clear();
-                          //                 attachmentController.changeState(true);
-                          //               },
-                          //               child: Icon(
-                          //                 Icons.send,
-                          //                 color: Colors.white,
-                          //                 size: 18,
-                          //               ),
-                          //               backgroundColor: AppColors.primaryColor,
-                          //               elevation: 0,
-                          //             ),
-                          //     ],
-                          //   ),
-                          // );
                         }),
                   ),
                 ],
@@ -785,9 +705,12 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
  * This Method is responsible for Auto Scroll.
  */
   _scrollToBottom() {
-    if (controller.hasClients) {
-      controller.jumpTo(controller.position.maxScrollExtent);
-    }
+    //  WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+
+    itemScrollController.scrollTo(
+        index: messages.length,
+        duration: Duration(microseconds: 5),
+        curve: Curves.easeIn);
   }
 
   List<dynamic> _uploadTasks = [];
@@ -953,7 +876,7 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
  * This Method is responsible for Get Image from gallery.
  */
   Future<String> getImage() async {
-    String imagePath=await ScanController().getImage();
+    String imagePath = await ScanController().getImage();
 
     return imagePath;
   }
@@ -970,6 +893,8 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
     SharedPreferences session = await SharedPreferences.getInstance();
     String myToken = session.getString(SharedPrefConstant.DRIVER_TOKEN);
     String userId = session.getString(SharedPrefConstant.DRIVERE_ID);
+
+    print(DateFormat('yyyy-MM-dd kk:mm:ss').format(DateTime.now()).toString());
     SocketService().sendMessage(SocketChatModel(
         msgBody: messageController.text,
         createdAt:

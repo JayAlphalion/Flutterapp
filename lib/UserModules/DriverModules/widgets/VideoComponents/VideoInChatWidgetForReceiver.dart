@@ -47,20 +47,14 @@ class _VideoInChatWidgetForReceiverState
     return '${snapshot.bytesTransferred}/${snapshot.totalBytes}';
   }
 
-  VideoPlayerController _controller;
+  // VideoPlayerController _controller;
   bool isDownloaded = false;
   String downloadedPercentage = '-1';
   bool isDownloading = false;
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(widget.chatMessage.url)
-      ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        if (mounted) {
-          setState(() {});
-        }
-      });
+ 
     getFileInfo();
     // _controller.play();
   }
@@ -68,7 +62,7 @@ class _VideoInChatWidgetForReceiverState
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
+    // _controller.dispose();
   }
 
   getFileInfo() async {
@@ -78,9 +72,11 @@ class _VideoInChatWidgetForReceiverState
       String savePath = dir.path + "/$savename";
       bool isExists = await File(savePath).exists();
       if (isExists == true) {
-        setState(() {
+        if(mounted){
+          setState(() {
           isDownloaded = true;
         });
+        }
       }
     }
   }
@@ -95,17 +91,17 @@ class _VideoInChatWidgetForReceiverState
                   widget.chatMessage.messageOwner == Constant.Sender
               ? MainAxisAlignment.end
               : MainAxisAlignment.start,
-          children: [imageViewForReciver(context)],
+          children: [videoViewForReceiver(context)],
         ));
   }
 
-  Widget imageViewForReciver(context) {
+  Widget videoViewForReceiver(context) {
     return Container(
       //   height: Get.height / 3,
       child: InkWell(
           onTap: () async {
-            
             if (isDownloaded == true) {
+              print(widget.chatMessage.url);
               //play locally this video because this is already downloaded.
               playLocally();
             } else {
@@ -122,7 +118,12 @@ class _VideoInChatWidgetForReceiverState
               maxWidth: MediaQuery.of(context).size.width * 0.7,
             ),
             decoration: BoxDecoration(
-                border: Border.all(width: 4, color: Colors.white)),
+                border: Border.all(width: 4, color:
+                
+              widget.chatMessage.messageOwner ==
+                                    Constant.Sender 
+                                ? AppColors.chatBgColor
+                                : Colors.white)),
             child: Stack(
               alignment: Alignment.center,
               children: [
@@ -133,7 +134,7 @@ class _VideoInChatWidgetForReceiverState
                         : Container(
                             width: Get.width / 1,
                             color: widget.chatMessage.messageOwner ==
-                                    Constant.Sender
+                                    Constant.Sender 
                                 ? AppColors.chatBgColor
                                 : Colors.white,
                             child: Padding(
@@ -146,13 +147,14 @@ class _VideoInChatWidgetForReceiverState
                               ),
                             ),
                           ),
-                    SizedBox(
-                      height: 5,
-                    ),
+                    
                     Container(
+                     color: widget.chatMessage.messageOwner == Constant.Sender
+                          ? AppColors.chatBgColor
+                          : Colors.white,
                         height: Get.height / 4,
                         alignment: Alignment.center,
-                        child: VideoPlayer(_controller)),
+                        child: Image.asset(ImageUtils.VIDEO_ICON,height: 100,width: 100,)),
                     Container(
                       width: Get.width / 1,
                       height: 40,
@@ -173,7 +175,10 @@ class _VideoInChatWidgetForReceiverState
                     ),
                     Container(
                       width: Get.width / 1,
-                      color: Colors.white,
+                      color: widget.chatMessage.messageOwner ==
+                                    Constant.Sender 
+                                ? AppColors.chatBgColor
+                                : Colors.white,
                       alignment: Alignment.centerRight,
                       child: Padding(
                         padding: const EdgeInsets.only(
@@ -188,25 +193,16 @@ class _VideoInChatWidgetForReceiverState
                   ],
                 ),
                 isDownloaded == true
-                    ? InkWell(
-                        onTap: () async {
-                          playLocally();
-                        },
-                        child: Icon(
-                          Icons.play_arrow,
-                          size: 50,
-                          color: Colors.white,
-                        ),
-                      )
+                    ? Container()
                     : InkWell(
                         onTap: () {
-                        if(isDownloading){
-                          //pause downloading.
-                          ToastHelper().showToast(message: 'Right now stop feature is pending');
-
-                        }else{
+                          if (isDownloading) {
+                            //pause downloading.
+                            ToastHelper().showToast(
+                                message: 'Right now stop feature is pending');
+                          } else {
                             downloadThisFile();
-                        }
+                          }
                         },
                         child: DownloadIconWidget(
                           downloadedPercentage: downloadedPercentage,
@@ -248,7 +244,9 @@ class _VideoInChatWidgetForReceiverState
       String savePath = dir.path + "/$savename";
       print(savePath);
       try {
-        await OpenFilex.open(savePath);
+        var res=await OpenFilex.open(savePath);
+        // debugger();
+        print(res);
       } catch (e) {
         print(e);
       }

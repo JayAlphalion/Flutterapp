@@ -10,8 +10,10 @@ class ImageUtils {
   static const String EMPTY_MESSAGE_GIT = 'assets/empty_msg_animation.json';
   static const String WORD_ICON = 'assets/wordIcon.png';
   static const String EXCEL_ICON = 'assets/excelIcon.png';
-  static const String PDF_ICON = 'assets/pdfIcon.jpg';
+  static const String PDF_ICON = 'assets/pdfIcon.png';
   static const String DUMMY_LICENCE='assets/dummy_licence.jpeg';
   static const String CHAT_BG='assets/chat_bg.jpg';
   static const String RECORDER_GIF='assets/recorder_gif.json';
+  static const String VIDEO_ICON='assets/video_icon.jpg';
+  static const String OTHER_FILE_ICON='assets/other_file_icon.jpg';
 }

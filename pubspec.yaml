@@ -78,6 +78,7 @@ dependencies:
   syncfusion_flutter_datagrid_export:
   firebase_messaging: ^14.2.1
   flutter_local_notifications: ^13.0.0
+  swipe_to: ^1.0.2
 
 dev_dependencies:
   flutter_test:

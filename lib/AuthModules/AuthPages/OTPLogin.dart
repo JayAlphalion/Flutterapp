@@ -104,6 +104,8 @@ class _OTPLoginState extends State<OTPLogin> {
 
   _handleGetOtpResponse() {
     loginDataBloc.loginDataStream.listen((event) {
+      // debugger();
+      // print(event);
       Navigator.pop(context);
       if (event.status == Status.COMPLETED) {
         loginDataBloc.token = event.data.data.body['request_token'];
