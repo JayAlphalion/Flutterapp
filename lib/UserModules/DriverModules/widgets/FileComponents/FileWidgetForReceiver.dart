@@ -21,7 +21,7 @@ class _FileWidgetForReceiverState extends State<FileWidgetForReceiver> {
   bool isDownloaded = false;
   String downloadedPercentage = '-1';
 
-
+bool isDownloading=false;
 
 @override
   void initState() {
@@ -62,6 +62,9 @@ class _FileWidgetForReceiverState extends State<FileWidgetForReceiver> {
                           }
                         }
                       } else {
+                        setState(() {
+                          isDownloading=true;
+                        });
                         await DownloadHelper().downloadThisItem(
                             url: widget.chatMessage.url,
                             nameWithType: widget.chatMessage.fileName,

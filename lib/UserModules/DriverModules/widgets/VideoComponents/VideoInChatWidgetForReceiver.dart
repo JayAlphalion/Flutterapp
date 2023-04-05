@@ -4,6 +4,8 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:alpha_app/Universals/HelperViews/VideoPlayerPage.dart';
+import 'package:alpha_app/Universals/helper/ToastHelper.dart';
 import 'package:alpha_app/UserModules/DriverModules/Model/ChatModel.dart';
 import 'package:alpha_app/UserModules/DriverModules/Model/chat_model.dart';
 import 'package:alpha_app/Universals/HelperViews/ImagePreviewScreen.dart';
@@ -48,28 +50,30 @@ class _VideoInChatWidgetForReceiverState
   VideoPlayerController _controller;
   bool isDownloaded = false;
   String downloadedPercentage = '-1';
+  bool isDownloading = false;
   @override
   void initState() {
     super.initState();
     _controller = VideoPlayerController.network(widget.chatMessage.url)
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-      if(mounted){
+        if (mounted) {
           setState(() {});
-      }
+        }
       });
     getFileInfo();
     // _controller.play();
   }
 
-@override
-void dispose() {
-super.dispose();
-_controller.dispose();
-}
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
   getFileInfo() async {
     var dir = await DownloadsPathProvider.downloadsDirectory;
-    if (dir != null) { 
+    if (dir != null) {
       String savename = widget.chatMessage.fileName;
       String savePath = dir.path + "/$savename";
       bool isExists = await File(savePath).exists();
@@ -87,10 +91,10 @@ _controller.dispose();
         padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8, right: 8),
         child: Flex(
           direction: Axis.horizontal,
-          mainAxisAlignment:
-           widget.chatMessage.isHistory==true && 
-          widget.chatMessage.messageOwner==Constant.Sender?MainAxisAlignment.end:
-           MainAxisAlignment.start,
+          mainAxisAlignment: widget.chatMessage.isHistory == true &&
+                  widget.chatMessage.messageOwner == Constant.Sender
+              ? MainAxisAlignment.end
+              : MainAxisAlignment.start,
           children: [imageViewForReciver(context)],
         ));
   }
@@ -100,16 +104,18 @@ _controller.dispose();
       //   height: Get.height / 3,
       child: InkWell(
           onTap: () async {
-            downloadThisFile();
-            // // debugger();
-            // // String fileType = widget.chatMessage.fileType;
-
-            // try {
-            //   Get.to(PlayVideoFullPage(videoUrl: widget.chatMessage.url));
-            // } catch (e) {
-            //   debugger();
-            //   print(e);
-            // }
+            
+            if (isDownloaded == true) {
+              //play locally this video because this is already downloaded.
+              playLocally();
+            } else {
+              Get.to(VideoPlayerPage(
+                url: widget.chatMessage.url,
+              ));
+              if (isDownloading == false) {
+                downloadThisFile();
+              }
+            }
           },
           child: Container(
             constraints: BoxConstraints(
@@ -122,25 +128,24 @@ _controller.dispose();
               children: [
                 Column(
                   children: [
-                widget.chatMessage.messageOwner == Constant.Sender
-                              ? Container()
-                              :    Container(
-                      width: Get.width / 1,
-                      color:
-                      widget.chatMessage.messageOwner ==
-                                      Constant.Sender
-                                  ? AppColors.chatBgColor:
-                       Colors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 5, right: 10, left: 0, bottom: 5),
-                        child: Text(
-                          widget.chatMessage.from,
-                          style:
-                              TextStyle(color: Colors.blue[200], fontSize: 14),
-                        ),
-                      ),
-                    ),
+                    widget.chatMessage.messageOwner == Constant.Sender
+                        ? Container()
+                        : Container(
+                            width: Get.width / 1,
+                            color: widget.chatMessage.messageOwner ==
+                                    Constant.Sender
+                                ? AppColors.chatBgColor
+                                : Colors.white,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 5, right: 10, left: 0, bottom: 5),
+                              child: Text(
+                                widget.chatMessage.from,
+                                style: TextStyle(
+                                    color: Colors.blue[200], fontSize: 14),
+                              ),
+                            ),
+                          ),
                     SizedBox(
                       height: 5,
                     ),
@@ -151,9 +156,9 @@ _controller.dispose();
                     Container(
                       width: Get.width / 1,
                       height: 40,
-                      color: widget.chatMessage.messageOwner ==
-                                      Constant.Sender
-                                  ? AppColors.chatBgColor:Colors.white,
+                      color: widget.chatMessage.messageOwner == Constant.Sender
+                          ? AppColors.chatBgColor
+                          : Colors.white,
                       // alignment: Alignment.centerRight,
                       child: Padding(
                         padding: const EdgeInsets.only(
@@ -161,10 +166,9 @@ _controller.dispose();
                         child: Text(
                           widget.chatMessage.fileName,
                           maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 14),
-                              ),
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(color: Colors.black, fontSize: 14),
+                        ),
                       ),
                     ),
                     Container(
@@ -176,21 +180,40 @@ _controller.dispose();
                             top: 5, right: 10, left: 0, bottom: 0),
                         child: Text(
                           widget.chatMessage.dateTime,
-                          style: TextStyle(color: AppColors.chatDateTimeColor, fontSize: 10),
+                          style: TextStyle(
+                              color: AppColors.chatDateTimeColor, fontSize: 10),
                         ),
                       ),
                     ),
                   ],
                 ),
                 isDownloaded == true
-                    ? Icon(
-                        Icons.play_arrow,
-                        size: 50,
-                        color: Colors.white,
+                    ? InkWell(
+                        onTap: () async {
+                          playLocally();
+                        },
+                        child: Icon(
+                          Icons.play_arrow,
+                          size: 50,
+                          color: Colors.white,
+                        ),
                       )
-                    : DownloadIconWidget(
-                        downloadedPercentage: downloadedPercentage,
-                        isDownloaded: isDownloaded)
+                    : InkWell(
+                        onTap: () {
+                        if(isDownloading){
+                          //pause downloading.
+                          ToastHelper().showToast(message: 'Right now stop feature is pending');
+
+                        }else{
+                            downloadThisFile();
+                        }
+                        },
+                        child: DownloadIconWidget(
+                          downloadedPercentage: downloadedPercentage,
+                          isDownloaded: isDownloaded,
+                          isDownloading: isDownloading,
+                        ),
+                      )
               ],
             ),
           )),
@@ -198,39 +221,37 @@ _controller.dispose();
   }
 
   void downloadThisFile() async {
-    if (isDownloaded == true) {
-      // debugger();
-      var dir = await DownloadsPathProvider.downloadsDirectory;
-      if (dir != null) {
-        String savename = widget.chatMessage.fileName;
-        String savePath = dir.path + "/$savename";
-        print(savePath);
-        try {
-          await OpenFilex.open(savePath);
-        } catch (e) {
+    setState(() {
+      isDownloading = true;
+    });
+    await DownloadHelper().downloadThisItem(
+        url: widget.chatMessage.url,
+        nameWithType: widget.chatMessage.fileName,
+        onCallBack: (e) {
           print(e);
-        }
-      }
-    } else {
-      await DownloadHelper().downloadThisItem(
-          url: widget.chatMessage.url,
-          nameWithType: widget.chatMessage.fileName,
-          onCallBack: (e) {
-            print(e);
-            setState(() {
-              downloadedPercentage = e;
-            });
-            if (e == '100%') {
-              setState(() {
-                isDownloaded = true;
-              });
-            }
-            // print(e);
+          setState(() {
+            downloadedPercentage = e;
           });
-    }
+          if (e == '100%') {
+            setState(() {
+              isDownloaded = true;
+            });
+          }
+          // print(e);
+        });
   }
 
-
-
-
+  void playLocally() async {
+    var dir = await DownloadsPathProvider.downloadsDirectory;
+    if (dir != null) {
+      String savename = widget.chatMessage.fileName;
+      String savePath = dir.path + "/$savename";
+      print(savePath);
+      try {
+        await OpenFilex.open(savePath);
+      } catch (e) {
+        print(e);
+      }
+    }
+  }
 }

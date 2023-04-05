@@ -1,11 +1,16 @@
 import 'package:alpha_app/Universals/utils/AppColors.dart';
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class DownloadIconWidget extends StatefulWidget {
   final String downloadedPercentage;
   final bool isDownloaded;
+  final bool isDownloading;
   DownloadIconWidget(
-      {required this.downloadedPercentage, required this.isDownloaded});
+      {required this.downloadedPercentage,
+      required this.isDownloaded,
+      required this.isDownloading});
 
   @override
   State<DownloadIconWidget> createState() => _DownloadIconWidgetState();
@@ -17,25 +22,22 @@ class _DownloadIconWidgetState extends State<DownloadIconWidget> {
     return widget.isDownloaded == true
         ? Container()
         : Container(
-            decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-                border: Border.all(width: 1, color: AppColors.primaryColor)),
-            alignment: Alignment.center,
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: widget.downloadedPercentage == '-1'
-                  ? Icon(
-                      Icons.download,
-                      size: 35,
-                      color: AppColors.primaryColor,
-                    )
-                  : Text(
-                      widget.downloadedPercentage,
-                      style: TextStyle(
-                          color: AppColors.primaryColor, fontSize: 15),
-                    ),
-            ),
-          );
+            child:  CircularPercentIndicator(
+                  radius: 30.0,
+                  lineWidth: 4.0,
+                  percent: widget.downloadedPercentage == '-1'
+                      ? 0
+                      : double.parse((int.parse(widget.downloadedPercentage
+                                      .split("%")
+                                      .first) /
+                                  100)
+                              .toString()),
+                  center: const Icon(
+                    Icons.download,
+                    size: 25,
+                    color: Colors.blue,
+                  ),
+                  progressColor: Colors.green,
+                ));
   }
 }

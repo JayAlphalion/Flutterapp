@@ -53,7 +53,7 @@ class _ImageOrDocItemForReceiverState extends State<ImageOrDocItemForReceiver> {
   String _bytesTransferred(firebase_storage.TaskSnapshot snapshot) {
     return '${snapshot.bytesTransferred}/${snapshot.totalBytes}';
   }
-
+bool isDownloading=false;
   @override
   void initState() {
     getFileInfo();
@@ -196,7 +196,9 @@ class _ImageOrDocItemForReceiverState extends State<ImageOrDocItemForReceiver> {
                     ),
                     DownloadIconWidget(
                         downloadedPercentage: downloadedPercentage,
-                        isDownloaded: isDownloaded)
+                        isDownloaded: isDownloaded,
+                        isDownloading: isDownloading,
+                        )
                   ],
                 ),
               ),
@@ -332,6 +334,9 @@ class _ImageOrDocItemForReceiverState extends State<ImageOrDocItemForReceiver> {
         }
       }
     } else {
+       setState(() {
+        isDownloading=true;
+      });
       await DownloadHelper().downloadThisItem(
           url: widget.chatMessage.url,
           nameWithType: widget.chatMessage.fileName,

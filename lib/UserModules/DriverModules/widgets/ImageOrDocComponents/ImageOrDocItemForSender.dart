@@ -3,6 +3,7 @@
 import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
+import 'package:alpha_app/Universals/Widgets/HelperWidget.dart';
 import 'package:alpha_app/UserModules/DriverModules/widgets/FileComponents/FileWidgetForReceiver.dart';
 import 'package:alpha_app/UserModules/DriverModules/widgets/FileComponents/FileWidgetForSender.dart';
 import 'package:intl/intl.dart';
@@ -166,12 +167,7 @@ class _ImageOrDocItemForSenderState extends State<ImageOrDocItemForSender> {
                                           widget.chatMessage.fileName),
                                     ),
                                     state == firebase_storage.TaskState.running
-                                        ? Container(
-                                            height: 30,
-                                            width: 30,
-                                            child: Lottie.asset(
-                                                ImageUtils.UPLOAD_GIF),
-                                          )
+                                        ? HelperWidget.UploadLoaderWidget()
                                         : Container()
                                   ],
                                 )),
@@ -277,12 +273,7 @@ class _ImageOrDocItemForSenderState extends State<ImageOrDocItemForSender> {
                                         state ==
                                                 firebase_storage
                                                     .TaskState.running
-                                            ? Container(
-                                                height: 30,
-                                                width: 30,
-                                                child: Lottie.asset(
-                                                    ImageUtils.UPLOAD_GIF),
-                                              )
+                                            ? HelperWidget.UploadLoaderWidget()
                                             : Container()
                                       ],
                                     )),
