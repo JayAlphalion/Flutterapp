@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1019230094129-lg1gme3kvitavmd52hmo4g368vjq3b2b.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1019230094129-lg1gme3kvitavmd52hmo4g368vjq3b2b</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAzoEUALTvWRVSnBTuUblUOK2CHbv0jnZI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1019230094129</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.alphaApp</string>
+	<key>PROJECT_ID</key>
+	<string>alphadatabase-6609c</string>
+	<key>STORAGE_BUCKET</key>
+	<string>alphadatabase-6609c.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1019230094129:ios:a93289144055806ab7a610</string>
+	<key>DATABASE_URL</key>
+	<string>https://alphadatabase-6609c-default-rtdb.asia-southeast1.firebasedatabase.app</string>
+</dict>
+</plist>

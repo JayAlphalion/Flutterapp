@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:alpha_app/DriverModules/Model/chat_model.dart';
+import 'package:alpha_app/UserModules/DriverModules/Model/chat_model.dart';
 import 'package:alpha_app/AuthModules/LoginApiResponse.dart';
 import 'package:alpha_app/AuthModules/AuthDataBloc.dart';
 import 'package:alpha_app/Universals/helper/LoaderWidget.dart';
@@ -14,7 +14,7 @@ import 'package:alpha_app/Universals/networking/StatusCodeConstant.dart';
 import 'package:alpha_app/Universals/utils/AppColors.dart';
 import 'package:alpha_app/Universals/utils/ImageUtils.dart';
 import 'package:alpha_app/Universals/utils/SharedPrefConstant.dart';
-import 'package:alpha_app/DriverModules/Views/mainPage/DashBoard.dart';
+import 'package:alpha_app/UserModules/DriverModules/Views/mainPage/DashBoard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
@@ -47,7 +47,7 @@ class _OTPLoginState extends State<OTPLogin> {
     pinController.dispose();
     focusNode.dispose();
     super.dispose();
-  }
+  } 
 
   bool showError = false;
 
@@ -104,12 +104,15 @@ class _OTPLoginState extends State<OTPLogin> {
 
   _handleGetOtpResponse() {
     loginDataBloc.loginDataStream.listen((event) {
+      // debugger();
+      // print(event);
       Navigator.pop(context);
       if (event.status == Status.COMPLETED) {
         loginDataBloc.token = event.data.data.body['request_token'];
         bool flag = ResonseHelper.checkApiResponse(event.data);
         if (flag == true) {
           ToastHelper().showToast(message: 'OTP sent on your number');
+          pinController.text=event.data.data.body['otp'];
           setState(() {
             pageState = LoginState.ENTER_OTP;
           });

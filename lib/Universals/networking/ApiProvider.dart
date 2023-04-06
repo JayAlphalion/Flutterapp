@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'package:alpha_app/DriverModules/Model/responses/DriverProfileDataResponse.dart';
+import 'package:alpha_app/UserModules/DriverModules/Model/responses/DriverProfileDataResponse.dart';
 import 'package:alpha_app/Universals/utils/SharedPrefs.dart';
 import 'package:get/get_connect/http/src/multipart/multipart_file.dart';
 import 'package:http/http.dart' as http;
@@ -96,7 +96,8 @@ class ApiProvider {
             'authorization': 'Bearer ' + token!,
           },
           body: json.encode(parameter));
-    
+//     debugger();
+// print(response);
       if (response.statusCode == 200) {
         var res = json.decode(response.body);
 

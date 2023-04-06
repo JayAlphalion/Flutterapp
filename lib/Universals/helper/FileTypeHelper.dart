@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:alpha_app/DriverModules/Model/ChatModel.dart';
+import 'package:alpha_app/UserModules/DriverModules/Model/ChatModel.dart';
 import 'package:alpha_app/Universals/utils/Constants.dart';
 import 'package:alpha_app/Universals/utils/ImageUtils.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +9,7 @@ class GetFile {
   static getDocOrImgOrFile(String fileName) {
     if (getFileType(fileName) == 'pdf' ||
         getFileType(fileName) == 'xlsl' ||
+        getFileType(fileName) == 'xlsx' ||
         getFileType(fileName) == 'xls' ||
         getFileType(fileName) == 'docx' ||
         getFileType(fileName) == 'dot' ||
@@ -36,20 +37,20 @@ class GetFile {
     if (type == 'pdf') {
       return Image.asset(
         ImageUtils.PDF_ICON,
-        height: 80,
-        width: 80,
+        height: 120,
+        width: 120,
       );
     } else if (type == 'xlsx' || type == 'xls') {
       return Image.asset(
         ImageUtils.EXCEL_ICON,
-        height: 80,
-        width: 80,
+        height: 120,
+        width: 120,
       );
     } else {
       return Image.asset(
         ImageUtils.WORD_ICON,
-        height: 80,
-        width: 80,
+        height: 120,
+        width: 120,
       );
     }
   }

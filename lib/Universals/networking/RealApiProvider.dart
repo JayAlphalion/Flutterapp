@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:alpha_app/Universals/Models/BaseResponse.dart';
-import 'package:alpha_app/DriverModules/Model/responses/DriverProfileDataResponse.dart';
+import 'package:alpha_app/UserModules/DriverModules/Model/responses/DriverProfileDataResponse.dart';
 import 'package:alpha_app/Universals/utils/SharedPrefs.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_connect/http/src/multipart/multipart_file.dart';
@@ -54,13 +54,16 @@ class RealApiProvider {
  
 
   Future<Response<BaseResponse>> postBeforeAuth(
+
       {required Map parameter, required String url}) async {
     try {
       final response = await http.post(Uri.parse(baseUrl + beforeAuth + url),
           body: parameter);
-print(response.body);
+
       return _response(response);
     } catch (e) {
+      debugger();
+      print(e);
       return Response.error('Server Error, Please Try Again Letter');
     }
   }
