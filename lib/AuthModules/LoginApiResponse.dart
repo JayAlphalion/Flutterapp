@@ -18,9 +18,9 @@ class LoginApiResponse {
   
   LoginApiResponse.fromJson(Map<String, dynamic> json){
     message = json['message'];
-    userId = json['user_id'];
+    userId = json['userId'];
     name = json['name'];
-    userToken = json['user_token'];
+    userToken = json['userToken'];
     channelId = json['channel_id'];
     chatinit = json['chatinit'];
     groupId=json['group_id'];
