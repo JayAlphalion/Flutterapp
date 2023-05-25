@@ -53,8 +53,8 @@ class SocketService {
     });
     socket.on(SocketConstant.SOCKET_CONNECT, (_) {
       print(SocketConstant.SOCKET_CONNECT);
-      //  connectSocketNow();
-      // // joinRoom();
+      // connectSocketNow();
+      joinRoom();
     });
 
     // Below is the listener to listen from socket
@@ -80,36 +80,37 @@ class SocketService {
       EventBusManager.getNewLoadRequestData.fire(data);
     });
 
-    //for join room response.
-    socket.on(SocketConstant.SOCKET_EVENT_JOIN_ROOM_RESPONSE, (data) {
-      print(data);
-      if (data[NetworkConstant.MESSAGE] == NetworkConstant.SUCCESS) {
-        // Here this block will be execute when driver will be join into the room.
-        EventBusManager.userJoinedOnRoom.fire(data);
-      } else {
-        joinRoom();
-      }
-    });
+    // //for join room response.
+    // socket.on(SocketConstant.SOCKET_EVENT_JOIN_ROOM_RESPONSE, (data) {
+    //   print(data);
+    //   if (data[NetworkConstant.MESSAGE] == NetworkConstant.SUCCESS) {
+    //     // debugger();
+    //     // Here this block will be execute when driver will be join into the room.
+    //     EventBusManager.userJoinedOnRoom.fire(data);
+    //   } else {
+    //     joinRoom();
+    //   }
+    // });
 
     //for receive mssage response.
     socket.on(SocketConstant.SOCKET_RECEIVE_MESSAGE, (data) {
+      print(data);
+      // debugger();
       EventBusManager.messageBox.fire(data);
     });
 
 //for message response
     socket.on(SocketConstant.SOCKET_MESSAGE_RESPONSE, (data) {
+      debugger();
       // debugger();
       EventBusManager.messageResponse.fire(data);
     });
 
-
-
 //for testing
-socket.on('location_response', (data) {
-// debugger();
-print(data);
-});
-
+//     socket.on('location_response', (data) {
+// // debugger();
+//       print(data);
+//     });
   }
 
   void disconnectSocket() {
@@ -133,10 +134,14 @@ print(data);
   void joinRoom() async {
     try {
       SharedPreferences session = await SharedPreferences.getInstance();
-      String token = session.getString(SharedPrefConstant.DRIVER_TOKEN)!;
+      String token = session.getString(SharedPrefConstant.USER_TOKEN)!;
       print(token);
-      socket.emit(
-          SocketConstant.JOIN_ROOM, {SocketConstant.SOCKET_USER_ID: token});
+      socket.emitWithAck(SocketConstant.JOIN_ROOM, {
+        SocketConstant.SOCKET_USERTOKEN: token,
+        SocketConstant.DATA: {}
+      }, ack: (data) {
+        handleJoinRoomReponse(data);
+      });
     } catch (e) {
       debugger();
       print(("join channel faild due to $e"));
@@ -144,10 +149,12 @@ print(data);
   }
 
   void sendMessage(SocketChatModel msgData) async {
+    SharedPreferences session = await SharedPreferences.getInstance();
+    String token = session.getString(SharedPrefConstant.USER_TOKEN)!;
     try {
       Map data = {
-        'group_id': msgData.groupId,
-        'created_at': msgData.createdAt,
+        'groupId': msgData.groupId,
+        'createdAt': msgData.createdAt,
         'deletedForEveryone': msgData.deletedForEveryOne,
         'deltedForMe': msgData.deltedForMe,
         'from': msgData.from,
@@ -156,14 +163,21 @@ print(data);
         'text': msgData.msgBody,
         'seenBy': msgData.seenBy,
         'to': msgData.to,
-        'file_name': msgData.fileName,
+        'fileName': msgData.fileName,
         'typeOfMsg': msgData.typeOfMsg,
-        SocketConstant.USER_ID:msgData.userId,
-        SocketConstant.SOCKET_USER_ID: msgData.userToken
+        // SocketConstant.USER_ID: msgData.userId,
+        // SocketConstant.SOCKET_USERTOKEN: msgData.userToken
       };
       // debugger();
-      // print(data);
-      socket.emit(SocketConstant.SEND_MESSAGE, data);
+      print(data);
+
+      socket.emitWithAck(SocketConstant.SEND_MESSAGE, {
+        SocketConstant.SOCKET_USERTOKEN: token,
+        SocketConstant.DATA: data
+      }, ack: (data) {
+        debugger();
+        print(data);
+      });
     } catch (e) {
       debugger();
       print(("join channel faild due to $e"));
@@ -173,22 +187,38 @@ print(data);
   void sendDriverLocation({required String lat, required String long}) async {
     try {
       SharedPreferences session = await SharedPreferences.getInstance();
-      String? token = session.getString(SharedPrefConstant.DRIVER_TOKEN)!;
+      String? token = session.getString(SharedPrefConstant.USER_TOKEN)!;
       String? groupId = session.getString(SharedPrefConstant.GROUP_ID);
       Map locationData = {'lattitude': lat, 'longtitude': long};
       Map data = {
         'group_id': groupId!,
-        'user_token': token,
-        'data': json.encode(locationData),
-        'current_time':DateTime.now().toString()
+        'location': json.encode(locationData),
+        'current_time': DateTime.now().toString()
       };
-      print('seding location');
-      print(data);
-      socket.emit(SocketConstant.SEND_DRIVER_LOCATION, data);
+      socket.emitWithAck(SocketConstant.SEND_DRIVER_LOCATION, {
+        SocketConstant.SOCKET_USERTOKEN: token,
+        SocketConstant.DATA: data
+      }, ack: (data) {
+        handleUpdateDriverLocation(data);
+      });
     } catch (e) {
       print(e);
     }
 
     // print(data);
+  }
+
+  void handleJoinRoomReponse(data) {
+    if (data[NetworkConstant.MESSAGE] == NetworkConstant.SUCCESS) {
+      // debugger();
+      // Here this block will be execute when driver will be join into the room.
+      EventBusManager.userJoinedOnRoom.fire(data);
+    } else {
+      joinRoom();
+    }
+  }
+
+  void handleUpdateDriverLocation(data) {
+    print(data);
   }
 }

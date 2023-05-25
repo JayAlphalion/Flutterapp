@@ -126,7 +126,11 @@ class _OTPLoginState extends State<OTPLogin> {
        Navigator.pop(context);
       if (event.status == Status.COMPLETED) {
         if (event.data.status == StatusCodeConstant.sucessCode) {
+          // debugger();
+          // print(event);
           LoginApiResponse v = LoginApiResponse.fromJson(event.data.data.body);
+          // debugger();
+          // print(v);
           saveAndNavigate(v);
         } else if (event.data.status ==
             StatusCodeConstant.wrongCredentailCode) {
@@ -143,24 +147,24 @@ class _OTPLoginState extends State<OTPLogin> {
   void saveAndNavigate(LoginApiResponse loginApiResponse) async {
     print(loginApiResponse);
     SharedPreferences session = await SharedPreferences.getInstance();
-    driver_id = loginApiResponse.userId;
+    driver_id = loginApiResponse.driverId;
 
-    // debugger();
-    // print(loginApiResponse);
+     debugger();
+     print(loginApiResponse);
     session.setString(SharedPrefConstant.DRIVERE_ID, driver_id!);
 
-    driver_token = loginApiResponse.userToken;
-    session.setString(SharedPrefConstant.DRIVER_TOKEN, driver_token!);
+    session.setString(SharedPrefConstant.USER_TOKEN, loginApiResponse.userToken);
+    session.setString(SharedPrefConstant.USER_ID, loginApiResponse.userId);
     session.setString(SharedPrefConstant.GROUP_ID, loginApiResponse.groupId);
     SocketService().connectSocket();
     // SocketService(). connectSocketNow();
 
-    final chat = ChatModel(
-        channelId: loginApiResponse.channelId,
-        channelName: loginApiResponse.channelId,
-        token: loginApiResponse.userToken,
-        userId: loginApiResponse.userId);
-    session.setString('ChatObject', chat.toJson());
+    // final chat = ChatModel(
+    //     channelId: loginApiResponse.data.,
+    //     channelName: loginApiResponse.channelId,
+    //     token: loginApiResponse.userToken,
+    //     userId: loginApiResponse.userId);
+    // session.setString('ChatObject', chat.toJson());
     ToastHelper().showToast(message: 'login successfully done.');
     Get.offAll(
       Dashboard(

@@ -156,7 +156,7 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
   initChat() {
     EventBusManager.messageBox.on().listen((event) async {
       SharedPreferences session = await SharedPreferences.getInstance();
-      String myToken = session.getString(SharedPrefConstant.DRIVER_TOKEN);
+      String myToken = session.getString(SharedPrefConstant.USER_TOKEN);
       if (event['message']['typeOfMsg'] != 'text') {
         if (myToken == event['message']['user_token']) {
           //if both user same just ignore text messages.
@@ -967,7 +967,7 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
   Future<String> sendTextMessage(url, type, name) async {
     print(type);
     SharedPreferences session = await SharedPreferences.getInstance();
-    String myToken = session.getString(SharedPrefConstant.DRIVER_TOKEN);
+    String myToken = session.getString(SharedPrefConstant.USER_TOKEN);
     String userId = session.getString(SharedPrefConstant.DRIVERE_ID);
     SocketService().sendMessage(SocketChatModel(
         msgBody: messageController.text,

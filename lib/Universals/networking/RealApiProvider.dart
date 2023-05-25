@@ -77,8 +77,12 @@ class RealApiProvider {
             'authorization': 'Bearer ' + token,
           },
           body: parameter);
-print(response.body);
-      return _response(response);
+// print(response.body);
+// debugger();
+       var res=_response(response);
+      //  debugger();
+      //  print(res);
+       return res;
     } catch (e) {
       debugger();
       print(e);

@@ -15,11 +15,11 @@ class SharedPref {
 
  Future<String?>getUserToken()async{
   SharedPreferences pref = await SharedPreferences.getInstance();
-    String? token = pref.getString(SharedPrefConstant.DRIVER_TOKEN);
+    String? token = pref.getString(SharedPrefConstant.USER_TOKEN);
     return token;
  }
   Future<String> getToken() async {
-    String res= await box.read(SharedPrefConstant.DRIVER_TOKEN);
+    String res= await box.read(SharedPrefConstant.USER_TOKEN);
    
 return res;
   }

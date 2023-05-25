@@ -71,17 +71,17 @@ class Message {
 
   Message.fromJson(Map<String, dynamic> json) {
     typeOfMsg = json['typeOfMsg'].toString();
-    userToken = json['user_token'].toString();
+    userToken = json['userToken'].toString();
     text = json['text'].toString();
     deletedForMe = json['deletedForMe'].toString();
-    fileName = json['file_name'].toString();
-    createdAt = json['created_at'].toString();
+    fileName = json['fileName'].toString();
+    createdAt = json['createdAt'].toString();
     url = json['url'].toString();
-    groupId = json['group_id'].toString();
+    groupId = json['groupId'].toString();
     to = json['to'].toString();
     userId = json['userId'].toString();
-    user_id = json['user_id'].toString();
-    messageId = json['message_id'].toString();
+    user_id = json['userd'].toString();
+    messageId = json['messageId'].toString();
     seenBy = json['seenBy'];
     from = json['from'].toString();
     deletedForEveryone = json['deletedForEveryone'].toString();

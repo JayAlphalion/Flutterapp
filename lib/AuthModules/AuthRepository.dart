@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:alpha_app/Universals/Models/BaseResponse.dart';
 import 'package:alpha_app/Universals/networking/ApiProvider.dart';
 import 'package:alpha_app/Universals/networking/NetworkConstant.dart';
@@ -23,6 +25,8 @@ class AuthRepository {
         parameter: paramter,token: token,
         url: NetworkConstant.END_POINT_VERIFY_OTP,
        );
+      //  debugger();
+      //  print(response);
     return response;
   }
 }

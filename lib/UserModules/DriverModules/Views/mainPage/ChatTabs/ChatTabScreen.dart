@@ -160,16 +160,16 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
   initChat() {
     EventBusManager.messageBox.on().listen((event) async {
       SharedPreferences session = await SharedPreferences.getInstance();
-      String myToken = session.getString(SharedPrefConstant.DRIVER_TOKEN);
+      String myToken = session.getString(SharedPrefConstant.USER_TOKEN);
       if (event['message']['typeOfMsg'] != 'text') {
-        if (myToken == event['message']['user_token']) {
+        if (myToken == event['message']['userToken']) {
           //if both user same just ignore text messages.
         } else {
           print(event);
           msgReceive(SocketChatModel(
-              userId: event['message']['user_id'],
-              messageId: event['message']['message_id'],
-              createdAt: event['message']['created_at'],
+              userId: event['message']['userId'],
+              messageId: event['message']['messageId'],
+              createdAt: event['message']['createdAt'],
               msgBody: event['message']['text'],
               url: event['message']['url'],
               deletedForEveryOne: event['message']['deletedForEveryone'],
@@ -179,18 +179,18 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
               seenBy: event['message']['seenBy'],
               to: event['message']['to'],
               typeOfMsg: event['message']['typeOfMsg'],
-              userToken: event['message']['user_token'],
-              fileName: event['message']['file_name'],
-              groupId: event['message']['group_id']));
+              userToken: event['message']['userToken'],
+              fileName: event['message']['fileName'],
+              groupId: event['message']['groupId']));
         }
       } else {
         //  debugger();
         // print(event);
         msgReceive(
           SocketChatModel(
-              userId: event['message']['user_id'],
-              messageId: event['message']['message_id'],
-              createdAt: event['message']['created_at'],
+              userId: event['message']['userId'],
+              messageId: event['message']['messageId'],
+              createdAt: event['message']['createdAt'],
               msgBody: event['message']['text'],
               url: event['message']['url'],
               deletedForEveryOne: event['message']['deletedForEveryone'],
@@ -200,9 +200,9 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
               seenBy: event['message']['seenBy'],
               to: event['message']['to'],
               typeOfMsg: event['message']['typeOfMsg'],
-              userToken: event['message']['user_token'],
-              fileName: event['message']['file_name'],
-              groupId: event['message']['group_id']),
+              userToken: event['message']['userToken'],
+              fileName: event['message']['fileName'],
+              groupId: event['message']['groupId']),
         );
       }
     });
@@ -220,7 +220,7 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
 
   void _handleChatHistoryResponse() async {
     SharedPreferences session = await SharedPreferences.getInstance();
-    String myId = session.getString(SharedPrefConstant.DRIVERE_ID);
+    String myId = session.getString(SharedPrefConstant.USER_ID);
 
     chatDataBloc.getChatHistoryDataStream.listen((event) {
       // debugger();
@@ -229,7 +229,7 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
         ChatHistoryApiResponse v = ChatHistoryApiResponse.fromJson(event);
 
         for (int i = 0; i < v.messages.length; i++) {
-          String sendBy = myId == v.messages[i].data.user_id
+          String sendBy = myId == v.messages[i].data.userId
               ? Constant.Sender
               : Constant.Reciver;
           messages.add(ChatMessage(
@@ -891,7 +891,7 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
   Future<String> sendTextMessage(url, type, name) async {
     print(type);
     SharedPreferences session = await SharedPreferences.getInstance();
-    String myToken = session.getString(SharedPrefConstant.DRIVER_TOKEN);
+    String myToken = session.getString(SharedPrefConstant.USER_TOKEN);
     String userId = session.getString(SharedPrefConstant.DRIVERE_ID);
 
     print(DateFormat('yyyy-MM-dd kk:mm:ss').format(DateTime.now()).toString());
@@ -922,7 +922,7 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
  */
   void msgReceive(SocketChatModel socketChatData) async {
     SharedPreferences session = await SharedPreferences.getInstance();
-    String userId = session.getString(SharedPrefConstant.DRIVERE_ID);
+    String userId = session.getString(SharedPrefConstant.USER_ID);
     String sendBy =
         userId == socketChatData.userId ? Constant.Sender : Constant.Reciver;
     String msgType = socketChatData.typeOfMsg;

@@ -11,11 +11,12 @@ class SocketConstant {
   static const String SOCKET_EVENT_NEW_CONNET = "newconnect";
   static const String SOCKET_EVENT_NEW_LOAD = "assignload";
   static const String SOCKET_EVENT_JOIN_ROOM_RESPONSE = 'room_response';
-  static const String SOCKET_RECEIVE_MESSAGE = 'rec_msg';
+  static const String SOCKET_RECEIVE_MESSAGE = 'responseMessage';
   static const String SOCKET_MESSAGE_RESPONSE = 'msg_response';
 
   //param
 
-  static const String SOCKET_USER_ID = 'user_token';
+  static const String SOCKET_USERTOKEN = 'userToken';
   static const String USER_ID='user_id';
+  static const String DATA='data';
 }

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class NetworkConstant {
   static const String BASE_URL =
-       'http://34.30.45.244/';
-        //  'http://192.168.100.65/';
+      //  'http://34.30.45.244/';
+         'http://34.30.45.244/';
   static const String MIDDLE_URL = 'API/V2/';
 
   // api param...
@@ -11,8 +11,8 @@ class NetworkConstant {
   static const String API_PARAM_DRIVER_TOKEN = 'driver_token';
   static const String API_PARAM_ACCEPT = 'accept';
   static const String API_PARAM_USER_TOKEN = 'user_token';
-  static const String API_PARAM_GROUP_ID = 'group_id';
-  static const String API_PARAM_PHONE_NUMBER='phone_number';
+  static const String API_PARAM_GROUP_ID = 'groupId';
+  static const String API_PARAM_PHONE_NUMBER='phoneNumber';
   static const String API_PARAM_ENTERED_OTP='entered_otp';
 
 
