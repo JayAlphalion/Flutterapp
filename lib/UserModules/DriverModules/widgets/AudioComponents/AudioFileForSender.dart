@@ -110,7 +110,7 @@ class _AudioFileForSenderState extends State<AudioFileForSender> {
         try {
           await OpenFilex.open(widget.chatMessage.fileName);
         } catch (e) {
-          debugger();
+          // debugger();
           print(e);
         }
       },

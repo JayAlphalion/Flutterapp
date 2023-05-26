@@ -193,7 +193,7 @@ Widget videoPlayerWidget(
                   try{
                      await OpenFilex.open(audioFiles[index].path);
                   }catch(e){
-                    debugger();
+                    // debugger();
                     print(e);
                   }
                 },

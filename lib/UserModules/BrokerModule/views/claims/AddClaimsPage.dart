@@ -99,7 +99,7 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
     claimDataBloc.addClaimDataStream.listen((event) {
       print(event);
       Navigator.pop(context);
-      if (event != NetworkConstant.FAILURE || event['success']!='failed') {
+      if (event != NetworkConstant.FAILURE || event['success'] != 'failed') {
         // ToastHelper().showToast(message: 'Claim Added Successfully Done');
         SuccessDialogHelper.openDialog(
             onDone: () {
@@ -216,16 +216,15 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
                     children: [
                       AddClaimPageWidgets().audioPlayerWidget(
                           audioFiles: audioFilePathList, index: i),
-                   Positioned(
-                    top: -2,
-                    right: -2,
-                    child: InkWell(
-                        onTap: () {
-                          removeAudio(i);
-                        },
-                        child: const Icon(Icons.cancel_sharp,
-                            color: Colors.red, size: 30))),
-                   
+                      Positioned(
+                          top: -2,
+                          right: -2,
+                          child: InkWell(
+                              onTap: () {
+                                removeAudio(i);
+                              },
+                              child: const Icon(Icons.cancel_sharp,
+                                  color: Colors.red, size: 30))),
                     ],
                   ),
                 ),
@@ -244,17 +243,15 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
                     children: [
                       AddClaimPageWidgets().videoPlayerWidget(
                           audioFiles: videoFilePathList, index: i),
-                
-                 Positioned(
-                    top: -2,
-                    right: -2,
-                    child: InkWell(
-                        onTap: () {
-                          removeVideo(i);
-                        },
-                        child: const Icon(Icons.cancel_sharp,
-                            color: Colors.red, size: 30))),
-                   
+                      Positioned(
+                          top: -2,
+                          right: -2,
+                          child: InkWell(
+                              onTap: () {
+                                removeVideo(i);
+                              },
+                              child: const Icon(Icons.cancel_sharp,
+                                  color: Colors.red, size: 30))),
                     ],
                   ),
                 ),
@@ -514,7 +511,7 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
         });
       }
     } catch (e) {
-      debugger();
+      // debugger();
       print(e);
     }
   }
@@ -549,8 +546,8 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
     };
     Map data = {
       'driver_dl': secondPartyLicenceImageUrl,
-      'driver_insurance':secondPartyInsuranceImageUrl,
-      'other_doc':otherImagesUrl,
+      'driver_insurance': secondPartyInsuranceImageUrl,
+      'other_doc': otherImagesUrl,
       'police_report_doc': policeReportImageUrl,
       'location': json.encode(location),
       'notes_data': titleController.text,
@@ -599,21 +596,15 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
     setState(() {});
   }
 
+  void removeAudio(index) {
+    audioFilePathList.removeAt(index);
+    audioFileUrl.removeAt(index);
+    setState(() {});
+  }
 
-void removeAudio(index){
-  audioFilePathList.removeAt(index);
-  audioFileUrl.removeAt(index);
-  setState(() {
-    
-  });
-}
-
-
-void removeVideo(index){
-  videoFilePathList.removeAt(index);
-  videoFileUrl.removeAt(index);
-  setState(() {
-    
-  });
-}
+  void removeVideo(index) {
+    videoFilePathList.removeAt(index);
+    videoFileUrl.removeAt(index);
+    setState(() {});
+  }
 }

@@ -149,7 +149,7 @@ class _OTPLoginState extends State<OTPLogin> {
     SharedPreferences session = await SharedPreferences.getInstance();
     driver_id = loginApiResponse.driverId;
 
-     debugger();
+    //  debugger();
      print(loginApiResponse);
     session.setString(SharedPrefConstant.DRIVERE_ID, driver_id!);
 

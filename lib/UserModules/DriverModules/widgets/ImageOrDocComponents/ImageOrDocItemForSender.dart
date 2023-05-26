@@ -133,7 +133,7 @@ class _ImageOrDocItemForSenderState extends State<ImageOrDocItemForSender> {
               try {
                 await OpenFilex.open(widget.chatMessage.fileName);
               } catch (e) {
-                debugger();
+                // debugger();
                 print(e);
               }
             }

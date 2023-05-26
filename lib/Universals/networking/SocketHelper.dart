@@ -101,7 +101,7 @@ class SocketService {
 
 //for message response
     socket.on(SocketConstant.SOCKET_MESSAGE_RESPONSE, (data) {
-      debugger();
+      // debugger();
       // debugger();
       EventBusManager.messageResponse.fire(data);
     });
@@ -143,7 +143,7 @@ class SocketService {
         handleJoinRoomReponse(data);
       });
     } catch (e) {
-      debugger();
+      // debugger();
       print(("join channel faild due to $e"));
     }
   }
@@ -175,11 +175,11 @@ class SocketService {
         SocketConstant.SOCKET_USERTOKEN: token,
         SocketConstant.DATA: data
       }, ack: (data) {
-        debugger();
+        // debugger();
         print(data);
       });
     } catch (e) {
-      debugger();
+      // debugger();
       print(("join channel faild due to $e"));
     }
   }

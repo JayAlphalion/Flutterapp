@@ -518,7 +518,7 @@ class _AddClaimsPageState extends State<AddClaimsPage> {
         });
       }
     } catch (e) {
-      debugger();
+      // debugger();
       print(e);
     }
   }

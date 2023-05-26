@@ -84,7 +84,7 @@ class RealApiProvider {
       //  print(res);
        return res;
     } catch (e) {
-      debugger();
+      // debugger();
       print(e);
       return Response.error('Server Error, Please Try Again Letter');
     }

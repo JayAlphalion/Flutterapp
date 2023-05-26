@@ -58,8 +58,8 @@ class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
       final file = path;
       _player.setSourceDeviceFile(file.path);
     } catch (e) {
+      // debugger();
       print(e);
-      debugger();
     }
   }
 

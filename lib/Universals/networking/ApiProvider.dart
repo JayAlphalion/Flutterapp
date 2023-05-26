@@ -49,7 +49,7 @@ class ApiProvider {
       // print(response.body);
       responseJson = _response(response);
     } catch (e) {
-      debugger();
+      // debugger();
       print(e);
       throw FetchDataException('No Internet connection');
     }
@@ -192,7 +192,7 @@ class ApiProvider {
         });
       });
     } catch (e) {
-      debugger();
+      // debugger();
       print(e);
       throw FetchDataException('No Internet connection');
     }

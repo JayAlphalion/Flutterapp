@@ -156,7 +156,7 @@ class _RecordVideoPageState extends State<RecordVideoPage> {
                                         pauseRecording();
                                       }
                                     : () {
-                                        debugger();
+                                        // debugger();
                                         print(recordingState);
                                         // newController.startRecording();
                                       },

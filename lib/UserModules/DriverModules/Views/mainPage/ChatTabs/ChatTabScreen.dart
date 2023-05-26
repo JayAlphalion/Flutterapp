@@ -115,7 +115,7 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
       }
     } catch (e) {
       if (kDebugMode) {
-        debugger();
+        // debugger();
         print(e);
       }
     }
@@ -134,7 +134,7 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
         sendRecordedAudio(File(path));
       }
     } catch (e) {
-      debugger();
+      // debugger();
       print(e);
     }
   }
@@ -768,7 +768,8 @@ class _ChatTabScreenState extends State<ChatTabScreen> {
         });
       }
     } catch (e) {
-      debugger();
+      // debugger();
+      print(e);
     }
   }
 
